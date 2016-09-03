@@ -1,0 +1,39 @@
+ID:1
+q_i:[0]
+q_f:[0]
+pos_f:[0, 0]
+cost:1.6
+duration:1
+swath: [0, 0]
+
+ID:2
+q_i:[0]
+q_f:[0]
+pos_f:[1, 0]
+cost:2.55
+duration:1
+swath: [1, 0]; [0, 0]
+
+ID:3
+q_i:[0]
+q_f:[0]
+pos_f:[-1, 0]
+cost:2.55
+duration:1
+swath: [0, 0]; [-1, 0]
+
+ID:4
+q_i:[0]
+q_f:[0]
+pos_f:[0, 1]
+cost:2.55
+duration:1
+swath: [0, 1]; [0, 0]
+
+ID:5
+q_i:[0]
+q_f:[0]
+pos_f:[0, -1]
+cost:2.55
+duration:1
+swath: [0, -1]; [0, 0]

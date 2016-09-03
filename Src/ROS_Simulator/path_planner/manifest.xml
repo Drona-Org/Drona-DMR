@@ -1,0 +1,21 @@
+<package>
+  <description brief="path_planner">
+
+     planner
+
+  </description>
+  <author>Rattanachai Ramaithitima</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/planner</url>
+  <depend package="std_msgs"/>
+  <depend package="quadrotor_msgs"/>
+  <depend package="roscpp"/>
+  <depend package="sensor_msgs"/>
+  <depend package="nav_msgs"/>
+  <depend package="geometry_msgs"/>
+  <rosdep name="gsl" />
+  <rosdep name="gslcblas" />
+</package>
+
+

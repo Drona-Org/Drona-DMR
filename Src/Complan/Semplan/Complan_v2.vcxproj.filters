@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{58ca8d80-f3d7-46a1-865f-64d3cddcdcfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{c20034e0-90c2-4f14-841e-ec32fa5eeeb7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Complan.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GenerateConstraints.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GenerateTrajectory.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="InputParser.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MotionPrimitives.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Z3OutputParser.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Complan.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GenerateConstraints.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GenerateTrajectory.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="InputParser.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionPrimitives.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Z3OutputParser.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

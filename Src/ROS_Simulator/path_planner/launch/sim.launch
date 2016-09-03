@@ -1,0 +1,38 @@
+<launch>
+<group ns="navigate">
+<!--  launch-prefix="gdb -ex run -args"   -->
+
+<node pkg="nodelet"
+	type="nodelet"
+	name="nodelet_manager"
+	args="manager"/>
+  <node pkg="path_planner"
+  type="nav"
+  name="nav"
+  output="screen">
+  <remap from="~pathpackage" to="path_package"/>
+  <param name="start/x" value="50"/>
+  <param name="start/y" value="50"/>
+  <param name="start/z" value="5"/>
+  <param name="start/v" value="0"/>
+<!--  <param name="goal/x" value="16"/>
+  <param name="goal/y" value="10"/>
+  <param name="goal/z" value="5"/>
+  <param name="goal/v" value="0"/> -->
+  <param name="forward" value="true"/>
+  </node>
+
+  <node pkg="path_planner"
+  type="path_pub"
+  name="path_pub"
+  output="screen">
+  <param name="time/scale" value="1"/>
+  <param name="init_pos/x" value="0"/>
+  <param name="init_pos/y" value="0"/>
+  <param name="init_pos/z" value="1"/>
+  <remap from="~pathpackage" to="path_package"/>
+  <remap from="~cur_state" to="current_state"/>
+  <remap from="~trajectoryinfo" to="/nanoplus/trajectoryinfo"/>
+  </node>
+</group>
+</launch>
