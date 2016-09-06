@@ -17,24 +17,29 @@
 
 #include "environment_map.h"
 
-const YAML::Node& operator>> (const YAML::Node& yaml_node, EnvQuadVoxel &voxel)
-{
-	yaml_node[0] >> voxel.get<0>();
-	yaml_node[1] >> voxel.get<1>();
-	yaml_node[2] >> voxel.get<2>();
-	return yaml_node;
-}
 
-size_t EnvQuadVoxelHash::operator()(const EnvQuadVoxel &val) const
-{
-	size_t key = 0;
-	key ^= (val.get<0>() << 5);
-	key += (val.get<0>() >> 3);
-	key ^= (val.get<1>() << 6);
-	key += (val.get<1>() >> 2);
-	key ^= (val.get<2>() << 7);
-	key += (val.get<2>() >> 1);
-	return key;
+namespace YAML {
+template<>
+struct convert<EnvQuadVoxel> {
+  inline static Node encode(const EnvQuadVoxel& voxel) {
+    Node node;
+    node.push_back(voxel.get<0>());
+    node.push_back(voxel.get<1>());
+    node.push_back(voxel.get<2>());
+    return node;
+  }
+
+  inline static bool decode(const Node& node, EnvQuadVoxel& voxel) {
+    if(!node.IsSequence() || node.size() != 3) {
+      return false;
+    }
+
+    boost::get<0>(voxel) = node[0].as<int>();
+    boost::get<1>(voxel) = node[1].as<int>();
+    boost::get<2>(voxel) = node[2].as<int>();
+    return true;
+  }
+};
 }
 
 /**************************** EnvCostmap **************************/
@@ -71,56 +76,44 @@ bool EnvCostMap::read_cost_map(const std::string &costmap_file)
 {
 	EnvQuadVoxel xyz_offset; //(-20, -15, -50); // TODO: a better way to specify this offset?
 
-	ifstream fin;
-	fin.open(costmap_file.c_str());
-	if (fin.good()) {
-		std::tr1::unordered_map<EnvQuadVoxel, uint, EnvQuadVoxelHash> temp_map;
-		YAML::Parser parser(fin);
-		YAML::Node doc;
-		parser.GetNextDocument(doc); // we're not wrapping this in a loop because we're expecting a single document in this file
-		string buf;
-        //		doc["position_dim"] >> str_val;
-        //		cout << str_val << endl;
+	YAML::Node doc = YAML::LoadFile(costmap_file.c_str());
 
-		// get extents of position vars from the world model:
-		EnvQuadVoxel extents;
-		doc["extent"] >> extents;
-		//cout << extents << endl;
-		map_size[0] = extents.get<0>();
-		map_size[1] = extents.get<1>();
-		map_size[2] = extents.get<2>();
-		doc["xyz_offset"] >> xyz_offset;
+	std::tr1::unordered_map<EnvQuadVoxel, uint, EnvQuadVoxelHash> temp_map;
 
-		map_offset[0] = xyz_offset.get<0>();
-		map_offset[1] = xyz_offset.get<1>();
-		map_offset[2] = xyz_offset.get<2>();
+	//		doc["position_dim"] >> str_val;
+	//		cout << str_val << endl;
 
-		const YAML::Node &cost_node(doc["cost"]);
-		//cout << "len: " << cost_node.size() << endl;
-		//cost_node >> buf;
+	// get extents of position vars from the world model:
+	EnvQuadVoxel extents = doc["extent"].as<EnvQuadVoxel>();
+	//cout << extents << endl;
+	map_size[0] = extents.get<0>();
+	map_size[1] = extents.get<1>();
+	map_size[2] = extents.get<2>();
+	xyz_offset = doc["xyz_offset"].as<EnvQuadVoxel>();
 
-		size_t num_obst = 0;
+	map_offset[0] = xyz_offset.get<0>();
+	map_offset[1] = xyz_offset.get<1>();
+	map_offset[2] = xyz_offset.get<2>();
 
-		//for (YAML::Iterator it = cost_node.begin(); it != cost_node.end(); ++it) {
-		for (uint idx = 0; idx < cost_node.size(); ++idx) {
-			EnvQuadVoxel voxel;
-			uint cost;
-			const YAML::Node &voxel_node(cost_node[idx]);
-			voxel_node >> voxel;
-			voxel_node[3] >> cost;
-			m_cost[voxel] = cost;  // TODO: can't assume that these coordinates are all > 0 as this code expects; figure out the offset to make sure of that
-			if (cost > 200) {
-				++num_obst;
-			}
+	const YAML::Node &cost_node(doc["cost"]);
+	//cout << "len: " << cost_node.size() << endl;
+	//cost_node >> buf;
+
+	size_t num_obst = 0;
+
+	//for (YAML::Iterator it = cost_node.begin(); it != cost_node.end(); ++it) {
+	for (uint idx = 0; idx < cost_node.size(); ++idx) {
+		EnvQuadVoxel voxel;
+		uint cost;
+		const YAML::Node &voxel_node(cost_node[idx]);
+		voxel = voxel_node.as<EnvQuadVoxel>();
+		cost = voxel_node[3].as<uint>();
+		m_cost[voxel] = cost;  // TODO: can't assume that these coordinates are all > 0 as this code expects; figure out the offset to make sure of that
+		if (cost > 200) {
+			++num_obst;
 		}
-		printf("Read %zu obsts\n", num_obst);
 	}
-	else {
-		printf("ERROR opening the file: %s\n", costmap_file.c_str());
-		return false;
-	}
-	fin.close();
-
+	printf("Read %zu obsts\n", num_obst);
 
 	return true;
 }

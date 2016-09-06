@@ -48,7 +48,6 @@ public:
 	friend std::ostream& operator<< (std::ostream &output, \
 									 const QuadStateCell &state_cell)
     {state_cell.print(output); return output;}
-	friend const YAML::Node& operator>> (const YAML::Node& yaml_node, QuadStateCell &state_cell);
     
 	// Own hash function, useful for the stl::unordered_map
 	class Hash
@@ -60,6 +59,8 @@ public:
 protected:
     
 	std::vector<int> m_data;
+
+	friend struct YAML::convert<QuadStateCell>;
 };
 
 
@@ -81,7 +82,6 @@ public:
         double time;
     };
 
-    friend const YAML::Node& operator>> (const YAML::Node& yaml_node, QuadParam &coeff);
     friend std::ostream& operator<< (std::ostream &output, const QuadAction::QuadParam &coeff);
     QuadParam getCoeffs();
     std::vector<QuadVoxel> getSwath();
@@ -93,6 +93,7 @@ protected:
 	std::vector<QuadVoxel> swath;
 
 	friend class QuadHandler; // environment gets authority to manipulate the members directly
+	friend struct YAML::convert<QuadAction>;
 };
 
 

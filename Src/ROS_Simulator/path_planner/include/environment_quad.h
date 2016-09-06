@@ -41,15 +41,24 @@
 typedef unsigned int uint;
 
 typedef boost::tuple<int, int, int> EnvQuadVoxel;
-const YAML::Node& operator>> (const YAML::Node& yaml_node, EnvQuadVoxel &voxel);
-EnvQuadVoxel operator+ (const EnvQuadVoxel &lhs, const EnvQuadVoxel &rhs);
 
+EnvQuadVoxel operator+ (const EnvQuadVoxel &lhs, const EnvQuadVoxel &rhs);
 
 
 class EnvQuadVoxelHash
 {
 public:
-	size_t operator()(const EnvQuadVoxel &val) const;
+    inline size_t operator()(const EnvQuadVoxel &val) const
+    {
+        size_t key = 0;
+        key ^= (val.get<0>() << 5);
+        key += (val.get<0>() >> 3);
+        key ^= (val.get<1>() << 6);
+        key += (val.get<1>() >> 2);
+        key ^= (val.get<2>() << 7);
+        key += (val.get<2>() >> 1);
+        return key;
+    }
 };
 
 
@@ -124,7 +133,6 @@ public:
 	virtual ~EnvQuadAction() {};
 
 	friend std::ostream& operator<< (std::ostream &output, const EnvQuadAction &action);
-	friend const YAML::Node& operator>> (const YAML::Node& yaml_node, EnvQuadAction &action);
 
     class EnvQuadParam
     {
@@ -135,7 +143,6 @@ public:
         double time;
     };
 
-    friend const YAML::Node& operator>> (const YAML::Node& yaml_node, EnvQuadParam &coeff);
     friend std::ostream& operator<< (std::ostream &output, const EnvQuadAction::EnvQuadParam &coeff);
     EnvQuadParam getCoeffs();
     std::vector<EnvQuadVoxel> getSwath();
@@ -147,6 +154,7 @@ protected:
 	std::vector<EnvQuadVoxel> swath;
 
 	friend class EnvironmentQuad; // environment gets authority to manipulate the members directly
+	friend struct YAML::convert<EnvQuadAction>;
 };
 
 
@@ -319,6 +327,31 @@ protected:
 	int **m_hlut;
 };
 
+
+
+namespace YAML {
+template<>
+struct convert<EnvQuadVoxel> {
+  inline static Node encode(const EnvQuadVoxel& voxel) {
+    Node node;
+    node.push_back(voxel.get<0>());
+    node.push_back(voxel.get<1>());
+    node.push_back(voxel.get<2>());
+    return node;
+  }
+
+  inline static bool decode(const Node& node, EnvQuadVoxel& voxel) {
+    if(!node.IsSequence() || node.size() != 3) {
+      return false;
+    }
+
+    boost::get<0>(voxel) = node[0].as<int>();
+    boost::get<1>(voxel) = node[1].as<int>();
+    boost::get<2>(voxel) = node[2].as<int>();
+    return true;
+  }
+};
+}
 
 #endif
 

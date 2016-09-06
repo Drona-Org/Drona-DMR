@@ -34,7 +34,7 @@ rosbuild_genmsg()
 #target_link_libraries(example ${PROJECT_NAME})
 
 include($ENV{ROS_ROOT}/core/rosbuild/FindPkgConfig.cmake)
-pkg_check_modules(SBPL REQUIRED sbpl)
+pkg_search_module(SBPL REQUIRED sbpl)
 include_directories(${SBPL_INCLUDE_DIRS})
 link_directories(${SBPL_LIBRARY_DIRS})
 

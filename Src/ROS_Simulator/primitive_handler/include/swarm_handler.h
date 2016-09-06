@@ -10,7 +10,6 @@
 typedef unsigned int uint;
 
 typedef boost::tuple<int, int, int> QuadVoxel;
-const YAML::Node& operator>> (const YAML::Node& yaml_node, QuadVoxel &voxel);
 QuadVoxel operator+ (const QuadVoxel &lhs, const QuadVoxel &rhs);
 
 
@@ -49,7 +48,6 @@ public:
 	friend std::ostream& operator<< (std::ostream &output, \
 									 const QuadStateCell &state_cell)
     {state_cell.print(output); return output;}
-	friend const YAML::Node& operator>> (const YAML::Node& yaml_node, QuadStateCell &state_cell);
     
 	// Own hash function, useful for the stl::unordered_map
 	class Hash
@@ -61,6 +59,8 @@ public:
 protected:
     
 	std::vector<int> m_data;
+
+	friend struct YAML::convert<QuadStateCell>;
 };
 
 
@@ -91,7 +91,7 @@ public:
 	friend std::ostream& operator<< (std::ostream &output, \
 									 const SwarmStateCell &state_cell)
 									{state_cell.print(output); return output;}
-	friend const YAML::Node& operator>> (const YAML::Node& yaml_node, SwarmStateCell &state_cell);
+	friend struct YAML::convert<SwarmStateCell>;
 
 	// Own hash function, useful for the stl::unordered_map
 	class Hash
@@ -124,7 +124,7 @@ public:
         double time;
     };
 
-    friend const YAML::Node& operator>> (const YAML::Node& yaml_node, QuadParam &coeff);
+    friend struct YAML::convert<SwarmAction>;
     friend std::ostream& operator<< (std::ostream &output, const SwarmAction::QuadParam &coeff);
     std::vector<QuadParam> getCoeffs();
     std::vector<int> getAssignment();

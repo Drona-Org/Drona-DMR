@@ -7,12 +7,22 @@
 typedef unsigned int uint;
 
 typedef boost::tuple<int, int, int> EnvQuadVoxel;
-const YAML::Node& operator>> (const YAML::Node& yaml_node, EnvQuadVoxel &voxel);
+
 
 class EnvQuadVoxelHash
 {
 public:
-	size_t operator()(const EnvQuadVoxel &val) const;
+    inline size_t operator()(const EnvQuadVoxel &val) const
+    {
+        size_t key = 0;
+        key ^= (val.get<0>() << 5);
+        key += (val.get<0>() >> 3);
+        key ^= (val.get<1>() << 6);
+        key += (val.get<1>() >> 2);
+        key ^= (val.get<2>() << 7);
+        key += (val.get<2>() >> 1);
+        return key;
+    }
 };
 
 class EnvCostMap

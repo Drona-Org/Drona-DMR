@@ -21,15 +21,29 @@ using namespace std;
 
 
 /********************************************************/
- const YAML::Node& operator>> (const YAML::Node& yaml_node, QuadVoxel &voxel)
- {
-    yaml_node[0] >> voxel.get<0>();
-    yaml_node[1] >> voxel.get<1>();
-    yaml_node[2] >> voxel.get<2>();
-    return yaml_node;
- }
+namespace YAML {
+template<>
+struct convert<QuadVoxel> {
+  inline static Node encode(const QuadVoxel& voxel) {
+    Node node;
+    node.push_back(voxel.get<0>());
+    node.push_back(voxel.get<1>());
+    node.push_back(voxel.get<2>());
+    return node;
+  }
 
+  inline static bool decode(const Node& node, QuadVoxel& voxel) {
+    if(!node.IsSequence() || node.size() != 3) {
+      return false;
+    }
 
+    boost::get<0>(voxel) = node[0].as<int>();
+    boost::get<1>(voxel) = node[1].as<int>();
+    boost::get<2>(voxel) = node[2].as<int>();
+    return true;
+  }
+};
+}
 
  QuadVoxel operator+ (const QuadVoxel &lhs, const QuadVoxel &rhs)
  {
@@ -106,14 +120,17 @@ QuadVoxel QuadStateCell::operator+ (const QuadVoxel &other)
 }
 
 
-
-const YAML::Node& operator>> (const YAML::Node& yaml_node, QuadStateCell &state_cell)
-{
-    for (size_t dim = 0; dim < NUM_DOF+1; ++dim)
-        yaml_node[dim] >> state_cell.m_data.at(dim);
-    return yaml_node;
+namespace YAML {
+template<>
+struct convert<QuadStateCell> {
+    static bool decode (const YAML::Node& yaml_node, QuadStateCell &state_cell)
+    {
+        for (size_t dim = 0; dim < NUM_DOF+1; ++dim)
+            state_cell.m_data[dim] = yaml_node[dim].as<int>();
+        return true;
+    }
+};
 }
-
 /**************************** SwarmStateCell **************************/
 
 //function prototypes
@@ -173,11 +190,16 @@ QuadVoxel SwarmStateCell::operator+ (const QuadVoxel &other)
     return result;
 }
 
-const YAML::Node& operator>> (const YAML::Node& yaml_node, SwarmStateCell &state_cell)
-{
-    for (size_t dim = 0; dim < NUM_DOF; ++dim)
-        yaml_node[dim] >> state_cell.m_data.at(dim);
-    return yaml_node;
+namespace YAML {
+template<>
+struct convert<SwarmStateCell> {
+    static bool decode (const YAML::Node& yaml_node, SwarmStateCell &state_cell)
+    {
+        for (size_t dim = 0; dim < NUM_DOF+1; ++dim)
+            state_cell.m_data[dim] = yaml_node[dim].as<int>();
+        return true;
+    }
+};
 }
 
 /**************************** SwarmAction **************************/
@@ -208,69 +230,64 @@ output << endl;
 return output;
 }
 
-const YAML::Node& operator>> (const YAML::Node& yaml_node, SwarmAction::QuadParam &coeff)
-{
-    string buf; // string buffer
-    const YAML::Node& node_x = yaml_node[0];
-    for (size_t dim = 0; dim < node_x.size(); ++dim) {
-        node_x[dim] >> buf;
-        coeff.x_coeffs.push_back(atof(buf.c_str()));
+namespace YAML {
+template<>
+struct convert<SwarmAction::QuadParam> {
+    static bool decode (const YAML::Node& yaml_node, SwarmAction::QuadParam &coeff)
+    {
+        const YAML::Node& node_x = yaml_node[0];
+        for (size_t dim = 0; dim < node_x.size(); ++dim) {
+            coeff.x_coeffs.push_back(node_x[dim].as<float>());
+        }
+        const YAML::Node& node_y = yaml_node[1];
+        for (size_t dim = 0; dim < node_y.size(); ++dim) {
+            coeff.y_coeffs.push_back(node_y[dim].as<float>());
+        }
+        const YAML::Node& node_z = yaml_node[2];
+        for (size_t dim = 0; dim < node_z.size(); ++dim) {
+            coeff.z_coeffs.push_back(node_z[dim].as<float>());
+        }
+        coeff.time = yaml_node[3].as<float>();
+        return yaml_node;
     }
-    const YAML::Node& node_y = yaml_node[1];
-    for (size_t dim = 0; dim < node_y.size(); ++dim) {
-        node_y[dim] >> buf;
-        coeff.y_coeffs.push_back(atof(buf.c_str()));
+};
+
+template<>
+struct convert<SwarmAction> {
+    static bool decode (const Node& yaml_node, SwarmAction &action)
+    {
+        action.cost = (uint) (yaml_node["cost"].as<float>() * FLT_COST_MULTIPLIER); // convert float to integer
+
+        // set q_f
+        const YAML::Node &node_qf(yaml_node["q_f"]);
+        for (size_t dim = 0; dim < node_qf.size(); ++dim) {
+            action.q_f.get(dim) = node_qf[dim].as<int>();
+        }
+
+        // set params (coeffs and assignment)
+        const YAML::Node &node_param(yaml_node["params"]);
+        for (size_t dim = 0; dim < node_param.size()-1; ++dim) {
+            action.coeffs.push_back(node_param[dim].as<SwarmAction::QuadParam>());
+        }
+        const YAML::Node &node_assignment = node_param[node_param.size()-1];
+        for (size_t dim = 0; dim < node_assignment.size(); ++dim) {
+            action.assignment.push_back(node_assignment[dim].as<int>());
+        }    
+
+        // set swath
+        const YAML::Node &node_swath(yaml_node["swath"]);
+        // for each voxel in the swath
+        for (size_t i=0; i < node_swath.size(); ++i) {
+            QuadVoxel cur_voxel;
+            boost::get<0>(cur_voxel) = node_swath[i][0].as<int>();
+            boost::get<1>(cur_voxel) = node_swath[i][1].as<int>();
+            boost::get<2>(cur_voxel) = node_swath[i][2].as<int>();
+            action.swath.push_back(cur_voxel);
+        } // end for each voxel in the swath
+
+        return true;
     }
-    const YAML::Node& node_z = yaml_node[2];
-    for (size_t dim = 0; dim < node_z.size(); ++dim) {
-        node_z[dim] >> buf;
-        coeff.z_coeffs.push_back(atof(buf.c_str()));
-    }
-    yaml_node[3] >> buf;
-    coeff.time = atof(buf.c_str());
-    return yaml_node;
-}
-
-const YAML::Node& operator>> (const YAML::Node& yaml_node, SwarmAction &action)
-{
-    string buf; // string buffer
-
-    // set cost
-    yaml_node["cost"] >> buf;
-    action.cost = (uint) (atof(buf.c_str()) * FLT_COST_MULTIPLIER); // convert float to integer
-
-    // set q_f
-    const YAML::Node &node_qf(yaml_node["q_f"]);
-    for (size_t dim = 0; dim < node_qf.size(); ++dim) {
-        node_qf[dim] >> buf;
-        action.q_f.get(dim) = atoi(buf.c_str());
-    }
-
-    // set params (coeffs and assignment)
-    const YAML::Node &node_param(yaml_node["params"]);
-    for (size_t dim = 0; dim < node_param.size()-1; ++dim) {
-        SwarmAction::QuadParam coeff;
-        node_param[dim] >> coeff;
-        action.coeffs.push_back(coeff);
-    }
-    const YAML::Node &node_assignment = node_param[node_param.size()-1];
-    for (size_t dim = 0; dim < node_assignment.size(); ++dim) {
-        node_assignment[dim] >> buf;
-        action.assignment.push_back(atoi(buf.c_str()));
-    }    
-
-    // set swath
-    const YAML::Node &node_swath(yaml_node["swath"]);
-    // for each voxel in the swath
-    for (YAML::Iterator swath_it = node_swath.begin(); swath_it != node_swath.end(); ++swath_it) {
-        QuadVoxel cur_voxel;
-        (*swath_it)[0] >> cur_voxel.get<0>();
-        (*swath_it)[1] >> cur_voxel.get<1>();
-        (*swath_it)[2] >> cur_voxel.get<2>();
-        action.swath.push_back(cur_voxel);
-    } // end for each voxel in the swath
-
-    return yaml_node;
+};
 }
 
 std::vector<SwarmAction::QuadParam> SwarmAction::getCoeffs(){
@@ -288,62 +305,50 @@ std::vector<QuadVoxel> SwarmAction::getSwath(){
 
 bool SwarmHandler::ReadMotionTemplate(const std::string &template_file, MotionTemplate &motion_template)
 {
-    ifstream fin;
-    fin.open(template_file.c_str());
-    if (fin.good()) {
-        YAML::Parser parser(fin);
-        YAML::Node doc;
-        parser.GetNextDocument(doc); // we're not wrapping this in a loop because we're expecting a single document in this file
-        string buf;
-        size_t pos_dim;
-        doc["position_dim"] >> pos_dim;
+    YAML::Node doc = YAML::LoadFile(template_file.c_str());
+    string buf;
+    size_t pos_dim;
+    pos_dim = doc["position_dim"].as<size_t>();
 
-        // get extents of non-position vars from the template:
-        const YAML::Node &sss(doc["sss"]);
-        if (sss.size() != NUM_DOF) {
-            printf("ERROR: this template is not compatible with current configuration: its num DOF %zu != %d\n", sss.size(), NUM_DOF);
-            return false;
-        }
-
-        const YAML::Node &prim_set(doc["prim"]);
-        // iterate over initial states, (q_i's):
-        for (YAML::Iterator it = prim_set.begin(); it != prim_set.end(); ++it) {
-            it.first() >> buf;
-            // buf now contains the initial state for the prims that follow, in the format: N, N, ...
-            boost::char_separator<char> sep(", ");
-            boost::tokenizer< boost::char_separator<char> > tokens(buf, sep);
-
-            size_t dim = pos_dim;
-
-            SwarmStateCell q_i;
-            BOOST_FOREACH (const string& tok, tokens) {
-                assert(dim < NUM_DOF);
-                q_i.get(dim) = atoi(tok.c_str());
-                ++dim;
-            }
-            q_i.print(cout);
-            // iterate over primitives emanating from this q_i
-            size_t prim_idx = 0; // reset primitive index for each q_i
-            const YAML::Node &prim_list(it.second());
-            for (YAML::Iterator prim_it = prim_list.begin(); prim_it != prim_list.end(); ++prim_it) {
-                const YAML::Node &cur_prim(*prim_it);
-                SwarmAction prim;
-                prim.index = prim_idx++; // set index
-                cur_prim >> prim;
-                int final_state = (int)(2 * prim.q_f.get(3) + prim.q_f.get(4));
-                if (motion_template[q_i].size() <= final_state){
-                    motion_template[q_i].resize(final_state+1);
-                }
-                motion_template[q_i][final_state].push_back(prim);
-            } // end iterate over primitives emanating from this q_i
-        } // end iterate over initial states
-    }
-    else {
-        printf("ERROR opening the file: %s\n", template_file.c_str());
+    // get extents of non-position vars from the template:
+    const YAML::Node &sss(doc["sss"]);
+    if (sss.size() != NUM_DOF) {
+        printf("ERROR: this template is not compatible with current configuration: its num DOF %zu != %d\n", sss.size(), NUM_DOF);
         return false;
     }
 
-    fin.close();
+    const YAML::Node &prim_set(doc["prim"]);
+    // iterate over initial states, (q_i's):
+    for (size_t j = 0; j < prim_set.size(); ++j) {
+        // buf now contains the initial state for the prims that follow, in the format: N, N, ...
+        boost::char_separator<char> sep(", ");
+        boost::tokenizer< boost::char_separator<char> > tokens(prim_set[j][0].as<string>(), sep);
+
+        size_t dim = pos_dim;
+
+        SwarmStateCell q_i;
+        BOOST_FOREACH (const string& tok, tokens) {
+            assert(dim < NUM_DOF);
+            q_i.get(dim) = atoi(tok.c_str());
+            ++dim;
+        }
+        q_i.print(cout);
+        // iterate over primitives emanating from this q_i
+        size_t prim_idx = 0; // reset primitive index for each q_i
+        const YAML::Node &prim_list(prim_set[j][1]);
+        for (size_t i=0; i < prim_list.size(); ++i) {
+            const YAML::Node &cur_prim(prim_list[i]);
+            SwarmAction prim;
+            prim.index = prim_idx++; // set index
+            prim = cur_prim.as<SwarmAction>();
+            int final_state = (int)(2 * prim.q_f.get(3) + prim.q_f.get(4));
+            if (motion_template[q_i].size() <= final_state){
+                motion_template[q_i].resize(final_state+1);
+            }
+            motion_template[q_i][final_state].push_back(prim);
+        } // end iterate over primitives emanating from this q_i
+    } // end iterate over initial states
+
     return true;
 }
 

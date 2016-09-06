@@ -57,16 +57,6 @@
 
 
 /********************************************************/
- const YAML::Node& operator>> (const YAML::Node& yaml_node, EnvQuadVoxel &voxel)
- {
- 	yaml_node[0] >> voxel.get<0>();
- 	yaml_node[1] >> voxel.get<1>();
- 	yaml_node[2] >> voxel.get<2>();
- 	return yaml_node;
- }
-
-
-
  EnvQuadVoxel operator+ (const EnvQuadVoxel &lhs, const EnvQuadVoxel &rhs)
  {
  	EnvQuadVoxel result;
@@ -77,19 +67,66 @@
 
  }
 
+namespace YAML {
+template<>
+struct convert<EnvQuadAction::EnvQuadParam> {
+	inline static bool decode (const Node& yaml_node, EnvQuadAction::EnvQuadParam &coeff)
+	{
+		const Node& node_x = yaml_node[0];
+		for (size_t dim = 0; dim < node_x.size(); ++dim) {
+			coeff.x_coeffs.push_back(node_x[dim].as<float>());
+		}
+		const Node& node_y = yaml_node[1];
+		for (size_t dim = 0; dim < node_y.size(); ++dim) {
+			coeff.y_coeffs.push_back(node_y[dim].as<float>());
+		}
+		const Node& node_z = yaml_node[2];
+		for (size_t dim = 0; dim < node_z.size(); ++dim) {
+			coeff.z_coeffs.push_back(node_z[dim].as<float>());
+		}
+		coeff.time = yaml_node[3].as<float>();
+		return true;
+	}
+};
 
+template<>
+struct convert<EnvQuadAction> {
+	inline static bool decode (const Node& yaml_node, EnvQuadAction &action)
+	{
+		string buf; // string buffer
 
- size_t EnvQuadVoxelHash::operator()(const EnvQuadVoxel &val) const
- {
- 	size_t key = 0;
- 	key ^= (val.get<0>() << 5);
- 	key += (val.get<0>() >> 3);
- 	key ^= (val.get<1>() << 6);
- 	key += (val.get<1>() >> 2);
- 	key ^= (val.get<2>() << 7);
- 	key += (val.get<2>() >> 1);
- 	return key;
- }
+		// set cost
+		action.cost = (uint) (yaml_node["cost"].as<float>() * FLT_COST_MULTIPLIER); // convert float to integer
+
+		// set q_f
+		const Node &node_qf(yaml_node["q_f"]);
+		for (size_t dim = 0; dim < node_qf.size(); ++dim) {
+			action.q_f.get(dim) = node_qf[dim].as<int>();
+		}
+
+	    // set params (coeffs)
+		action.coeffs = yaml_node["params"].as<EnvQuadAction::EnvQuadParam>();
+
+		// set swath
+		const Node& node_swath = yaml_node["swath"];
+
+		if(!node_swath.IsSequence()) {
+			return false;
+		}
+
+		// for each voxel in the swath
+		for (std::size_t i=0; i < node_swath.size(); ++i) {
+			EnvQuadVoxel cur_voxel;
+			boost::get<0>(cur_voxel) = node_swath[0].as<int>();
+			boost::get<1>(cur_voxel) = node_swath[1].as<int>();
+			boost::get<2>(cur_voxel) = node_swath[2].as<int>();
+			action.swath.push_back(cur_voxel);
+		} // end for each voxel in the swath
+
+		return true;
+	}
+};
+}
 
 /**************************** EnvQuadStateCell **************************/
 
@@ -162,7 +199,7 @@ bool EnvQuadStateCell::operator== (const EnvQuadStateCell &other) const
 	const YAML::Node& operator>> (const YAML::Node& yaml_node, EnvQuadStateCell &state_cell)
 	{
 		for (size_t dim = 0; dim < NUM_DOF; ++dim)
-			yaml_node[dim] >> state_cell.m_data.at(dim);
+			state_cell.m_data[dim] = yaml_node[dim].as<int>();
 		return yaml_node;
 	}
 
@@ -177,8 +214,8 @@ bool EnvQuadStateCell::operator== (const EnvQuadStateCell &other) const
 				cout << voxel << " ";
 			}
 			cout << "]";
-return output;
-}
+		return output;
+	}
 
 std::ostream& operator<< (std::ostream &output, const EnvQuadAction::EnvQuadParam &coeff)
 {
@@ -197,63 +234,6 @@ output << endl;
 return output;
 }
 
-const YAML::Node& operator>> (const YAML::Node& yaml_node, EnvQuadAction::EnvQuadParam &coeff)
-{
-	string buf; // string buffer
-	const YAML::Node& node_x = yaml_node[0];
-	for (size_t dim = 0; dim < node_x.size(); ++dim) {
-		node_x[dim] >> buf;
-		coeff.x_coeffs.push_back(atof(buf.c_str()));
-	}
-	const YAML::Node& node_y = yaml_node[1];
-	for (size_t dim = 0; dim < node_y.size(); ++dim) {
-		node_y[dim] >> buf;
-		coeff.y_coeffs.push_back(atof(buf.c_str()));
-	}
-	const YAML::Node& node_z = yaml_node[2];
-	for (size_t dim = 0; dim < node_z.size(); ++dim) {
-		node_z[dim] >> buf;
-		coeff.z_coeffs.push_back(atof(buf.c_str()));
-	}
-	yaml_node[3] >> buf;
-	coeff.time = atof(buf.c_str());
-	return yaml_node;
-}
-
-const YAML::Node& operator>> (const YAML::Node& yaml_node, EnvQuadAction &action)
-{
-	string buf; // string buffer
-
-	// set cost
-	yaml_node["cost"] >> buf;
-	action.cost = (uint) (atof(buf.c_str()) * FLT_COST_MULTIPLIER); // convert float to integer
-
-	// set q_f
-	const YAML::Node &node_qf(yaml_node["q_f"]);
-	for (size_t dim = 0; dim < node_qf.size(); ++dim) {
-		node_qf[dim] >> buf;
-		action.q_f.get(dim) = atoi(buf.c_str());
-	}
-
-    // set params (coeffs)
-	const YAML::Node &node_param(yaml_node["params"]);
-	EnvQuadAction::EnvQuadParam coef;
-	node_param >> coef;
-	action.coeffs = coef;
-
-	// set swath
-	const YAML::Node &node_swath(yaml_node["swath"]);
-	// for each voxel in the swath
-	for (YAML::Iterator swath_it = node_swath.begin(); swath_it != node_swath.end(); ++swath_it) {
-		EnvQuadVoxel cur_voxel;
-		(*swath_it)[0] >> cur_voxel.get<0>();
-		(*swath_it)[1] >> cur_voxel.get<1>();
-		(*swath_it)[2] >> cur_voxel.get<2>();
-		action.swath.push_back(cur_voxel);
-	} // end for each voxel in the swath
-
-	return yaml_node;
-}
 
 EnvQuadAction::EnvQuadParam EnvQuadAction::getCoeffs(){
 	return coeffs;
@@ -315,56 +295,45 @@ bool EnvCostMap::read_cost_map(const std::string &costmap_file)
 {
 	EnvQuadVoxel xyz_offset; //(-20, -15, -50); // TODO: a better way to specify this offset?
 
-	ifstream fin;
-	fin.open(costmap_file.c_str());
-	if (fin.good()) {
-		std::tr1::unordered_map<EnvQuadVoxel, uint, EnvQuadVoxelHash> temp_map;
-		YAML::Parser parser(fin);
-		YAML::Node doc;
-		parser.GetNextDocument(doc); // we're not wrapping this in a loop because we're expecting a single document in this file
-		string buf;
-        //		doc["position_dim"] >> str_val;
-        //		cout << str_val << endl;
+	YAML::Node doc = YAML::LoadFile(costmap_file.c_str());
 
-		// get extents of position vars from the world model:
-		EnvQuadVoxel extents;
-		doc["extent"] >> extents;
-		//cout << extents << endl;
-		map_size[0] = extents.get<0>();
-		map_size[1] = extents.get<1>();
-		map_size[2] = extents.get<2>();
-		doc["xyz_offset"] >> xyz_offset;
+	std::tr1::unordered_map<EnvQuadVoxel, uint, EnvQuadVoxelHash> temp_map;
+    //		doc["position_dim"] >> str_val;
+    //		cout << str_val << endl;
 
-		map_offset[0] = xyz_offset.get<0>();
-		map_offset[1] = xyz_offset.get<1>();
-		map_offset[2] = xyz_offset.get<2>();
+	// get extents of position vars from the world model:
+	EnvQuadVoxel extents = doc["extent"].as<EnvQuadVoxel>();
+	//cout << extents << endl;
+	map_size[0] = extents.get<0>();
+	map_size[1] = extents.get<1>();
+	map_size[2] = extents.get<2>();
+	xyz_offset = doc["xyz_offset"].as<EnvQuadVoxel>();
 
-		const YAML::Node &cost_node(doc["cost"]);
-		//cout << "len: " << cost_node.size() << endl;
-		//cost_node >> buf;
+	map_offset[0] = xyz_offset.get<0>();
+	map_offset[1] = xyz_offset.get<1>();
+	map_offset[2] = xyz_offset.get<2>();
 
-		size_t num_obst = 0;
+	const YAML::Node &cost_node(doc["cost"]);
+	//cout << "len: " << cost_node.size() << endl;
+	//cost_node >> buf;
 
-		//for (YAML::Iterator it = cost_node.begin(); it != cost_node.end(); ++it) {
-		for (uint idx = 0; idx < cost_node.size(); ++idx) {
-			EnvQuadVoxel voxel;
-			uint cost;
-			const YAML::Node &voxel_node(cost_node[idx]);
-			voxel_node >> voxel;
-			voxel_node[3] >> cost;
-			//cout << vox << ": " << cost << endl;
-			m_cost[voxel] = cost;  // TODO: can't assume that these coordinates are all > 0 as this code expects; figure out the offset to make sure of that
-			if (cost > 200) {
-				++num_obst;
-			}
+	size_t num_obst = 0;
+
+	//for (YAML::Iterator it = cost_node.begin(); it != cost_node.end(); ++it) {
+	for (uint idx = 0; idx < cost_node.size(); ++idx) {
+		EnvQuadVoxel voxel;
+		uint cost;
+		const YAML::Node &voxel_node(cost_node[idx]);
+		voxel = voxel_node.as<EnvQuadVoxel>();
+		cost = voxel_node[3].as<uint>();
+		//cout << vox << ": " << cost << endl;
+		m_cost[voxel] = cost;  // TODO: can't assume that these coordinates are all > 0 as this code expects; figure out the offset to make sure of that
+		if (cost > 200) {
+			++num_obst;
 		}
-		printf("Read %zu obsts\n", num_obst);
 	}
-	else {
-		SBPL_PRINTF("ERROR opening the file: %s\n", costmap_file.c_str());
-		return false;
-	}
-	fin.close();
+	printf("Read %zu obsts\n", num_obst);
+
 
     //	EnvQuadVoxel v;
     //	v.get<0>() = 9;
@@ -537,13 +506,8 @@ EnvironmentQuad::~EnvironmentQuad()
 
 	bool EnvironmentQuad::ReadMotionTemplate(const std::string &template_file, MotionTemplate &motion_template)
 	{
-		ifstream fin;
-		fin.open(template_file.c_str());
-		if (fin.good()) {
-			YAML::Parser parser(fin);
-			YAML::Node doc;
-		parser.GetNextDocument(doc); // we're not wrapping this in a loop because we're expecting a single document in this file
-		string buf;
+		
+		YAML::Node doc = YAML::LoadFile(template_file.c_str());
 //		doc["position_dim"] >> str_val;
 //		cout << str_val << endl;
 
@@ -561,11 +525,11 @@ EnvironmentQuad::~EnvironmentQuad()
 
 		const YAML::Node &prim_set(doc["prim"]);
 		// iterate over initial states, (q_i's):
-		for (YAML::Iterator it = prim_set.begin(); it != prim_set.end(); ++it) {
-			it.first() >> buf;
+		for (size_t j=0; j < prim_set.size(); ++j) {
+			
 			// buf now contains the initial state for the prims that follow, in the format: N, N, ...
 			boost::char_separator<char> sep(", ");
-			boost::tokenizer< boost::char_separator<char> > tokens(buf, sep);
+			boost::tokenizer< boost::char_separator<char> > tokens(prim_set[j][0].as<string>(), sep);
 			size_t dim = 3; // we're skipping 3D position dims (TODO: make this a param based on env?)
 			EnvQuadStateCell q_i;
 			BOOST_FOREACH (const string& tok, tokens) {
@@ -576,12 +540,12 @@ EnvironmentQuad::~EnvironmentQuad()
 			q_i.print(cout);
 			// iterate over primitives emanating from this q_i
 			size_t prim_idx = 0; // reset primitive index for each q_i
-			const YAML::Node &prim_list(it.second());
-			for (YAML::Iterator prim_it = prim_list.begin(); prim_it != prim_list.end(); ++prim_it) {
-				const YAML::Node &cur_prim(*prim_it);
+			const YAML::Node &prim_list(prim_set[j][1]);
+			for (size_t i=0; i < prim_list.size(); ++i) {
+				const YAML::Node &cur_prim(prim_list[i]);
 				EnvQuadAction prim;
 				prim.index = prim_idx++; // set index
-				cur_prim >> prim;
+				prim = cur_prim.as<EnvQuadAction>();
 				int final_state = (int)(prim.q_f.get(3));
 				if (motion_template[q_i].size() <= final_state){
 					motion_template[q_i].resize(final_state+1);
@@ -589,15 +553,8 @@ EnvironmentQuad::~EnvironmentQuad()
 				motion_template[q_i][final_state].push_back(prim);
 			} // end iterate over primitives emanating from this q_i
 		} // end iterate over initial states
+		return true;
 	}
-	else {
-		SBPL_PRINTF("ERROR opening the file: %s\n", template_file.c_str());
-		return false;
-	}
-
-	fin.close();
-	return true;
-}
 
 bool EnvironmentQuad::read_cost_map(const std::string &costmap_file)
 {
