@@ -30,7 +30,7 @@ struct convert<EnvQuadVoxel> {
   }
 
   inline static bool decode(const Node& node, EnvQuadVoxel& voxel) {
-    if(!node.IsSequence() || node.size() != 3) {
+    if(!node.IsSequence()) {
       return false;
     }
 

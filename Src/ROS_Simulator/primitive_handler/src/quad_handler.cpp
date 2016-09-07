@@ -33,7 +33,7 @@ struct convert<QuadVoxel> {
   }
 
   inline static bool decode(const Node& node, QuadVoxel& voxel) {
-    if(!node.IsSequence() || node.size() != 3) {
+    if(!node.IsSequence()) {
       return false;
     }
 
