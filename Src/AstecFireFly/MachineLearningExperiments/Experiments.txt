@@ -1,0 +1,39 @@
+The following list of experiments needs to be conducted:
+Estimate the Grid Size:
+-----------------------------------
+-> Given a fixed start point in the grid (S) move in random direction by random value K. Store the values of X0 which is the initial value and Yis which represent the trajectory of the observed path.
+then min (GridSize) | yt - yo| at all time instances.
+
+-> for the experiments:
+* K = 1000, 3000, 5000, 8000, 10000.
+* Yt = [0, K], [0, -K], [K, 0], [-K, 0].
+
+Estimate the controller error and the behavior in the hovering state:
+----------------------------------------------------------------------
+-> Place the drone in home location and try to maintain the drone in hovering position.
+Experiment 1:
+	-> drone is pointing in X direction.
+	-> Dump the (x,y) location for large amount of time.
+	-> Rotate the drone by 90 degree to change the direction of wind.
+
+Estimate the behavior of drone for different motion primitives:
+---------------------------------------------------------------
+Once the grid size is calculated we estimate the motion primitives with respect to the given grid-size.
+-> MoveLeft:
+Given the start location (0, 0) and the sequence of locations through which the drone passes when the motion primitive to move left by one block is invoked for a given wind condition.
+-> MoveRight:
+Given the start location (0, 0) and the sequence of locations through which the drone passes when the motion primitive to move right by one block is invoked for a given wind condition.
+-> MoveUp:
+
+-> MoveDown:
+
+What exactly is the learning problem now ?
+I think the learning problem is that we should consider wind as being a distribution and then sample the wind values.
+What this would mean is that we are learning the output values as distribution as well. 
+Hence, output is a distribution in all the cases (hovering, grid-size estimation and the motion primitives).
+
+
+
+
+
+
