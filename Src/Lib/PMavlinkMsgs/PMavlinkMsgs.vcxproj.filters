@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PFiles">
+      <UniqueIdentifier>{69339e87-3f8e-48a3-93a0-b060b349c7c6}</UniqueIdentifier>
+      <Extensions>*.p</Extensions>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{611be37e-7976-4512-91f2-dbf7fadcb233}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PFiles\P_common_MessageTypes.p">
+      <Filter>PFiles</Filter>
+    </None>
+    <None Include="PFiles\P_common_Enums.p">
+      <Filter>PFiles</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PFiles\P_common_MessageTypeFunctions.h">
+      <Filter>PFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PFiles\P_MessageTypes.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

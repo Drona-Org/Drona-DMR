@@ -187,6 +187,26 @@
     <PFile Include="PX4_API.p" />
     <PFile Include="TestCase_1.p" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="AltitudeMonitor.p" />
+    <None Include="BatteryMonitor.p" />
+    <None Include="GeofenceMonitor.p" />
+    <None Include="GPSHealthMonitor.p" />
+    <None Include="HeartbeatMonitor.p" />
+    <None Include="POrb.p" />
+    <None Include="POrbTopics.p" />
+    <None Include="P_Mavlink_Enums.p" />
+    <None Include="P_Mavlink_MessageTypes.p" />
+    <None Include="Timer.p" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="POrb.cpp" />
+    <ClCompile Include="POrbMavlink.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="POrb.h" />
+    <ClInclude Include="POrbMavlink.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(PLib)\Bld\Targets\p.targets" />
   <Import Project="$(PLib)\Bld\Targets\runtime.targets" />
