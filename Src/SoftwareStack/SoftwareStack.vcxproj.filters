@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="SenseAndInfer">
+      <UniqueIdentifier>{d4617d13-3e43-4821-b0ed-dbc4fd89852d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MotionPlanner">
+      <UniqueIdentifier>{760bf552-bdf3-4a6c-914d-e88ea8a2006d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MotionPlanExecutor">
+      <UniqueIdentifier>{26c7224f-4102-4af8-a355-f964e200f0a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{39f1df1a-4792-4975-b36a-c53e26fe9c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="POrb">
+      <UniqueIdentifier>{41a2c494-4f77-4494-8c99-81736374a4f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MavlinkMsgs">
+      <UniqueIdentifier>{a751a44e-ea4f-4926-be90-1e9cbc0f2dba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="POrb\PFiles">
+      <UniqueIdentifier>{2d4c8316-1c37-4a16-bb60-1b1bd112471b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="POrb\CFiles">
+      <UniqueIdentifier>{d23fe68c-1aac-4aac-bde5-2eadd98b46bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Timer">
+      <UniqueIdentifier>{28fce1f3-a6ba-48e7-964d-79152d71cd6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\XMLParser">
+      <UniqueIdentifier>{2ec2147b-fec9-432a-a38c-fba5e8e66ef4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Workspace">
+      <UniqueIdentifier>{31fbc195-12cb-4935-a7be-1ea9675bef9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Taskplanner">
+      <UniqueIdentifier>{38bfc746-0e7e-4f77-bd5f-58bd15aa7ba1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PX4">
+      <UniqueIdentifier>{11700e77-b263-4e8f-880e-e5f5c4ee4c88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PX4_Simulator">
+      <UniqueIdentifier>{749a7f58-f530-425c-bb85-81d24373afb8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MavlinkMsgs\P_Mavlink_Enums.p">
+      <Filter>MavlinkMsgs</Filter>
+    </None>
+    <None Include="MavlinkMsgs\P_Mavlink_MessageTypes.p">
+      <Filter>MavlinkMsgs</Filter>
+    </None>
+    <None Include="MotionPlanExecutor\MotionPlanExecutor.p">
+      <Filter>MotionPlanExecutor</Filter>
+    </None>
+    <None Include="MotionPlanExecutor\MotionPlanner.p">
+      <Filter>MotionPlanExecutor</Filter>
+    </None>
+    <None Include="MotionPlanner\TestDriver.p">
+      <Filter>MotionPlanner</Filter>
+    </None>
+    <None Include="POrb\POrb.p">
+      <Filter>POrb\PFiles</Filter>
+    </None>
+    <None Include="POrb\POrbTopics.p">
+      <Filter>POrb\PFiles</Filter>
+    </None>
+    <None Include="SenseAndInfer\AltitudeMonitor.p">
+      <Filter>SenseAndInfer</Filter>
+    </None>
+    <None Include="SenseAndInfer\BatteryMonitor.p">
+      <Filter>SenseAndInfer</Filter>
+    </None>
+    <None Include="SenseAndInfer\GeofenceMonitor.p">
+      <Filter>SenseAndInfer</Filter>
+    </None>
+    <None Include="SenseAndInfer\GPSHealthMonitor.p">
+      <Filter>SenseAndInfer</Filter>
+    </None>
+    <None Include="SenseAndInfer\HeartbeatMonitor.p">
+      <Filter>SenseAndInfer</Filter>
+    </None>
+    <None Include="Timer.p">
+      <Filter>Utilities\Timer</Filter>
+    </None>
+    <None Include="TaskPlanner\Mission_1.p">
+      <Filter>Taskplanner</Filter>
+    </None>
+    <None Include="PX4\Commands.p">
+      <Filter>PX4</Filter>
+    </None>
+    <None Include="PX4\PX4_API.p">
+      <Filter>PX4</Filter>
+    </None>
+    <None Include="PX4\PX4Model.p">
+      <Filter>PX4</Filter>
+    </None>
+    <None Include="PX4Simulator\Driver_Commands.p">
+      <Filter>PX4_Simulator</Filter>
+    </None>
+    <None Include="PX4Simulator\Driver_Heartbeatmonitor.p">
+      <Filter>PX4_Simulator</Filter>
+    </None>
+    <None Include="PX4Simulator\Driver_PX4_API.p">
+      <Filter>PX4_Simulator</Filter>
+    </None>
+    <None Include="PX4Simulator\Driver_PX4Model.p">
+      <Filter>PX4_Simulator</Filter>
+    </None>
+    <None Include="PX4Simulator\DriverIncludes.p">
+      <Filter>PX4_Simulator</Filter>
+    </None>
+    <None Include="MotionPlanner\DAMP.p">
+      <Filter>MotionPlanner</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="POrb\POrb.cpp">
+      <Filter>POrb\CFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Timer\Timer.cpp">
+      <Filter>Utilities\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\XMLParser\tinyxml2.cpp">
+      <Filter>Utilities\XMLParser</Filter>
+    </ClCompile>
+    <ClCompile Include="PX4\Commands.cpp">
+      <Filter>PX4</Filter>
+    </ClCompile>
+    <ClCompile Include="PX4\HACK.cpp">
+      <Filter>PX4</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="POrb\POrb.h">
+      <Filter>POrb\CFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\XMLParser\tinyxml2.h">
+      <Filter>Utilities\XMLParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Workspace\Workspace.h">
+      <Filter>Workspace</Filter>
+    </ClInclude>
+    <ClInclude Include="PX4\Commands.h">
+      <Filter>PX4</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

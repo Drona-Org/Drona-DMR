@@ -1,0 +1,6 @@
+takeoff 10
+goto 10,0,10
+goto 10,10,10
+goto 0,10,10
+goto 0,0,0
+land
