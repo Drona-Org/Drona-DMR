@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom
 import sys, os, itertools
 
+COLOR_BLACK = 0x000000
 COLOR_WHITE = 0xffffff
 COLOR_RED = 0xff0000
 COLOR_GREEN = 0x00ff00
@@ -15,7 +16,7 @@ def offset_coords(list_of_coords, offset):
 		list_of_coords[i] = x - minx, y - miny, z - minz
 
 def read_goxel_file(fname):
-	env_map = {COLOR_RED: [], COLOR_GREEN: [], COLOR_BLUE: [], COLOR_WHITE: [], COLOR_YELLOW: []}
+	env_map = {COLOR_RED: [], COLOR_GREEN: [], COLOR_BLUE: [], COLOR_WHITE: [], COLOR_YELLOW: [], COLOR_BLACK: []}
 	with open(fname, "r") as goxelf:
 		lines = goxelf.readlines()
 		for line in lines:
