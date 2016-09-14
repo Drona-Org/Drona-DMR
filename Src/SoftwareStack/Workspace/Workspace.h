@@ -48,31 +48,17 @@ inline int ConvertCoordToGridLocation(WS_Coord coord, WS_Dimension dim)
 	int g_loc;
 	if (coord.x >= dim.x_dim || coord.y >= dim.y_dim)
 		cout << "Error: Invalid co-ordinate" << endl;
-	if (coord.x % 2 == 0)
-	{
-		g_loc = dim.y_dim * coord.x + coord.y + 1;
-	}
-	else
-	{
-		g_loc = dim.y_dim * coord.x + (dim.y_dim - coord.y);
-	}
-
+	g_loc = coord.x * dim.y_dim + coord.y;
 	return g_loc;
 }
 
 inline WS_Coord ExtractCoordFromGridLocation(int loc, WS_Dimension dim)
 {
 	WS_Coord coord;
-	if (loc < 1 || loc >(dim.x_dim * dim.y_dim))
+	if (loc < 0 || loc >= (dim.x_dim * dim.y_dim ))
 		cout << "Error: Invalid location" << endl;
-	//cout << "id = " << id << endl;
-	coord.x = (loc - 1) / dim.y_dim;
-	coord.y = (loc - 1) % dim.y_dim;
-	//cout << "x = " << x << " " << "y = " << y << endl;
-	if (((loc - 1) / dim.y_dim) % 2 == 1)
-	{
-		coord.y = dim.y_dim - coord.y - 1;
-	}
+	coord.x = loc / dim.y_dim;
+	coord.y = loc % dim.y_dim;
 	return coord;
 }
 
