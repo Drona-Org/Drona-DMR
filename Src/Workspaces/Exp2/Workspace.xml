@@ -37,40 +37,6 @@
 		<coord x="1" y="6" z="0"/>
 		<coord x="0" y="7" z="0"/>
 		<coord x="1" y="7" z="0"/>
-		<coord x="4" y="1" z="0"/>
-		<coord x="5" y="1" z="0"/>
-		<coord x="6" y="1" z="0"/>
-		<coord x="7" y="1" z="0"/>
-		<coord x="8" y="1" z="0"/>
-		<coord x="9" y="1" z="0"/>
-		<coord x="10" y="1" z="0"/>
-		<coord x="11" y="1" z="0"/>
-		<coord x="4" y="2" z="0"/>
-		<coord x="5" y="2" z="0"/>
-		<coord x="6" y="2" z="0"/>
-		<coord x="7" y="2" z="0"/>
-		<coord x="8" y="2" z="0"/>
-		<coord x="9" y="2" z="0"/>
-		<coord x="10" y="2" z="0"/>
-		<coord x="11" y="2" z="0"/>
-		<coord x="4" y="4" z="0"/>
-		<coord x="5" y="4" z="0"/>
-		<coord x="6" y="4" z="0"/>
-		<coord x="9" y="4" z="0"/>
-		<coord x="11" y="4" z="0"/>
-		<coord x="12" y="4" z="0"/>
-		<coord x="13" y="4" z="0"/>
-		<coord x="4" y="5" z="0"/>
-		<coord x="5" y="5" z="0"/>
-		<coord x="6" y="5" z="0"/>
-		<coord x="9" y="5" z="0"/>
-		<coord x="11" y="5" z="0"/>
-		<coord x="12" y="5" z="0"/>
-		<coord x="13" y="5" z="0"/>
-		<coord x="0" y="6" z="0"/>
-		<coord x="1" y="6" z="0"/>
-		<coord x="0" y="7" z="0"/>
-		<coord x="1" y="7" z="0"/>
 	</obstacles>
 	<starts/>
 	<ends/>
