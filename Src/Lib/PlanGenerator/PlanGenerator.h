@@ -38,45 +38,14 @@ The grid locations are assinged integer values as follows for a 4x4 grid
 #include "Astar.h"
 #include "Workspace.h"
 
-#ifdef PLAT_WINDOWS
 #ifdef __cplusplus
 extern "C"{
 #define BOOLEAN bool
 #endif
 
-/*
-typedef struct __AvoidPositions {
-	int PositionsOccupied[100];
-	int size;
-} AvoidPositions;
-*/
-
-__declspec(dllexport)
-	BOOLEAN GenerateMotionPlanFor(
-	_In_ int startLocation,
-	_In_ int endLocation,
-	_In_ int* sequenceOfObstacles,
-	_In_ int obsSize,
-	_In_ AvoidPositions* avoidPositions,
-	_In_ int avoidSize,
-	_Out_ int sequenceOfSteps[100],
-	_Out_ int & stepsSize
-);
-#ifdef __cplusplus
-}
-#endif
-#else
-
-/*
-struct A {
-	int PositionsOccupied[100];
-        int size;
-};
-
-typedef struct A AvoidPositions; 
-*/
 
 bool GenerateMotionPlanFor(
+	WorkspaceInfo WSInfo,
 	int startLocation,
 	int endLocation,
 	int* sequenceOfObstacles,
@@ -85,9 +54,10 @@ bool GenerateMotionPlanFor(
 	int avoidSize,
 	int sequenceOfSteps[100],
 	int & stepsSize
-	);
+);
+
+#ifdef __cplusplus
+}
 #endif
-
-
 
 #endif

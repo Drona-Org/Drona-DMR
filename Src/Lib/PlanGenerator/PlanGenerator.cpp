@@ -10,18 +10,6 @@
 
 using namespace std;
 
-#ifdef PLAT_WINDOWS
-BOOLEAN GenerateMotionPlanFor(
-	_In_ int startLocation,
-	_In_ int endLocation,
-	_In_ int* sequenceOfObstacles,
-	_In_ int obsSize,
-	_In_ AvoidPositions* avoidPositions,
-	_In_ int avoidSize,
-	_Out_ int sequenceOfSteps[100],
-	_Out_ int & stepsSize
-	)
-#else
 bool GenerateMotionPlanFor(
 	WorkspaceInfo WSInfo,
 	int startLocation,
@@ -33,7 +21,6 @@ bool GenerateMotionPlanFor(
 	int sequenceOfSteps[100],
 	int & stepsSize
 	)
-#endif
 {
 	MotionPrimitive_Vector primitives;
 	RobotPosition_Vector obstacles;
@@ -77,7 +64,7 @@ bool GenerateMotionPlanFor(
 
   	RobotPosition_Vector path = astar.FindCollisionFreePath();
   	
-      	stepsSize = path.size();
+    stepsSize = path.size();
 	for (count = 0; count < stepsSize; count++)
 	{
 		//cout << path[count] << " " << (path[count] << endl;
