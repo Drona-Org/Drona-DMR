@@ -36,6 +36,42 @@ def read_goxel_file(fname):
 	env_map['dim'] = (maxx - minx + 1, maxy - miny + 1, maxz - minz + 1)
 	return env_map
 
+char_color_map = {
+	'r': COLOR_RED, 
+	'g': COLOR_GREEN, 
+	'b': COLOR_BLUE,
+	'w': COLOR_WHITE,
+	'x': COLOR_BLACK,
+	'y': COLOR_YELLOW
+}
+
+def flip_axis(env_map, axis=1):
+	dim = env_map['dim']
+	for coords in env_map.values():
+		if type(coords) == list:
+			for i in range(len(coords)):
+				coord = list(coords[i])
+				coord[axis] = dim[axis] - coord[axis] - 1
+				coords[i] = tuple(coord)
+
+def read_map_file(map_file):
+	env_map = {COLOR_RED: [], COLOR_GREEN: [], COLOR_BLUE: [], COLOR_WHITE: [], COLOR_YELLOW: [], COLOR_BLACK: []}
+	with open(map_file, "r") as mapf:
+		maxx, j, k = 0, 0, 0
+		for line in mapf.readlines():
+			if line.startswith("#"):
+				continue
+			if line.startswith("==="):
+				k += 1
+			maxx = max(len(line) - 1, maxx)
+			for i, c in enumerate(line):
+				if not c.isspace():
+					env_map[char_color_map[c]].append((i, j, k))
+			j += 1
+	env_map['dim'] = (maxx, j, k + 1)
+	flip_axis(env_map, 1)
+	return env_map
+
 def find_or_create(xml_element, tag):
 	r = xml_element.find(tag)
 	if r == None:
@@ -71,8 +107,13 @@ def set_xml_config(xml_config, env_map):
 	create_list_of_coord(COLOR_RED, "ends")
 	return xml_config
 
-def main(goxel_file_name, config_file_name):
-	env_map = read_goxel_file(goxel_file_name)
+def main(input_file, config_file_name):
+	with open(input_file, "r") as inputf:
+		input_is_map = inputf.readline().startswith("# Map")
+	if input_is_map:
+		env_map = read_map_file(input_file)
+	else:
+		env_map = read_goxel_file(input_file)
 	if os.path.isfile(config_file_name):
 		config_document = ET.parse(config_file_name)
 		xml_config = config_document.getroot()

@@ -1,0 +1,17 @@
+# Map
+bb            bb
+b     g    r yyb
+    www  www yy 
+    www  www    
+    r    g   r  
+  g          ww 
+ ww     r    ww 
+ ww  wwwwww  ww 
+ ww  wwwwww  ww 
+ ww    g     ww 
+ ww          ww 
+ ww       g  g  
+  r  wwwwww     
+     wwwwww     
+b    r         b
+bb            bb
