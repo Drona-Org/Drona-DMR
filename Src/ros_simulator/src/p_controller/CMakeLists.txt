@@ -134,10 +134,10 @@ include_directories(
 # add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Compiler P source
-set(P_COMPILE_CMD mono ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/Debug/x86/Binaries/Pc.exe)
+set(P_COMPILER_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/Debug/x86/Binaries/Pc.exe)
 set(P_BUILT_LIB_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/PrtUser)
 set(P_LIB_INCLUDE_PATH ${P_BUILT_LIB_PATH}/include)
-set(P_LIB_PATH ${P_BUILT_LIB_PATH}/lib)
+set(P_LIB_LINK_PATH ${P_BUILT_LIB_PATH}/lib)
 
 p_compile(p_controller src/pingpong.p)
 
@@ -151,11 +151,9 @@ add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPOR
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(p_controller
-  Prt
+  ${p_controller_LINK_LIBS}
   ${catkin_LIBRARIES}
 )
-
-add_definitions( -DPRT_PLAT_LINUXUSER )
 
 #############
 ## Install ##
