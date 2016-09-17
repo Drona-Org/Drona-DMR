@@ -45,14 +45,15 @@ int main()
 
 	// Testcase: The location of the other robot at timestep 2 blocks the shortest path of the current robot.
 	// We find an alternative path that avoid collision.
-	AvoidPositions avoidsArr[] = { { { 30, 29, 36, 61 }, 4 } };
-	cout << ExtractCoordFromGridLocation(35, WSInfo->dimension).x << " " << ExtractCoordFromGridLocation(35, WSInfo->dimension).y << endl;
+	//AvoidPositions avoidsArr[] = { { { 19, 35, 51, 52 }, 4 } };
+    //GenerateMotionPlanFor(*WSInfo, 3, 53, WSInfo->obstacles.locations, WSInfo->obstacles.size, avoidsArr, 1, output_seq_of_locations, output_size);
+
+	AvoidPositions avoidsArr[] = { { { 60, 59, 58, 57 }, 4 } };
 	for (int i = 0; i < WSInfo->obstacles.size; i++)
 	{
 		cout << WSInfo->obstacles.locations[i] << " ";
 	}
-    GenerateMotionPlanFor(*WSInfo, 4, 60, WSInfo->obstacles.locations, WSInfo->obstacles.size, avoidsArr, 1, output_seq_of_locations, output_size);
-
+	GenerateMotionPlanFor(*WSInfo, 19, 44, WSInfo->obstacles.locations, WSInfo->obstacles.size, avoidsArr, 1, output_seq_of_locations, output_size);
 
 	cout << "Trajectory Length = " << output_size << endl;
 	cout << "Trajectory: " << endl;

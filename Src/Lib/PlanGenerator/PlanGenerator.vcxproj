@@ -76,7 +76,7 @@
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\SoftwareStack\Workspace\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Lib\WorkspaceParser\</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>WorkspaceParser.lib</AdditionalDependencies>
@@ -90,7 +90,7 @@
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\SoftwareStack\Workspace\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Lib\WorkspaceParser\</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>WorkspaceParser.lib</AdditionalDependencies>

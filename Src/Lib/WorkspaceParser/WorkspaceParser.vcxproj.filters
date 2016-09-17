@@ -29,5 +29,13 @@
     <ClInclude Include="WorkspaceParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Workspace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WorkspaceAPI.p">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
