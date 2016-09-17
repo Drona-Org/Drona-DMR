@@ -1,7 +1,9 @@
-include "Common.p"
-include "DisMP.p"
+include "..\..\SoftwareStack\MotionPlanner\DAMP.p"
+include "..\..\SoftwareStack\MotionPlanExecutor\MotionPlanExecutor.p"
+include "..\..\SoftwareStack\MotionPlanner\DistributedTimeSync.p"
+include "..\..\SoftwareStack\Workspace\WorkspaceAPI.p"
 
-main machine TestDriver
+machine Main
 {
 	var allRobotsV : seq[machine];
 	var id : int;

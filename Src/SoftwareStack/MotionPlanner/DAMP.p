@@ -6,8 +6,6 @@ event eCurrentTraj : (mach: machine, currTraj : TimedTrajType);
 event eNewTask : TaskType;
 event eUnit;
 event eComputeTraj;
-event TaskComplete;
-event TaskCancelled;
 event eConfiguration: seq[machine];
 
 machine DistributedMotionPlannerMachine
@@ -17,11 +15,7 @@ machine DistributedMotionPlannerMachine
 	var currentTrajV : TimedTrajType;
 	var myId : int;
 	var currTask : TaskType;
-	var currTime : int; //current local time of the robot
-	var index : int;
-	var receivedTrajFrom : map[machine, bool]; //keeps track of all the robots from which I have received traj
-	var pendingRequests : seq[machine];
-	var currLocation : int;
+	var receivedTrajFrom : map[machine, bool];
 	start state Init {
 
 		entry (id: int) {
@@ -37,7 +31,7 @@ machine DistributedMotionPlannerMachine
 					allRobotsV += (0, payload[index]);
 			    index = index + 1;
 			}
-		};
+		}
 	}
 
 	state WaitForRequests {
@@ -125,8 +119,6 @@ machine DistributedMotionPlannerMachine
 			send this, TaskComplete;
 			monitor mTaskComplete, myId;
 		}
-		on TaskComplete goto WaitForRequests;
-		on TaskCancelled goto WaitForRequests;
 		on eRequestCurrentTraj do (payload: (priority: int, mach: machine)) {
 			print "problem !!";
 			send payload.mach, eCurrentTraj, (mach = this, currTraj = currentTrajV);
