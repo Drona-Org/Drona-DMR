@@ -120,7 +120,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tinyxml2.h" />
+    <ClInclude Include="Workspace.h" />
     <ClInclude Include="WorkspaceParser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WorkspaceAPI.p" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

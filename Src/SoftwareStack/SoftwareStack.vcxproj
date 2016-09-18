@@ -199,7 +199,6 @@
     <ClInclude Include="POrb\POrb.h" />
     <ClInclude Include="PX4\Commands.h" />
     <ClInclude Include="Utilities\XMLParser\tinyxml2.h" />
-    <ClInclude Include="Workspace\Workspace.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(PLib)\Bld\Targets\p.targets" />

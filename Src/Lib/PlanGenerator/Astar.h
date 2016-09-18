@@ -17,7 +17,7 @@ using namespace std;
 
 const int Delta = 1;
 
-const int Max_Traj_Length = 100;
+const int Max_Traj_Length = 1000;
 
 struct node{
   	double G;

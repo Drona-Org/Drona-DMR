@@ -31,9 +31,6 @@
     <Filter Include="Utilities\XMLParser">
       <UniqueIdentifier>{2ec2147b-fec9-432a-a38c-fba5e8e66ef4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Workspace">
-      <UniqueIdentifier>{31fbc195-12cb-4935-a7be-1ea9675bef9d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Taskplanner">
       <UniqueIdentifier>{38bfc746-0e7e-4f77-bd5f-58bd15aa7ba1}</UniqueIdentifier>
     </Filter>
@@ -138,9 +135,6 @@
     </ClInclude>
     <ClInclude Include="Utilities\XMLParser\tinyxml2.h">
       <Filter>Utilities\XMLParser</Filter>
-    </ClInclude>
-    <ClInclude Include="Workspace\Workspace.h">
-      <Filter>Workspace</Filter>
     </ClInclude>
     <ClInclude Include="PX4\Commands.h">
       <Filter>PX4</Filter>
