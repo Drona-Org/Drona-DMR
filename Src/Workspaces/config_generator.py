@@ -88,9 +88,12 @@ def set_xml_config(xml_config, env_map):
 	# set robot start locations
 	robots_element = find_or_create(xml_config, "robots")
 	robots_element.clear()
-	for start in env_map[COLOR_YELLOW]:
+	robots_count = 0
+	for start in env_map[COLOR_BLUE]:
 		robot_element = ET.SubElement(robots_element, "robot")
-		start_element = ET.SubElement(robots_element, "start")
+		start_element = ET.SubElement(robot_element, "start")
+		robot_element.set('id', str(robots_count))
+		robots_count += 1
 		start_element.set('x', str(start[0]))
 		start_element.set('y', str(start[1]))
 		start_element.set('z', str(start[2]))
@@ -105,6 +108,7 @@ def set_xml_config(xml_config, env_map):
 	create_list_of_coord(COLOR_WHITE, "obstacles")
 	create_list_of_coord(COLOR_GREEN, "starts")
 	create_list_of_coord(COLOR_RED, "ends")
+	create_list_of_coord(COLOR_YELLOW, "charging_stations")
 	return xml_config
 
 def main(input_file, config_file_name):

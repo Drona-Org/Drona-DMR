@@ -25,7 +25,7 @@ def parse_config(config_file_name):
                  int(child.attrib.get('y', 0)), 
                  int(child.attrib.get('z', 0)))
             for child in element.findall("coord")] if element != None else []
-    return parse_coords("obstacles"), parse_coords("starts"), parse_coords("ends"), parse_coords("chargings")
+    return parse_coords("obstacles"), parse_coords("starts"), parse_coords("ends"), parse_coords("charging_stations")
 
 def run_publisher():
     rospy.init_node('map_visualization', anonymous=True)
