@@ -63,7 +63,8 @@ WorkspaceInfo* ParseWorkspaceConfig(const char* configurationFile)
     const XMLNode* configuration = ParseXMLChildElement(&configDoc, "configuration");
 	const XMLNode* tmp;
 	if(tmp = ParseXMLChildElement(configuration, "dimension")) {
-		workspace_info->dimension = *((WS_Dimension*)&ParseXMLCoord(tmp));
+		WS_Coord tmp_coord = ParseXMLCoord(tmp);
+		workspace_info->dimension = *((WS_Dimension*)&tmp_coord);
 	}
 	if(tmp = ParseXMLChildElement(configuration, "robots")) {
 		workspace_info->numOfRobots = CountXMLChild(tmp, "robot");

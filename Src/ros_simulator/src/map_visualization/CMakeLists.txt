@@ -119,6 +119,8 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_subdirectory(../../../Lib/WorkspaceParser ${CMAKE_CURRENT_BINARY_DIR}/WorkspaceParser)
+
 ## Declare a C++ library
 add_library(env src/environment_map.cpp)
 
@@ -137,7 +139,7 @@ add_executable(map_visual src/map_visual.cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(env ${catkin_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
 target_link_libraries(map_visual ${catkin_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
-target_link_libraries(map_visual env)
+target_link_libraries(map_visual env workspace_parser)
 
 #############
 ## Install ##
