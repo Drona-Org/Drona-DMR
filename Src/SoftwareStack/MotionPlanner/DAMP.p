@@ -1,35 +1,49 @@
 type TimedTrajType = seq[(int, int)];
-type TaskType = (taskid: int, s: int, g: int);
+type TaskType = (taskid: int, g: int);
 
-event eRequestCurrentTraj : (priority : int, mach : machine);
-event eCurrentTraj : (mach: machine, currTraj : TimedTrajType);
+event eRequestCurrentTraj : (priority : int, robot : machine);
+event eCurrentTraj : (robot: machine, currTraj : TimedTrajType);
 event eNewTask : TaskType;
-event eUnit;
-event eComputeTraj;
-event eConfiguration: seq[machine];
+event eDistMotionPlanMachine: machine;
 
 machine DistributedMotionPlannerMachine
 {
-	var allRobotsV : seq[machine];
+	var allRobotsMPV : seq[machine];
 	var allAvoidsV : map[machine, TimedTrajType];
 	var currentTrajV : TimedTrajType;
-	var myId : int;
-	var currTask : TaskType;
-	var receivedTrajFrom : map[machine, bool];
+	var myIdV : int;
+	var currTaskV : TaskType;
+	var receivedTrajFromV : map[machine, bool];
+	var planExecutorV : machine;
+	var currentLocationV: int;
+	var localTimeV: machine;
+
 	start state Init {
-
-		entry (id: int) {
-			myId = id;
+		defer eDistMotionPlanMachine;
+		entry (rinfo: RobotInfoType) {
+			myIdV = rinfo.robotid;
+			currentLocationV = rinfo.startpos;
+			receive {
+				case ePlanExecutorMachine: (payload: machine){ planExecutorV = payload; }
+			}
+			receive {
+				case eTimeSyncId: (payload: machine) { localTimeV = payload; }
+			}
+			goto GetAllDistMotionPlanners;
 		}
+		
+	}
 
-		on eConfiguration goto WaitForRequests with (payload: seq[machine]){
-			var index: int;
-			index = 0;
-			while(index < sizeof(payload))
+	state GetAllDistMotionPlanners {
+		on eDistMotionPlanMachine do (payload: machine){
+			var numOfRobots: int;
+			numOfRobots = GetNumOfRobots();
+			receivedTrajFromV += (payload, true);
+			if(sizeof(keys(receivedTrajFromV)) == numOfRobots)
 			{
-				if(payload[index] != this)
-					allRobotsV += (0, payload[index]);
-			    index = index + 1;
+				allRobotsMPV = keys(receivedTrajFromV);
+				receivedTrajFromV = default(map[machine, bool]);
+				goto WaitForRequests;
 			}
 		}
 	}
@@ -37,23 +51,22 @@ machine DistributedMotionPlannerMachine
 	state WaitForRequests {
 		entry {
 			//reset the currentTraj variable to current location
-			currentTrajV += (0, (-1, currLocation));
+			currentTrajV += (0, (0, currentLocationV));
 		}
 		//on receiving a new task update the local task variable and goto GetCurrentStateOfAllRobots
 		on eNewTask goto GetCurrentStateOfAllRobots with (payload: TaskType) {
-			currTask = payload; 
+			currTaskV = payload; 
 			index = 0;
-			while(index < sizeof(allRobotsV))
+			while(index < sizeof(allRobotsMPV))
 			{
-				receivedTrajFrom[allRobotsV[index]] = false; // reset the map
+				receivedTrajFromV[allRobotsMPV[index]] = false; // reset the map
 				index = index + 1;
 			}
-			monitor mTaskReq, myId;
-		};
+		}
 		//on receiving request for latest trajectory send the enpty list, informing that I am not performing any task
-		on eRequestCurrentTraj do (target: (priority : int, mach : machine)) {
-			send target.mach, eCurrentTraj, (mach = this, currTraj = currentTrajV);
-		};
+		on eRequestCurrentTraj do (target: (priority : int, robot : machine)) {
+			send target.robot, eCurrentTraj, (robot = this, currTraj = currentTrajV);
+		}
 	}
 
 	fun allTrajsReceived(TrajMap:  map[machine, bool]) : bool {
@@ -74,104 +87,124 @@ machine DistributedMotionPlannerMachine
 		defer eNewTask;
 		entry {
 			//send to all the machines in allRobotsV
-			BROADCAST(allRobotsV, eRequestCurrentTraj, (priority = currTask.taskid, mach = this));
-			if(allTrajsReceived(receivedTrajFrom))
+			BROADCAST(allRobotsV, eRequestCurrentTraj, (priority = currTask.taskid, robot = this), this);
+			if(allTrajsReceived(receivedTrajFromV))
 			{
-				raise eComputeTraj;
+				goto ComputeTrajState;
 			}
 		}
-		on eCurrentTraj do (payload: (mach: machine, currTraj : TimedTrajType)){
-			allAvoidsV[payload.mach] = payload.currTraj;
-			receivedTrajFrom[payload.mach] = true;
-			if(allTrajsReceived(receivedTrajFrom))
+		on eCurrentTraj do (payload: (robot: machine, currTraj : TimedTrajType)){
+			allAvoidsV[payload.robot] = payload.currTraj;
+			receivedTrajFromV[payload.robot] = true;
+			if(allTrajsReceived(receivedTrajFromV))
 			{
-				raise eComputeTraj;
+				goto ComputeTrajState;
 			}
-		};
-		on eRequestCurrentTraj do (payload: (priority: int, mach: machine)){
+		}
+		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)){
 			if(payload.priority < currTask.taskid)
 			{
 				//there is a higher priority robot trying to compute traj
 				//send your current (empty) traj to unblock the higher priority task
-				send payload.mach, eCurrentTraj, (mach =  this, currTraj = currentTrajV);
+				send payload.robot, eCurrentTraj, (robot =  this, currTraj = currentTrajV);
 			}
 			else
 			{
-				pendingRequests += (0, payload.mach);
+				pendingRequests += (0, payload.robot);
 			}
-		};
-		on eComputeTraj goto ComputeTrajState;
+		}
 	}
+	model fun PlanGenerator(s: int, g: int, avoids: seq[seq[int]]) : seq[int] {
 
+	}
+	fun ConvertTimedTrajToTraj(timedTraj: TimedTrajType, s: int)
+	{
+		var retTraj: seq[int];
+		var index : int;
+		index = 0;
+		while(index < sizeof(timedTraj))
+		{
+			if(timedTraj[index].0 >= s)
+			{
+				retTraj += (sizeof(retTraj), timedTraj[index].1);
+			}
+		    index = index + 1;
+		}
+		if(sizeof(retTraj) == 0)
+		{
+			retTraj += (0, timedTraj[sizeof(timedTraj)].1);
+		}
+
+		return retTraj;
+	}
+	fun ComputeTimedTraj (goal: int, avoid: map[machine, TimedTrajType])
+	{
+		var currTimePeriod : int;
+		var maxComputeTimeForPlanner : int;
+		var convertedAvoids: seq[seq[int]];
+		var index : int;
+		var traj: seq[int];
+
+		maxComputeTimeForPlanner = 4;
+		currTimePeriod = GetCurrentTimePeriod(localTimeV, myIdV);
+		startingTimePeriod = currTimePeriod + maxComputeTimeForPlanner;
+
+		index = 0;
+		while(index < sizeof(allRobotsMPV))
+		{
+			traj = ConvertTimedTrajToTraj(avoid[allRobotsMPV[index]], startingTimePeriod);
+			convertedAvoids += (0, traj);
+		    index = index + 1;
+		}
+
+		traj = PlanGenerator(currentLocationV, goal, convertedAvoids);
+		currentTrajV = default(TimedTrajType);
+		index = 0;
+		while(index < sizeof(traj))
+		{
+			currentTrajV += (index, (startingTimePeriod + index, traj[index]));
+		    index = index + 1;
+		}
+
+	}
 	state ComputeTrajState {
 		entry {
-			BROADCAST(pendingRequests, eCurrentTraj, (mach =  this, currTraj = currentTrajV));
+			//compute the current trajectory
+			ComputeTimedTraj(currTask.g, allAvoidsV);
+
+			BROADCAST(pendingRequests, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
 			pendingRequests = default(seq[machine]);
-			raise eUnit;
+			goto WaitForTaskCompletionOrCancellation;
 		}
-		on eUnit goto WaitForTaskCompletionOrCancellation;
 	}
 
-	state WaitForTaskCompletionOrCancellation{
+	state WaitForPlanCompletionOrCancellation{
 		defer eNewTask;
 		entry {
 			//just a hack
 			send this, TaskComplete;
-			monitor mTaskComplete, myId;
 		}
-		on eRequestCurrentTraj do (payload: (priority: int, mach: machine)) {
+		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)) {
 			print "problem !!";
-			send payload.mach, eCurrentTraj, (mach = this, currTraj = currentTrajV);
-		};
+			send payload.mach, eCurrentTraj, (robot = this, currTraj = currentTrajV);
+		}
 	}
-}
-
-event mTaskReq: int;
-event mTaskComplete: int;
-
-spec EventualService monitors mTaskReq, mTaskComplete {
-	var robotidV : int;
-	start state Init {
-		ignore mTaskComplete;
-		on mTaskReq goto WaitForTaskCompletion with (priority: int){
-			robotidV = priority;
-		};
-	}
-
-	hot state WaitForTaskCompletion {
-		ignore mTaskReq;
-		on mTaskComplete do (priority :int) {
-			if(robotidV == priority)
-			{
-				raise eUnit;
-			}
-		};
-		on eUnit goto Init;
-	}
-
 }
 
 /****************************************************/
 /* Common functions */
 /****************************************************/
-static fun ChooseInt(s : int) : int {
-	while(s > 0)
-	{
-		if($)
-			return s;
-		else
-			s = s - 1;
-	}
-	return s;
-}
 
-static fun BROADCAST(allTarget: seq[machine], ev: event, payload: any)
+fun BROADCAST(allTarget: seq[machine], ev: event, payload: any, source: machine)
 {
 	var index: int;
 	index = 0;
 	while(index < sizeof(allTarget))
 	{
-		send allTarget[index], ev, payload;
+		if(source != allTarget[index])
+		{
+			send allTarget[index], ev, payload;
+		}
 		index = index + 1;
 	}
 }

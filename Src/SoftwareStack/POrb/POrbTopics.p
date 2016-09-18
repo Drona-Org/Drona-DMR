@@ -19,7 +19,7 @@ type HeartbeatStatusType =
 //make sure that the ints here match with the enums in POrbTopics.h
 enum Topics {
 	//from px4
-	heartbeat_topic,
+	/*heartbeat_topic,
 	attitude_topic,
 	global_position_topic,
 	local_position_topic,
@@ -28,7 +28,7 @@ enum Topics {
 	gps_status_topic,
 	command_ack_topic,
 	extended_sys_state_topic,
-
+	*/
 	//from monitors
 	px4status_topic,
 	altitude_reached_topic,
@@ -49,6 +49,7 @@ enum Topics {
 /*******************************************************/
 /*		Events corresponding to the vehicle topics			   */
 /*******************************************************/
+/*
 event global_position assume 100 : mavlink_global_position_int_t;
 event local_position assume 100 : mavlink_local_position_ned_t;
 event battery_status assume 100 : mavlink_battery_status_t;
@@ -58,7 +59,11 @@ event heartbeat assume 100 : mavlink_heartbeat_t;
 event command_ack assume 100 : mavlink_command_ack_t;
 event gps_raw_int assume 100 : mavlink_gps_raw_int_t;
 event extended_sys_state assume 100 : mavlink_extended_sys_state_t;
-
+*/
+//event for distributed time period
+event distributed_time_period assume 10: int;
+//local position
+event local_position_update assume 10: int;
 /*********************************************************
 	Events corresponding to monitors
 *********************************************************/
