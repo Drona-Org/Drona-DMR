@@ -88,9 +88,6 @@ WorkspaceInfo* ParseWorkspaceConfig(const char* configurationFile)
 	if(tmp = ParseXMLChildElement(configuration, "ends")) {
 		workspace_info->ends = ParseListOfCoordinates(tmp, workspace_info->dimension);
 	}
-	if(tmp = ParseXMLChildElement(configuration, "ends")) {
-		workspace_info->ends = ParseListOfCoordinates(tmp, workspace_info->dimension);
-	}
 	if(tmp = ParseXMLChildElement(configuration, "charging_stations")) {
 		workspace_info->charging_stations = ParseListOfCoordinates(tmp, workspace_info->dimension);
 	}
