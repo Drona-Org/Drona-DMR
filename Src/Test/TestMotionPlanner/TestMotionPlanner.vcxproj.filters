@@ -19,4 +19,23 @@
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="linker.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestDriver.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tester.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="linker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestDriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
