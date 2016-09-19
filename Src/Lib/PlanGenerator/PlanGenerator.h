@@ -31,10 +31,6 @@ The grid locations are assinged integer values as follows for a 4x4 grid
 #ifndef SEMPLAN_H
 #define SEMPLAN_H
 
-#ifdef PLAT_WINDOWS
-#include <Windows.h>
-#endif
-
 #include "Astar.h"
 #include "Workspace.h"
 

@@ -37,7 +37,7 @@ machine DistributedMotionPlannerMachine
 	}
 
 	state GetAllDistMotionPlanners {
-		defer eNewTask;
+		defer eNewTask, eRequestCurrentTraj;
 		on eDistMotionPlanMachine do (payload: machine){
 			var numOfRobots: int;
 			numOfRobots = GetNumOfRobots();
@@ -53,8 +53,6 @@ machine DistributedMotionPlannerMachine
 
 	state WaitForRequests {
 		entry {
-			print "{0} am in ", myIdV;
-			assert false;
 			//reset the currentTraj variable to current location
 			currentTrajV += (0, (0, currentLocationV));
 		}
@@ -93,7 +91,7 @@ machine DistributedMotionPlannerMachine
 		defer eNewTask;
 		entry {
 			//send to all the machines in allRobotsV
-			//BROADCAST(allRobotsV, eRequestCurrentTraj, (priority = currTaskV.taskid, robot = this), this);
+			BROADCAST(allRobotsMPV, eRequestCurrentTraj, (priority = currTaskV.taskid, robot = this), this);
 			if(allTrajsReceived(receivedTrajFromV))
 			{
 				goto ComputeTrajState;
@@ -101,11 +99,13 @@ machine DistributedMotionPlannerMachine
 		}
 		on eCurrentTraj do (payload: (robot: machine, currTraj : TimedTrajType)){
 			allAvoidsV[payload.robot] = payload.currTraj;
+			assert (payload.robot in receivedTrajFromV);
 			receivedTrajFromV[payload.robot] = true;
 			if(allTrajsReceived(receivedTrajFromV))
 			{
 				goto ComputeTrajState;
 			}
+
 		}
 		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)){
 			if(payload.priority < currTaskV.taskid)
@@ -122,8 +122,9 @@ machine DistributedMotionPlannerMachine
 	}
 
 	model fun PlanGenerator(s: int, g: int, avoids: seq[seq[int]]) : seq[int] {
-		assert false;
-		return default(seq[int]);
+		var ret : seq[int];
+		ret += (0, 1);
+		return ret;
 	}
 
 	fun ConvertTimedTrajToTraj(timedTraj: TimedTrajType, s: int) : seq[int]
@@ -141,7 +142,7 @@ machine DistributedMotionPlannerMachine
 		}
 		if(sizeof(retTraj) == 0)
 		{
-			retTraj += (0, timedTraj[sizeof(timedTraj)].1);
+			retTraj += (0, timedTraj[sizeof(timedTraj)-1].1);
 		}
 
 		return retTraj;
@@ -156,7 +157,7 @@ machine DistributedMotionPlannerMachine
 		var traj: seq[int];
 
 		maxComputeTimeForPlanner = 4;
-		currTimePeriod = GetCurrentTimePeriod(localTimeV, myIdV);
+		currTimePeriod = GetCurrentTimePeriod(localTimeV, myIdV, this);
 		startingTimePeriod = currTimePeriod + maxComputeTimeForPlanner;
 
 		index = 0;
@@ -167,15 +168,16 @@ machine DistributedMotionPlannerMachine
 		    index = index + 1;
 		}
 
+
 		traj = PlanGenerator(currentLocationV, goal, convertedAvoids);
 		currentTrajV = default(TimedTrajType);
 		index = 0;
+		assert sizeof(traj) > 0;
 		while(index < sizeof(traj))
 		{
 			currentTrajV += (index, (startingTimePeriod + index, traj[index]));
 		    index = index + 1;
 		}
-
 	}
 	state ComputeTrajState {
 		entry {

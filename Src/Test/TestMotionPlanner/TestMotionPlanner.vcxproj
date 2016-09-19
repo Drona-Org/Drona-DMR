@@ -101,10 +101,10 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;MAVLINK_USE_CONVENIENCE_FUNCTIONS;PRT_STATIC;PRT_PLAT_WINUSER;</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Submodules\p\Bld\Drops\Debug\x64\Headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Submodules\p\Bld\Drops\Debug\x64\Headers;.\;..\..\SoftwareStack\Workspace\;..\..\Lib\PlanGenerator\;..\..\Lib\WorkspaceParser\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,9 +154,12 @@
     <None Include="TestDriver.p" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\SoftwareStack\Utilities\Timer\Timer.c" />
+    <ClCompile Include="Constructors.c" />
+    <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="linker.c" />
     <ClCompile Include="TestDriver.c" />
-    <ClCompile Include="tester.c" />
+    <ClCompile Include="tester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linker.h" />
