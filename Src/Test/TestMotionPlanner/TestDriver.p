@@ -17,6 +17,7 @@ machine Main
 
 		//create the porb machine
 		noOfRobots = GetNumOfRobots();
+		index = 0;
 		while(index < noOfRobots)
 		{
 			robotInfo = GetRobotInfo(index);
@@ -39,8 +40,9 @@ machine Main
 
 	state StartSendingTaskRequest {
 		entry {
-			
-			goto StartSendingTaskRequest;
+			send allRobotsV[0], eNewTask, (taskid = 0, g = 10);
+			send allRobotsV[1], eNewTask, (taskid = 1, g = 20);
+			//goto StartSendingTaskRequest;
 		}
 		
 	}

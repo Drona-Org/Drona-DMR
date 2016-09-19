@@ -34,7 +34,7 @@ machine DistributedTimeSyncMachine {
 			timerV = new Timer(this);
 			
 			//start timer
-			StartTimer(this, MotionPrimitiveTimePeriod());
+			StartTimer(timerV, MotionPrimitiveTimePeriod());
 			goto WaitForGetTimeRequest;
 		}
 	}
@@ -48,6 +48,8 @@ machine DistributedTimeSyncMachine {
 				robotsLocalTimeV[index] = robotsLocalTimeV[index] + 1;
 			    index = index + 1;
 			}
+			//start timer
+			StartTimer(timerV, MotionPrimitiveTimePeriod());
 		}
 		on eGetTimePeriod do (payload : int) {
 			send allRobotsV[payload], eCurrTimePeriod, robotsLocalTimeV[payload];

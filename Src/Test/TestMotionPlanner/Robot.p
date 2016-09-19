@@ -15,18 +15,21 @@ machine RobotMachine
 			robotid = payload.robotid;
 			currentLocation = payload.startpos;
 			motionplanner = new DistributedMotionPlannerMachine(payload);
-			planexecutor = new PlanExecutorMachine(motionplanner);
+			planexecutor = new PlanExecutorMachine((mp = motionplanner, rid = robotid));
 		}
 
 		on eAllRobots do (payload: (allrobots: seq[machine], timesync: machine)) {
 			allRobots = payload.allrobots;
 			send motionplanner, eTimeSyncId, payload.timesync;
+			send planexecutor, eTimeSyncId, payload.timesync;
 			BROADCAST(allRobots, eDistMotionPlanMachine, motionplanner, this);
 		}
 
 		on eDistMotionPlanMachine do (payload: any) {
 			send motionplanner, eDistMotionPlanMachine, payload as machine;
 		}
+
+		on eNewTask do (payload: TaskType){ send motionplanner, eNewTask, payload; }
 	}
 }
 

@@ -37,11 +37,12 @@ machine DistributedMotionPlannerMachine
 	}
 
 	state GetAllDistMotionPlanners {
+		defer eNewTask;
 		on eDistMotionPlanMachine do (payload: machine){
 			var numOfRobots: int;
 			numOfRobots = GetNumOfRobots();
 			receivedTrajFromV += (payload, true);
-			if(sizeof(keys(receivedTrajFromV)) == numOfRobots)
+			if(sizeof(keys(receivedTrajFromV)) == numOfRobots - 1)
 			{
 				allRobotsMPV = keys(receivedTrajFromV);
 				receivedTrajFromV = default(map[machine, bool]);
@@ -52,6 +53,8 @@ machine DistributedMotionPlannerMachine
 
 	state WaitForRequests {
 		entry {
+			print "{0} am in ", myIdV;
+			assert false;
 			//reset the currentTraj variable to current location
 			currentTrajV += (0, (0, currentLocationV));
 		}
@@ -117,8 +120,9 @@ machine DistributedMotionPlannerMachine
 			}
 		}
 	}
-	
+
 	model fun PlanGenerator(s: int, g: int, avoids: seq[seq[int]]) : seq[int] {
+		assert false;
 		return default(seq[int]);
 	}
 
@@ -177,7 +181,7 @@ machine DistributedMotionPlannerMachine
 		entry {
 			//compute the current trajectory
 			ComputeTimedTraj(currTaskV.g, allAvoidsV);
-
+			send planExecutorV, eStartExecutingPlan, currentTrajV;
 			BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
 			pendingRequestsV = default(seq[machine]);
 			goto WaitForPlanCompletionOrCancellation;

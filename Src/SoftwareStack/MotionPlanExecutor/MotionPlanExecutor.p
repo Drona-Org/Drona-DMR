@@ -6,14 +6,23 @@ model fun StartExecutingPath(path: seq[int], robotId: int)
 
 }
 
+model fun Sleep(time: int)
+{
+
+}
 
 machine PlanExecutorMachine {
 	var motionplanner: machine;
 	var robotId: int;
+	var localTimeV: machine;
 	start state Init {
-		entry(payload: machine) {
-			motionplanner = payload;
+		entry(payload: (mp: machine, rid: int)) {
+			motionplanner = payload.mp;
+			robotId = payload.rid;
 			send motionplanner, ePlanExecutorMachine, this;
+			receive {
+				case eTimeSyncId: (ts: machine) { localTimeV = ts; }
+			}
 			goto WaitForPathToExecute;
 		}
 	}
