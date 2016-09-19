@@ -11,7 +11,7 @@ function (p_compile pproject p_src)
 		set_target_properties(Prt PROPERTIES IMPORTED_LOCATION ${P_LIB_LINK_PATH}/libPrt_shared.so)
 		add_definitions( -DPRT_PLAT_LINUXUSER ) # currently ros only supports *nix/OSX
 	endif()
-	
+
 	set(p_compile_cmd mono ${P_COMPILER_PATH})
 	get_filename_component(p_src_basename ${p_src} NAME_WE)
 	set(generated_c_src ${p_src_basename}.c)
