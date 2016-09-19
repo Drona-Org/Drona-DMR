@@ -671,9 +671,11 @@ cost:
 - [15, 3, 3, 255]
 - [21, 6, 4, 255]
 - [20, 0, 4, 255]
+- [63, 63, 0, 255]
+- [32, 32, 0, 255]
 density: 0.18666666666666668
-extent: [25, 12, 12]
+extent: [64, 64, 20]
 position_dim: 3
 position_discret: sq
 type: dsm
-xyz_offset: [-12, -6, 0]
+xyz_offset: [-32, -32, 0]

@@ -122,7 +122,7 @@
     <remap from="~odom" to="odom4"/>
   </node>
 
-  <node pkg="map_visualization"
+<!--   <node pkg="map_visualization"
     type="map_visual"
     name="map_visual"
     output="screen">
@@ -131,6 +131,14 @@
     <param name="map/offz" value="0"/>
     <param name="map/res" value="0.2"/>
     <param name="map/cmap" value="$(find map_visualization)/datas/demo_map.yaml"/>
+  </node>
+ -->
+  <node pkg="map_visualization"
+    type="map_visual.py"
+    name="map_visual"
+    output="screen">
+    <param name="map/res" value="0.2"/>
+    <param name="map/cmap" value="$(find map_visualization)/datas/Workspaces/Exp1/Workspace.xml"/>
   </node>
 
   <node pkg="rviz"

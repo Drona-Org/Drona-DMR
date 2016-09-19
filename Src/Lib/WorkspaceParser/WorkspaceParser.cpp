@@ -63,7 +63,8 @@ WorkspaceInfo* ParseWorkspaceConfig(const char* configurationFile)
     const XMLNode* configuration = ParseXMLChildElement(&configDoc, "configuration");
 	const XMLNode* tmp;
 	if(tmp = ParseXMLChildElement(configuration, "dimension")) {
-		workspace_info->dimension = *((WS_Dimension*)&ParseXMLCoord(tmp));
+		WS_Coord tmp_coord = ParseXMLCoord(tmp);
+		workspace_info->dimension = *((WS_Dimension*)&tmp_coord);
 	}
 	if(tmp = ParseXMLChildElement(configuration, "robots")) {
 		workspace_info->numOfRobots = CountXMLChild(tmp, "robot");
@@ -73,10 +74,9 @@ WorkspaceInfo* ParseWorkspaceConfig(const char* configurationFile)
 			nodeIter != NULL; 
 			nodeIter = nodeIter->NextSiblingElement("robot"))
 		{
-			WS_RobotInfo& robot_info = workspace_info->robots[count]; 
-			robot_info.id = count;
+			WS_RobotInfo& robot_info = workspace_info->robots[count++]; 
+			robot_info.id = nodeIter->IntAttribute("id");
 			robot_info.start_position = ConvertCoordToGridLocation(ParseXMLCoord(ParseXMLChildElement(nodeIter, "start")), workspace_info->dimension);
-			count++;
 		}
 	}
 	if(tmp = ParseXMLChildElement(configuration, "obstacles")) {
@@ -87,6 +87,9 @@ WorkspaceInfo* ParseWorkspaceConfig(const char* configurationFile)
 	}
 	if(tmp = ParseXMLChildElement(configuration, "ends")) {
 		workspace_info->ends = ParseListOfCoordinates(tmp, workspace_info->dimension);
+	}
+	if(tmp = ParseXMLChildElement(configuration, "charging_stations")) {
+		workspace_info->charging_stations = ParseListOfCoordinates(tmp, workspace_info->dimension);
 	}
 	return workspace_info;
 }

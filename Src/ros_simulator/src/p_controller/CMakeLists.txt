@@ -1,15 +1,20 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(map_visualization)
+project(p_controller)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
+  quadrotor_msgs
   roscpp
-  sensor_msgs
+  rospy
   std_msgs
 )
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PCompile.cmake)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -68,7 +73,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs#   sensor_msgs#   std_msgs
+#   quadrotor_msgs#   std_msgs
 # )
 
 ################################################
@@ -102,8 +107,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES env
-  CATKIN_DEPENDS geometry_msgs roscpp sensor_msgs std_msgs
+  LIBRARIES p_controller
+  CATKIN_DEPENDS quadrotor_msgs roscpp rospy std_msgs
   DEPENDS system_lib
 )
 
@@ -113,33 +118,42 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
+# include_directories(include)
 include_directories(
-  include
-  ${Boost_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
-add_subdirectory(../../../Lib/WorkspaceParser ${CMAKE_CURRENT_BINARY_DIR}/WorkspaceParser)
-
 ## Declare a C++ library
-add_library(env src/environment_map.cpp)
+# add_library(p_controller
+#   src/${PROJECT_NAME}/p_controller.cpp
+# )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(map_visualization ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-## Declare a C++ executable
-add_executable(map_visual src/map_visual.cpp)
+## Compile P source
+set(P_COMPILER_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/Debug/x86/Binaries/Pc.exe)
+set(P_BUILT_LIB_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/PrtUser)
+set(P_LIB_INCLUDE_PATH ${P_BUILT_LIB_PATH}/include)
+set(P_LIB_LINK_PATH ${P_BUILT_LIB_PATH}/lib)
 
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(map_visualization_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# p_compile(p_controller src/pingpong.p)
 
-## Specify libraries to link a library or executable target against
-target_link_libraries(env ${catkin_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
-target_link_libraries(map_visual ${catkin_LIBRARIES} yaml-cpp ${Boost_LIBRARIES})
-target_link_libraries(map_visual env workspace_parser)
+# ## Declare a C++ executable
+# add_executable(p_controller ${p_controller_GENERATED_SRCS})
+# target_include_directories(p_controller PRIVATE ${p_controller_INCLUDE_DIRS})
+
+# ## Add cmake target dependencies of the executable
+# ## same as for the library above
+# add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+# ## Specify libraries to link a library or executable target against
+# target_link_libraries(p_controller
+#   ${p_controller_LINK_LIBS}
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -156,7 +170,7 @@ target_link_libraries(map_visual env workspace_parser)
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS map_visualization map_visualization_node
+# install(TARGETS p_controller p_controller_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -181,7 +195,7 @@ target_link_libraries(map_visual env workspace_parser)
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_map_visualization.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_p_controller.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

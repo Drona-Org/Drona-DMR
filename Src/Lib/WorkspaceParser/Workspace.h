@@ -36,6 +36,7 @@ typedef struct WorkspaceInfo {
 	WS_LocationsList obstacles;
 	WS_LocationsList starts;
 	WS_LocationsList ends;
+	WS_LocationsList charging_stations;
 	int numOfRobots;
 	WS_RobotInfo *robots; //list of all robot-info for the numOfRobots.
 } WorkspaceInfo;
