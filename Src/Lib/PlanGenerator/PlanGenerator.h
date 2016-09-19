@@ -53,7 +53,7 @@ bool GenerateMotionPlanFor(
 	AvoidPositions* avoidPositions,
 	int avoidSize,
 	int sequenceOfSteps[100],
-	int & stepsSize
+	int* stepsSize
 );
 
 #ifdef __cplusplus

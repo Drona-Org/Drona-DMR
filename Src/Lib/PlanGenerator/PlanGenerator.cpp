@@ -19,7 +19,7 @@ bool GenerateMotionPlanFor(
 	AvoidPositions* avoidPositions,
 	int avoidSize,
 	int sequenceOfSteps[100],
-	int & stepsSize
+	int* stepsSize
 	)
 {
 	MotionPrimitive_Vector primitives;
@@ -64,8 +64,8 @@ bool GenerateMotionPlanFor(
 
   	RobotPosition_Vector path = astar.FindCollisionFreePath();
   	
-    stepsSize = path.size();
-	for (count = 0; count < stepsSize; count++)
+    *stepsSize = path.size();
+	for (count = 0; count < *stepsSize; count++)
 	{
 		//cout << path[count] << " " << (path[count] << endl;
 		sequenceOfSteps[count] = ConvertCoordToGridLocation(path[count], WSInfo.dimension);;

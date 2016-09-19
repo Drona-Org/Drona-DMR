@@ -117,7 +117,7 @@ machine DistributedMotionPlannerMachine
 			}
 		}
 	}
-	
+
 	model fun PlanGenerator(s: int, g: int, avoids: seq[seq[int]]) : seq[int] {
 		return default(seq[int]);
 	}
@@ -177,7 +177,8 @@ machine DistributedMotionPlannerMachine
 		entry {
 			//compute the current trajectory
 			ComputeTimedTraj(currTaskV.g, allAvoidsV);
-
+			send planExecutorV, eStartExecutingPlan, currentTrajV;
+			
 			BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
 			pendingRequestsV = default(seq[machine]);
 			goto WaitForPlanCompletionOrCancellation;
