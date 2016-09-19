@@ -47,7 +47,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 25
+      Plane Cell Count: 51
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/Axes
@@ -292,7 +292,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.00500002
+      Angle: 1.49012e-08
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
@@ -304,8 +304,8 @@ Visualization Manager:
       Scale: 100
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0.778909
-      Y: 0.249922
+      X: 1.72891
+      Y: 1.64992
     Saved: ~
 Window Geometry:
   Displays:
@@ -323,5 +323,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 414
-  Y: 71
+  X: 77
+  Y: 14

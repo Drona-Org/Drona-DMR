@@ -139,21 +139,23 @@ set(P_BUILT_LIB_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/PrtUser
 set(P_LIB_INCLUDE_PATH ${P_BUILT_LIB_PATH}/include)
 set(P_LIB_LINK_PATH ${P_BUILT_LIB_PATH}/lib)
 
-# p_compile(p_controller src/pingpong.p)
+p_compile(PlanExecutor src/PlanExecutor.p)
 
-# ## Declare a C++ executable
-# add_executable(p_controller ${p_controller_GENERATED_SRCS})
-# target_include_directories(p_controller PRIVATE ${p_controller_INCLUDE_DIRS})
+## Declare a C++ executable
+add_executable(p_controller ${PlanExecutor_GENERATED_SRCS} src/main.c src/ModelFunctions.cpp)
+set_property(TARGET p_controller PROPERTY C_STANDARD 99)
+target_include_directories(p_controller PRIVATE ${PlanExecutor_INCLUDE_DIRS})
 
-# ## Add cmake target dependencies of the executable
-# ## same as for the library above
-# add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+## Add cmake target dependencies of the executable
+## same as for the library above
+add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-# ## Specify libraries to link a library or executable target against
-# target_link_libraries(p_controller
-#   ${p_controller_LINK_LIBS}
-#   ${catkin_LIBRARIES}
-# )
+## Specify libraries to link a library or executable target against
+target_link_libraries(p_controller
+  workspace_parser
+  ${PlanExecutor_LINK_LIBS}
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

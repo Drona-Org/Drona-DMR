@@ -119,7 +119,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_subdirectory(../../../Lib/WorkspaceParser ${CMAKE_CURRENT_BINARY_DIR}/WorkspaceParser)
+add_subdirectory(../../../Lib/WorkspaceParser ${CMAKE_BINARY_DIR}/WorkspaceParser)
 
 ## Declare a C++ library
 add_library(env src/environment_map.cpp)
