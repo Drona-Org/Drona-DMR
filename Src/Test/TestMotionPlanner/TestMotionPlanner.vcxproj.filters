@@ -35,7 +35,7 @@
     <ClCompile Include="HelperFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tester.cpp">
+    <ClCompile Include="tester.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

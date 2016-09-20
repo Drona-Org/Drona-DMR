@@ -41,8 +41,6 @@ void ErrorHandler(PRT_STATUS status, PRT_MACHINEINST *ptr)
 
 
 
-HANDLE threadsTerminated;
-long threadsRunning = 0;
 static PRT_BOOLEAN cooperative = PRT_FALSE;
 static int threads = 1;
 
@@ -158,19 +156,13 @@ static void RunToIdle(LPVOID process)
     // instead of blocking indefinitely.  This is then equivalent of the non-cooperative case
     // where we PrtRunStateMachine once (inside PrtMkMachine).  So we do NOT call PrtWaitForWork.
     // PrtWaitForWork(process);
-    InterlockedIncrement(&threadsRunning);
     PRT_PROCESS_PRIV* privateProcess = (PRT_PROCESS_PRIV*)process;
     while (privateProcess->terminating == PRT_FALSE)
     {
-        if (PRT_STEP_IDLE == PrtStepProcess((PRT_PROCESS*)process))
+        if (PRT_STEP_IDLE == PrtStepProcess(process))
         {
             break;
         }
-    }
-    long count = InterlockedDecrement(&threadsRunning);
-    if (count == 0)
-    {
-        SetEvent(threadsTerminated);
     }
 }
 
@@ -181,7 +173,7 @@ int main(int argc, char *argv[])
         PrintUsage();
         return 1;
     }
-	WORKSPACE_INFO = ParseWorkspaceConfig("");
+
 	PRT_DBG_START_MEM_BALANCED_REGION
 	{
 		PRT_PROCESS *process;
@@ -212,14 +204,15 @@ int main(int argc, char *argv[])
 
         if (cooperative)
         {
+			HANDLE* threadsArr = (HANDLE*)PrtMalloc(threads*sizeof(HANDLE));
             // test some multithreading across state machines.
-            threadsTerminated = CreateEvent(NULL, TRUE, FALSE, NULL);
             for (int i = 0; i < threads; i++)
             {
                 DWORD threadId;
-                HANDLE t = CreateThread(NULL, 16000, (LPTHREAD_START_ROUTINE)RunToIdle, process, 0, &threadId);
+                threadsArr[i] = CreateThread(NULL, 16000, (LPTHREAD_START_ROUTINE)RunToIdle, process, 0, &threadId);
             }
-            WaitForSingleObject(threadsTerminated, INFINITE);
+			WaitForMultipleObjects(threads, threadsArr, TRUE, INFINITE);
+			PrtFree(threadsArr);
         }
 
 		PrtFreeValue(payload);

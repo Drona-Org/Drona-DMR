@@ -47,9 +47,11 @@ inline int ConvertCoordToGridLocation(WS_Coord coord, WS_Dimension dim)
 	int g_loc;
 	if (coord.x < 0 || coord.x >= dim.x_dim ||
 		coord.y < 0 || coord.y >= dim.y_dim ||
-		coord.z < 0 || coord.z >= dim.z_dim) {
+		coord.z < 0 || coord.z >= dim.z_dim)
+	{
 		printf("Error: Invalid coordinate\n");
 	}
+		
 	g_loc = coord.x * dim.y_dim * dim.z_dim + coord.y * dim.z_dim + coord.z;
 	return g_loc;
 }
@@ -57,9 +59,11 @@ inline int ConvertCoordToGridLocation(WS_Coord coord, WS_Dimension dim)
 inline WS_Coord ExtractCoordFromGridLocation(int loc, WS_Dimension dim)
 {
 	WS_Coord coord;
-	if (loc < 0 || loc >= (dim.x_dim * dim.y_dim *dim.z_dim)) {
+	if (loc < 0 || loc >= (dim.x_dim * dim.y_dim *dim.z_dim))
+	{
 		printf("Error: Invalid location\n");
 	}
+		
 	coord.x = loc / (dim.y_dim * dim.z_dim);
 	coord.y = (loc % (dim.y_dim * dim.z_dim)) / dim.z_dim;
 	coord.z = loc % dim.z_dim;
