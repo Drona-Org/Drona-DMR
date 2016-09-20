@@ -1,5 +1,8 @@
-#include "PlanExecutor.h"
-#define _stricmp strcasecmp
+#include "StubMotionPlanner.h"
+#include "WorkspaceParser.h"
+#include "Compat.h"
+
+WorkspaceInfo* WORKSPACE_INFO;
 
 void ErrorHandler(PRT_STATUS status, PRT_MACHINEINST *ptr)
 {
@@ -48,6 +51,7 @@ static long steps = 0;
 static long startTime = 0;
 static long perfEndTime = 0;
 static const char* parg = NULL;
+static const char* workspaceConfig;
 
 void Log(PRT_STEP step, PRT_MACHINEINST *sender, PRT_MACHINEINST *receiver, PRT_VALUE* event, PRT_VALUE* payload)
 { 
@@ -88,6 +92,13 @@ static PRT_BOOLEAN ParseCommandLine(int argc, char *argv[])
                     }
                 }
             }
+            else if (_stricmp(arg + 1, "w") == 0)
+            {
+                if (i + 1 < argc)
+                {
+                    workspaceConfig = argv[++i];
+                }
+            }
             else if (_stricmp(arg + 1, "arg") == 0)
             {
                 if (i + 1 < argc)
@@ -119,10 +130,11 @@ static void PrintUsage(void)
     printf("Usage: Tester [options]\n");
     printf("This program tests the compiled state machine in program.c and program.h\n");
     printf("Options:\n");
+    printf("    -w [path]       [path] represents the path to the workspace config file\n");
     printf("   -cooperative     run state machine with the cooperative scheduler\n");
-    printf("   -threads [n]     run P using multiple threads");
-    printf("   -perf [n]        run performance test that outputs #steps every 10 seconds, terminating after n seconds");
-    printf("   -arg [x]         pass argument 'x' to P main machine");
+    printf("   -threads [n]     run P using multiple threads\n");
+    printf("   -perf [n]        run performance test that outputs #steps every 10 seconds, terminating after n seconds\n");
+    printf("   -arg [x]         pass argument 'x' to P main machine\n");
 }
 
 static void RunPerfTest()
@@ -148,7 +160,7 @@ void PRT_CALL_CONV  MyAssert(PRT_INT32 condition, PRT_CSTRING message)
 }
 
 
-static void* RunToIdle(void* process)
+static void RunToIdle(LPVOID process)
 {
     // In the tester we run the state machines until there is no more work to do then we exit
     // instead of blocking indefinitely.  This is then equivalent of the non-cooperative case
@@ -177,6 +189,9 @@ int main(int argc, char *argv[])
         PRT_PROCESS *process;
         PRT_GUID processGuid;
         PRT_VALUE *payload;
+
+        //Initialize the workspace
+        WORKSPACE_INFO = ParseWorkspaceConfig(workspaceConfig);
         processGuid.data1 = 1;
         processGuid.data2 = 0;
         processGuid.data3 = 0;
@@ -198,22 +213,35 @@ int main(int argc, char *argv[])
 
         PrtUpdateAssertFn(MyAssert);
 
-        PrtMkMachine(process, P_MACHINE_MotionPlannerMachine, payload);
+        PrtMkMachine(process, P_MACHINE_StubMotionPlannerMachine, payload);
 
         if (cooperative)
         {
-            // test some multithreading across state machines
+            // test some multithreading across state machines.
+#if defined(PRT_PLAT_WINUSER)
+            HANDLE* threadsArr = (HANDLE*)PrtMalloc(threads*sizeof(HANDLE));
+            for (int i = 0; i < threads; i++)
+            {
+                DWORD threadId;
+                threadsArr[i] = CreateThread(NULL, 16000, (LPTHREAD_START_ROUTINE)RunToIdle, process, 0, &threadId);
+            }
+            WaitForMultipleObjects(threads, threadsArr, TRUE, INFINITE);
+            PrtFree(threadsArr);
+#elif defined(PRT_PLAT_LINUXUSER)
+typedef void *(*start_routine) (void *);
             pthread_t tid[threads];
             for (int i = 0; i < threads; i++)
             {
-                pthread_create(&tid[i], NULL, RunToIdle, (void*)process);
+                pthread_create(&tid[i], NULL, (start_routine)RunToIdle, (void*)process);
             }
             for (int i = 0; i < threads; i++)
             {
                 pthread_join(tid[i], NULL);
             }
+#else
+#error Invalid Platform
+#endif
         }
-
         PrtFreeValue(payload);
         PrtStopProcess(process);
     }

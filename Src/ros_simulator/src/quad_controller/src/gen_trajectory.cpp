@@ -4,16 +4,7 @@
 #include <Eigen/Dense>
 #include <quadrotor_msgs/TrajectoryData.h>
 #include <math.h>
-
-Eigen::MatrixXd A_goto(6,6);
-
-struct TrajectoryInfo
-{
-    double xcoef[8];
-    double ycoef[8];
-    double zcoef[8];
-    double duration;
-};
+#include "goto_solver.h"
 
 #define num_seg 3
 TrajectoryInfo trajInfo[num_seg];
@@ -22,45 +13,8 @@ TrajectoryInfo trajInfo3[num_seg];
 TrajectoryInfo trajInfo4[num_seg];
 int count;
 double tscale = 1;
-double t_goto = 0.5;
 
 double cur_t, t_end = 0;
-
-TrajectoryInfo cal_goto(double x_init, double y_init, double z_init, double x_dest, double y_dest, double z_dest)
-{
-	TrajectoryInfo cur_traj;
-    Eigen::VectorXd bx(6),by(6), bz(6), solx(6), soly(6), solz(6);
-    bx<< x_init,0.0,0.0,x_dest,0.0,0.0;
-    solx = A_goto.colPivHouseholderQr().solve(bx);
-    by<< y_init,0.0,0.0,y_dest,0.0,0.0;
-    soly = A_goto.colPivHouseholderQr().solve(by);
-    bz<< z_init,0.0,0.0,z_dest,0.0,0.0;
-    solz = A_goto.colPivHouseholderQr().solve(bz);
-    cur_traj.duration = t_goto;
-    cur_traj.xcoef[0] = 0;
-    cur_traj.xcoef[1] = 0;
-    cur_traj.ycoef[0] = 0;
-    cur_traj.ycoef[1] = 0;
-    cur_traj.zcoef[0] = 0;
-    cur_traj.zcoef[1] = 0;
-    for(int i = 0; i < 6; i++){
-      cur_traj.xcoef[7-i] = solx(i);
-      cur_traj.ycoef[7-i] = soly(i);
-      cur_traj.zcoef[7-i] = solz(i);
-    }
-    ROS_INFO("solve goto 1");
-    return cur_traj;
-}
-
-void initialize_var()
-{
-A_goto << 1.0,0.0,0.0,0.0,0.0,0.0,
-0.0,1.0,0.0,0.0,0.0,0.0,
-0.0,0.0,2.0,0.0,0.0,0.0,
-1,t_goto,pow(t_goto,2),pow(t_goto,3),pow(t_goto,4),pow(t_goto,5),
-0,1,2*t_goto,3*pow(t_goto,2),4*pow(t_goto,3),5*pow(t_goto,4),
-0.0,0.0,2.0,6.0*t_goto,12.0*pow(t_goto,2),20.0*pow(t_goto,3);
-}
 
 double stops[4][3] = { {0.0, 0.0, 0.0}, {0.1, 0.1, 1.2}, {0.2, 0.2, 1.2}, {0.3, 0.3, 1.2}};
 
@@ -69,6 +23,11 @@ void init_traj(){
 		trajInfo[i] = cal_goto(stops[i][0], stops[i][1], stops[i][2], stops[i+1][0], stops[i+1][1], stops[i+1][2]);
 	}
     count = 0;
+}
+
+void initialize_var()
+{
+    set_t_goto(0.5);
 }
 
 int main(int argc, char **argv)

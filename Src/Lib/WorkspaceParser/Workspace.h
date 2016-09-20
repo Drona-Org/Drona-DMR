@@ -52,7 +52,6 @@ inline int ConvertCoordToGridLocation(WS_Coord coord, WS_Dimension dim)
 		printf("Error: Invalid coordinate\n");
 	}
 		
-
 	g_loc = coord.x * dim.y_dim * dim.z_dim + coord.y * dim.z_dim + coord.z;
 	return g_loc;
 }

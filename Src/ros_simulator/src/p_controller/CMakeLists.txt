@@ -133,27 +133,68 @@ include_directories(
 ## either from message generation or dynamic reconfigure
 # add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_subdirectory(../../../Lib/PlanGenerator ${CMAKE_BINARY_DIR}/PlanGenerator)
+
 ## Compile P source
 set(P_COMPILER_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/Debug/x86/Binaries/Pc.exe)
 set(P_BUILT_LIB_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/PrtUser)
 set(P_LIB_INCLUDE_PATH ${P_BUILT_LIB_PATH}/include)
 set(P_LIB_LINK_PATH ${P_BUILT_LIB_PATH}/lib)
 
-p_compile(PlanExecutor src/PlanExecutor.p)
+set(test_plan_executor_dir src/test_plan_executor)
+get_filename_component(test_motion_planner_dir src/TestMotionPlanner REALPATH)
+
+p_compile(TestPlanExecutor src/test_plan_executor/StubMotionPlanner.p)
+
+p_compile(TestMotionPlaner ${test_motion_planner_dir}/TestDriver.p)
 
 ## Declare a C++ executable
-add_executable(p_controller ${PlanExecutor_GENERATED_SRCS} src/main.c src/ModelFunctions.cpp)
-set_property(TARGET p_controller PROPERTY C_STANDARD 99)
-target_include_directories(p_controller PRIVATE ${PlanExecutor_INCLUDE_DIRS})
+add_executable(test_plan_executor 
+  ${TestPlanExecutor_GENERATED_SRCS} 
+  ${test_plan_executor_dir}/tester.c 
+  ${test_plan_executor_dir}/Constructors.c 
+  src/ModelFunctions.cpp
+)
+set_property(TARGET test_plan_executor PROPERTY C_STANDARD 99)
+target_include_directories(test_plan_executor PRIVATE 
+  ../../../Lib/Compat
+  ${TestPlanExecutor_INCLUDE_DIRS}
+)
+target_compile_definitions(test_plan_executor PRIVATE -DTEST_PLAN_EXECUTOR)
+
+add_executable(test_motion_planner 
+  ${TestMotionPlaner_GENERATED_SRCS} 
+  ${test_motion_planner_dir}/tester.c 
+  ${test_motion_planner_dir}/Constructors.c
+  ${test_motion_planner_dir}/HelperFunctions.cpp
+  ${test_motion_planner_dir}/../../SoftwareStack/Utilities/Timer/Timer.c
+  src/ModelFunctions.cpp
+)
+set_property(TARGET test_motion_planner PROPERTY C_STANDARD 99)
+target_include_directories(test_motion_planner PRIVATE 
+  ../../../Lib/Compat
+  ${TestMotionPlaner_INCLUDE_DIRS}
+)
+target_compile_definitions(test_motion_planner PRIVATE -DTEST_MOTION_PLANNER)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(test_plan_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(test_motion_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(p_controller
+target_link_libraries(test_plan_executor
   workspace_parser
-  ${PlanExecutor_LINK_LIBS}
+  goto_solver
+  ${TestPlanExecutor_LINK_LIBS}
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(test_motion_planner
+  workspace_parser
+  goto_solver
+  plan_generator
+  ${TestMotionPlaner_LINK_LIBS}
   ${catkin_LIBRARIES}
 )
 

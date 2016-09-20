@@ -1,7 +1,16 @@
 event ePlanCompletion : int;
 
-machine MotionPlannerMachine {
-	var planExecutor: machine;
+model fun RosInit(robotId: int)
+{
+
+}
+
+model fun StartExecutingPath(path: seq[int], robotId: int)
+{
+
+}
+
+machine StubMotionPlannerMachine {
 	
 	var trajs : seq[seq[int]];
 
@@ -12,16 +21,19 @@ machine MotionPlannerMachine {
 			traj += (1, 1);
 			traj += (2, 2);
 			traj += (3, 3);			
+			traj += (4, 7);			
+			traj += (5, 6);
 			trajs += (0, traj);
-			planExecutor = new PlanExecutorMachine(this);
 			goto SendCommandLoop;
 		}
 	}
 
 	state SendCommandLoop {
 		entry {
-			send planExecutor, eStartExecutingPlan, trajs[0];
+			StartExecutingPath(trajs[0], 0);
+			if(sizeof(trajs) > 0) {
+				goto SendCommandLoop;
+			}
 		}
-		on ePlanCompletion goto SendCommandLoop;
 	}
 }

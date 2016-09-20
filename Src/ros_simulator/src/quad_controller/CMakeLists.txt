@@ -123,9 +123,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(quad_controller
-#   src/${PROJECT_NAME}/quad_controller.cpp
-# )
+add_library(goto_solver src/goto_solver.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -144,10 +142,14 @@ add_dependencies(gen_trajectory ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXP
 add_dependencies(test_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
+target_link_libraries(goto_solver
+  ${catkin_LIBRARIES}
+)
 target_link_libraries(quad_trajectory
   ${catkin_LIBRARIES}
 )
 target_link_libraries(gen_trajectory
+  goto_solver
   ${catkin_LIBRARIES}
 )
 target_link_libraries(test_control

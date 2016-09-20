@@ -1,5 +1,6 @@
 #include "TestDriver.h"
 #include "WorkspaceParser.h"
+#include "Compat.h"
 
 WorkspaceInfo* WORKSPACE_INFO;
 
@@ -216,8 +217,9 @@ int main(int argc, char *argv[])
 
         if (cooperative)
         {
-			HANDLE* threadsArr = (HANDLE*)PrtMalloc(threads*sizeof(HANDLE));
             // test some multithreading across state machines.
+#if defined(PRT_PLAT_WINUSER)
+			HANDLE* threadsArr = (HANDLE*)PrtMalloc(threads*sizeof(HANDLE));
             for (int i = 0; i < threads; i++)
             {
                 DWORD threadId;
@@ -225,8 +227,21 @@ int main(int argc, char *argv[])
             }
 			WaitForMultipleObjects(threads, threadsArr, TRUE, INFINITE);
 			PrtFree(threadsArr);
+#elif defined(PRT_PLAT_LINUXUSER)
+typedef void *(*start_routine) (void *);
+            pthread_t tid[threads];
+            for (int i = 0; i < threads; i++)
+            {
+                pthread_create(&tid[i], NULL, (start_routine)RunToIdle, (void*)process);
+            }
+            for (int i = 0; i < threads; i++)
+            {
+                pthread_join(tid[i], NULL);
+            }
+#else
+#error Invalid Platform
+#endif
         }
-
 		PrtFreeValue(payload);
 		PrtStopProcess(process);
 	}
