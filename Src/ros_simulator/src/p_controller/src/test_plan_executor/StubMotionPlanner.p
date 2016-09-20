@@ -1,4 +1,4 @@
-include "..\..\..\..\SoftwareStack\MotionPlanExecutor\MotionPlanExecutor.p"
+include "..\..\..\..\..\SoftwareStack\MotionPlanExecutor\MotionPlanExecutor.p"
 
 event ePlanCompletion : int;
 
@@ -17,7 +17,7 @@ machine StubMotionPlannerMachine {
 			traj += (4, 7);			
 			traj += (5, 6);
 			trajs += (0, traj);
-			planExecutor = new PlanExecutorMachine(this);
+			planExecutor = new PlanExecutorMachine(this, 0);
 			goto SendCommandLoop;
 		}
 	}

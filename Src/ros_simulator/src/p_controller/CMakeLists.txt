@@ -141,6 +141,7 @@ set(P_LIB_LINK_PATH ${P_BUILT_LIB_PATH}/lib)
 
 set(test_plan_executor_dir src/test_plan_executor)
 get_filename_component(test_motion_planner_dir src/TestMotionPlanner REALPATH)
+message(STATUS "===================================================" ${test_motion_planner_dir})
 
 p_compile(TestPlanExecutor src/test_plan_executor/StubMotionPlanner.p)
 
