@@ -35,7 +35,7 @@ void ReadMotionPrimitives(MotionPrimitive_Vector &primitives)
   	WS_Coord pos_max;
 
   	ifp.open("primitive.txt");
-
+	
   	if (ifp.is_open())
   	{
     		while (getline(ifp, line))
@@ -119,6 +119,10 @@ void ReadMotionPrimitives(MotionPrimitive_Vector &primitives)
     		}
     		ifp.close();
   	}
+	else
+	{
+		printf("Error: Failed to open Primitives.txt");
+	}
 }
 
 

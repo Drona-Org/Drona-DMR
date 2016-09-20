@@ -12,18 +12,6 @@ char* GetMachineName(PRT_MACHINEINST *context)
 	return name;
 }
 
-VOID CALLBACK Callback(LPVOID arg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
-{
-	//printf("Entering Timer Callback\n");	
-	PRT_MACHINEINST *context = (PRT_MACHINEINST *)arg;
-	TimerContext *timerContext = (TimerContext *)context->extContext;
-
-	PRT_VALUE *ev = PrtMkEventValue(P_EVENT_TIMEOUT);
-	PRT_MACHINEINST* clientMachine = PrtGetMachine(context->process, timerContext->client);
-	PrtSend(context, clientMachine, ev, context->id, PRT_FALSE);
-	PrtFreeValue(ev);
-}
-
 
 PRT_VALUE *P_FUN_StartTimer_IMPL(PRT_MACHINEINST *context)
 {
@@ -41,10 +29,13 @@ PRT_VALUE *P_FUN_StartTimer_IMPL(PRT_MACHINEINST *context)
 	TimerContext *timerContext = (TimerContext *)timerMachine->extContext;
 
 	int timeout_value = p_tmp_frame.locals[1]->valueUnion.nt;
-	liDueTime.QuadPart = -10000 * timeout_value;
-	success = SetWaitableTimer(timerContext->timer, &liDueTime, 0, Callback, timerMachine, FALSE);
-	timerContext->started = success;
-	PrtAssert(success, "SetWaitableTimer failed");
+	
+	Sleep(timeout_value);
+
+	PRT_VALUE *ev = PrtMkEventValue(P_EVENT_TIMEOUT);
+	PRT_MACHINEINST* clientMachine = PrtGetMachine(context->process, timerContext->client);
+	PrtSend(context, clientMachine, ev, context->id, PRT_FALSE);
+	PrtFreeValue(ev);
 
 	// free the frame
 	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
@@ -66,7 +57,7 @@ PRT_VALUE *P_FUN_CancelTimer_IMPL(PRT_MACHINEINST *context)
 	PRT_MACHINEINST* timerMachine = PrtGetMachine(context->process, timerMachineId);
 	TimerContext *timerContext = (TimerContext *)timerMachine->extContext;
 
-	timerContext->started = FALSE;
+	timerContext->started = PRT_FALSE;
 	success = CancelWaitableTimer(timerContext->timer);
 	if (success) {
 		ev = PrtMkEventValue(P_EVENT_CANCEL_SUCCESS);
@@ -98,9 +89,6 @@ void P_CTOR_Timer_IMPL(PRT_MACHINEINST *context, PRT_VALUE *value)
 {
 	TimerContext *timerContext = (TimerContext *)PrtMalloc(sizeof(TimerContext));
 	timerContext->client = PrtCloneValue(value);
-	timerContext->started = FALSE;
-	timerContext->timer = CreateWaitableTimer(NULL, TRUE, NULL);
-
-	PrtAssert(timerContext->timer != NULL, "CreateWaitableTimer failed");
+	timerContext->started = PRT_FALSE;
 	context->extContext = timerContext;
 }

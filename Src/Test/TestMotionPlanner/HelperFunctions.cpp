@@ -134,7 +134,9 @@ PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEI
 		avoidsArr[i] = avoid;
 	}
 
-	GenerateMotionPlanFor(*WORKSPACE_INFO, 19, 44, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, *avoidsArr, 1, output_seq_of_locations, &output_size);
+	//print the obstacles list
+	PrintObstaclesList(*WORKSPACE_INFO);
+	GenerateMotionPlanFor(*WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, *avoidsArr, sizeOfAvoids, output_seq_of_locations, &output_size);
 
 	PRT_VALUE* retPlan;
 	intType = PrtMkPrimitiveType(PRT_KIND_INT);
