@@ -153,6 +153,7 @@ add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPOR
 ## Specify libraries to link a library or executable target against
 target_link_libraries(p_controller
   workspace_parser
+  goto_solver
   ${PlanExecutor_LINK_LIBS}
   ${catkin_LIBRARIES}
 )

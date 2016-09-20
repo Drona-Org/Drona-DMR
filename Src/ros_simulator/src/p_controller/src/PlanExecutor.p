@@ -31,7 +31,7 @@ machine PlanExecutorMachine {
 
             StartExecutingPath(traj, robotId);
 
-            send motionplanner, ePlanCompletion, traj[sizeof(traj)];
+            send motionplanner, ePlanCompletion, traj[sizeof(traj) - 1];
         }
     }
 }
