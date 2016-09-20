@@ -139,22 +139,49 @@ set(P_BUILT_LIB_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/PrtUser
 set(P_LIB_INCLUDE_PATH ${P_BUILT_LIB_PATH}/include)
 set(P_LIB_LINK_PATH ${P_BUILT_LIB_PATH}/lib)
 
-p_compile(PlanExecutor src/PlanExecutor.p)
+set(test_plan_executor_dir src/test_plan_executor)
+get_filename_component(test_motion_planner_dir src/TestMotionPlanner REALPATH)
+
+p_compile(TestPlanExecutor src/test_plan_executor/StubMotionPlanner.p)
+
+p_compile(TestMotionPlaner ${test_motion_planner_dir}/TestDriver.p)
 
 ## Declare a C++ executable
-add_executable(p_controller ${PlanExecutor_GENERATED_SRCS} src/main.c src/ModelFunctions.cpp)
-set_property(TARGET p_controller PROPERTY C_STANDARD 99)
-target_include_directories(p_controller PRIVATE ${PlanExecutor_INCLUDE_DIRS})
+add_executable(test_plan_executor 
+  ${TestPlanExecutor_GENERATED_SRCS} 
+  ${test_plan_executor_dir}/tester.c 
+  ${test_plan_executor_dir}/Constructors.c 
+  src/ModelFunctions.cpp
+)
+set_property(TARGET test_plan_executor PROPERTY C_STANDARD 99)
+target_include_directories(test_plan_executor PRIVATE ${TestPlanExecutor_INCLUDE_DIRS})
+
+add_executable(test_motion_planner 
+  ${TestMotionPlaner_GENERATED_SRCS} 
+  ${test_motion_planner_dir}/tester.c 
+  ${test_motion_planner_dir}/Constructors.c 
+  src/ModelFunctions.cpp)
+set_property(TARGET test_motion_planner PROPERTY C_STANDARD 99)
+target_include_directories(test_motion_planner PRIVATE ${TestMotionPlaner_INCLUDE_DIRS})
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(test_plan_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(test_motion_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(p_controller
+target_link_libraries(test_plan_executor
   workspace_parser
   goto_solver
-  ${PlanExecutor_LINK_LIBS}
+  ${TestPlanExecutor_LINK_LIBS}
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(test_motion_planner
+  workspace_parser
+  goto_solver
+  plan_executor_model_fns
+  ${TestMotionPlaner_LINK_LIBS}
   ${catkin_LIBRARIES}
 )
 

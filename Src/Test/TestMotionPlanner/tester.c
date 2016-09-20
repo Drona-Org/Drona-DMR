@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
             for (int i = 0; i < threads; i++)
             {
                 DWORD threadId;
-                CreateThread(NULL, 16000, (LPTHREAD_START_ROUTINE)RunToIdle, process, 0, &threadId);
+                HANDLE t = CreateThread(NULL, 16000, (LPTHREAD_START_ROUTINE)RunToIdle, process, 0, &threadId);
             }
             WaitForSingleObject(threadsTerminated, INFINITE);
         }

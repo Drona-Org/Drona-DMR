@@ -1,6 +1,8 @@
+include "..\..\..\..\SoftwareStack\MotionPlanExecutor\MotionPlanExecutor.p"
+
 event ePlanCompletion : int;
 
-machine MotionPlannerMachine {
+machine StubMotionPlannerMachine {
 	var planExecutor: machine;
 	
 	var trajs : seq[seq[int]];
