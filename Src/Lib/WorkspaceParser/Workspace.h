@@ -1,8 +1,5 @@
 #ifndef DRONA_WORKSPACE_H
 #define DRONA_WORKSPACE_H
-#include<stdio.h>
-#include<iostream>
-using namespace std;
 
 #ifdef __cplusplus
 extern "C"{
@@ -50,7 +47,11 @@ inline int ConvertCoordToGridLocation(WS_Coord coord, WS_Dimension dim)
 	if (coord.x < 0 || coord.x >= dim.x_dim ||
 		coord.y < 0 || coord.y >= dim.y_dim ||
 		coord.z < 0 || coord.z >= dim.z_dim)
-		cout << "Error: Invalid coordinate" << endl;
+	{
+		printf("Error: Invalid coordinate\n");
+	}
+		
+
 	g_loc = coord.x * dim.y_dim * dim.z_dim + coord.y * dim.z_dim + coord.z;
 	return g_loc;
 }
@@ -59,7 +60,10 @@ inline WS_Coord ExtractCoordFromGridLocation(int loc, WS_Dimension dim)
 {
 	WS_Coord coord;
 	if (loc < 0 || loc >= (dim.x_dim * dim.y_dim *dim.z_dim))
-		cout << "Error: Invalid location" << endl;
+	{
+		printf("Error: Invalid location\n");
+	}
+		
 	coord.x = loc / (dim.y_dim * dim.z_dim);
 	coord.y = (loc % (dim.y_dim * dim.z_dim)) / dim.z_dim;
 	coord.z = loc % dim.z_dim;

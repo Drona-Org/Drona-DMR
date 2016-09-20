@@ -159,7 +159,7 @@
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="linker.c" />
     <ClCompile Include="TestDriver.c" />
-    <ClCompile Include="tester.cpp" />
+    <ClCompile Include="tester.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linker.h" />
