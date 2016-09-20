@@ -4,6 +4,7 @@
 #ifdef PRT_PLAT_LINUXUSER
 #define _stricmp strcasecmp
 #define LPVOID void*
+typedef void *(*start_routine) (void *);
 #endif
 
 WorkspaceInfo* WORKSPACE_INFO;
@@ -223,7 +224,7 @@ int main(int argc, char *argv[])
             pthread_t tid[threads];
             for (int i = 0; i < threads; i++)
             {
-                pthread_create(&tid[i], NULL, RunToIdle, (void*)process);
+                pthread_create(&tid[i], NULL, (start_routine)RunToIdle, (void*)process);
             }
             for (int i = 0; i < threads; i++)
             {

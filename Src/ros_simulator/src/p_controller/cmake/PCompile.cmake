@@ -20,7 +20,7 @@ function (p_compile pproject p_src)
 	add_custom_command(
 		OUTPUT ${output_c_srcs}
 	    COMMAND ${CMAKE_COMMAND} -E make_directory ${output_dir}
-		COMMAND ${p_compile_cmd} /outputDir:${output_dir} ${p_src}
+		COMMAND ${p_compile_cmd} -outputDir:${output_dir} ${p_src}
 		DEPENDS ${p_src}
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 		COMMENT "Compiling P ${p_src}..."

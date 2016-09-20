@@ -1,4 +1,4 @@
-#include "PlanExecutor.h"
+#include "StubMotionPlanner.h"
 #define _stricmp strcasecmp
 
 void ErrorHandler(PRT_STATUS status, PRT_MACHINEINST *ptr)
@@ -198,7 +198,7 @@ int main(int argc, char *argv[])
 
         PrtUpdateAssertFn(MyAssert);
 
-        PrtMkMachine(process, P_MACHINE_MotionPlannerMachine, payload);
+        PrtMkMachine(process, P_MACHINE_StubMotionPlannerMachine, payload);
 
         if (cooperative)
         {
@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
             pthread_t tid[threads];
             for (int i = 0; i < threads; i++)
             {
-                pthread_create(&tid[i], NULL, RunToIdle, (void*)process);
+                pthread_create(&tid[i], NULL, (void (*)(void *))RunToIdle, (void*)process);
             }
             for (int i = 0; i < threads; i++)
             {

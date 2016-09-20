@@ -1,9 +1,16 @@
-include "..\..\..\..\..\SoftwareStack\MotionPlanExecutor\MotionPlanExecutor.p"
-
 event ePlanCompletion : int;
 
+model fun RosInit(robotId: int)
+{
+
+}
+
+model fun StartExecutingPath(path: seq[int], robotId: int)
+{
+
+}
+
 machine StubMotionPlannerMachine {
-	var planExecutor: machine;
 	
 	var trajs : seq[seq[int]];
 
@@ -17,17 +24,16 @@ machine StubMotionPlannerMachine {
 			traj += (4, 7);			
 			traj += (5, 6);
 			trajs += (0, traj);
-			planExecutor = new PlanExecutorMachine(this, 0);
 			goto SendCommandLoop;
 		}
 	}
 
 	state SendCommandLoop {
 		entry {
-			send planExecutor, eStartExecutingPlan, trajs[0];
-			trajs -= 0;
+			StartExecutingPath(trajs[0], 0);
+			if(sizeof(trajs) > 0) {
+				goto SendCommandLoop;
+			}
 		}
-		on ePlanCompletion goto SendCommandLoop;
-		ignore ePlanExecutorMachine;
 	}
 }

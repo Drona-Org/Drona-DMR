@@ -141,7 +141,6 @@ set(P_LIB_LINK_PATH ${P_BUILT_LIB_PATH}/lib)
 
 set(test_plan_executor_dir src/test_plan_executor)
 get_filename_component(test_motion_planner_dir src/TestMotionPlanner REALPATH)
-message(STATUS "===================================================" ${test_motion_planner_dir})
 
 p_compile(TestPlanExecutor src/test_plan_executor/StubMotionPlanner.p)
 
@@ -156,14 +155,18 @@ add_executable(test_plan_executor
 )
 set_property(TARGET test_plan_executor PROPERTY C_STANDARD 99)
 target_include_directories(test_plan_executor PRIVATE ${TestPlanExecutor_INCLUDE_DIRS})
+target_compile_definitions(test_plan_executor PRIVATE -DTEST_PLAN_EXECUTOR)
 
 add_executable(test_motion_planner 
   ${TestMotionPlaner_GENERATED_SRCS} 
   ${test_motion_planner_dir}/tester.c 
-  ${test_motion_planner_dir}/Constructors.c 
-  src/ModelFunctions.cpp)
+  ${test_motion_planner_dir}/Constructors.c
+  ${test_motion_planner_dir}/../../SoftwareStack/Utilities/Timer/Timer.c
+  src/ModelFunctions.cpp
+)
 set_property(TARGET test_motion_planner PROPERTY C_STANDARD 99)
 target_include_directories(test_motion_planner PRIVATE ${TestMotionPlaner_INCLUDE_DIRS})
+target_compile_definitions(test_motion_planner PRIVATE -DTEST_MOTION_PLANNER)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -181,7 +184,6 @@ target_link_libraries(test_plan_executor
 target_link_libraries(test_motion_planner
   workspace_parser
   goto_solver
-  plan_executor_model_fns
   ${TestMotionPlaner_LINK_LIBS}
   ${catkin_LIBRARIES}
 )
