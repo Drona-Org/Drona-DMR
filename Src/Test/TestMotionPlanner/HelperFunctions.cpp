@@ -1,7 +1,6 @@
 #include "TestDriver.h"
 #include "Workspace.h"
 #include "PlanGenerator.h"
-#include "Compat.h"
 
 PRT_VALUE *P_FUN_Sleep_IMPL(PRT_MACHINEINST *context) {
 	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
@@ -14,24 +13,24 @@ PRT_VALUE *P_FUN_Sleep_IMPL(PRT_MACHINEINST *context) {
 	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
 	//create a tuple value
 	time = PrtPrimGetInt(p_tmp_frame.locals[0]);
-	SleepMs(time * 500);
+	SleepEx(time * 500, TRUE);
 	//remm to free the frame
 	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
 	return p_tmp_ret;
 }
 
-// PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context) {
-// 	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
-// 	PRT_VALUE *p_tmp_ret = NULL;
-// 	PRT_FUNSTACK_INFO p_tmp_frame;
-// 	PRT_VALUE *p_tmp_params;
-// 	int time = 0;
-// 	p_tmp_params = NULL;
-// 	//remm to pop frame
-// 	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
-// 	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
-// 	return NULL;
-// }
+PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context) {
+	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
+	PRT_VALUE *p_tmp_ret = NULL;
+	PRT_FUNSTACK_INFO p_tmp_frame;
+	PRT_VALUE *p_tmp_params;
+	int time = 0;
+	p_tmp_params = NULL;
+	//remm to pop frame
+	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
+	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
+	return NULL;
+}
 
 PRT_VALUE *P_FUN_GetNumOfRobots_IMPL(PRT_MACHINEINST *context) {
 	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
