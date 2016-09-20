@@ -117,7 +117,7 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
 				WS_Coord coord;
       			coord = ExtractCoordFromGridLocation(avoidPositions[count1].PositionsOccupied[count2], dimension);
       			cout << "x= " << coord.x << " " << "y = " << coord.y << endl;
-      			tmp_pos.x = coord.x; tmp_pos.y = coord.y;
+				SetCoordTo(&tmp_pos, coord);
       			//avoidTrajs.resize(count2 + 1);
       			avoidTrajs[count2].push_back(tmp_pos);
     		}

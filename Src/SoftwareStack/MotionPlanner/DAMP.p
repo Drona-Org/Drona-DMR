@@ -54,6 +54,7 @@ machine DistributedMotionPlannerMachine
 	state WaitForRequests {
 		entry {
 			//reset the currentTraj variable to current location
+			currentTrajV = default(TimedTrajType);
 			currentTrajV += (0, (0, currentLocationV));
 		}
 		//on receiving a new task update the local task variable and goto GetCurrentStateOfAllRobots
@@ -165,10 +166,11 @@ machine DistributedMotionPlannerMachine
 		{
 			traj = ConvertTimedTrajToTraj(avoid[allRobotsMPV[index]], startingTimePeriod);
 			convertedAvoids += (0, traj);
+			assert sizeof(traj) > 0;
 		    index = index + 1;
 		}
 
-
+		assert sizeof(convertedAvoids) > 0;
 		traj = PlanGenerator(currentLocationV, goal, convertedAvoids);
 		currentTrajV = default(TimedTrajType);
 		index = 0;

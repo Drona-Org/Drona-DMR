@@ -82,6 +82,14 @@ inline void PrintObstaclesList(WorkspaceInfo WS)
 	}
 	printf("\n");
 }
+
+inline void SetCoordTo(WS_Coord* _old, WS_Coord _new)
+{
+	_old->x = _new.x;
+	_old->y = _new.y;
+	_old->z = _new.z;
+}
+
 extern WorkspaceInfo* WORKSPACE_INFO;
 #ifdef __cplusplus
 }

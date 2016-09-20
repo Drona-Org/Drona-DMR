@@ -2734,7 +2734,7 @@
         P_STATE_DistributedMotionPlannerMachine_GetCurrentStateOfAllRobots,
         P_MACHINE_DistributedMotionPlannerMachine,
         P_EVENT_eCurrentTraj,
-        P_FUN_DistributedMotionPlannerMachine_ANON6,
+        P_FUN_DistributedMotionPlannerMachine_ANON5,
         0U,
         NULL
     },
@@ -2744,7 +2744,7 @@
         P_STATE_DistributedMotionPlannerMachine_GetCurrentStateOfAllRobots,
         P_MACHINE_DistributedMotionPlannerMachine,
         P_EVENT_eRequestCurrentTraj,
-        P_FUN_DistributedMotionPlannerMachine_ANON3,
+        P_FUN_DistributedMotionPlannerMachine_ANON2,
         0U,
         NULL
     }
@@ -2757,7 +2757,7 @@
         P_STATE_DistributedMotionPlannerMachine_WaitForPlanCompletionOrCancellation,
         P_MACHINE_DistributedMotionPlannerMachine,
         P_EVENT_ePlanCompletion,
-        P_FUN_DistributedMotionPlannerMachine_ANON7,
+        P_FUN_DistributedMotionPlannerMachine_ANON6,
         0U,
         NULL
     },
@@ -2780,7 +2780,7 @@
         P_STATE_DistributedMotionPlannerMachine_WaitForRequests,
         P_MACHINE_DistributedMotionPlannerMachine,
         P_EVENT_eRequestCurrentTraj,
-        P_FUN_DistributedMotionPlannerMachine_ANON5,
+        P_FUN_DistributedMotionPlannerMachine_ANON4,
         0U,
         NULL
     }
@@ -2994,7 +2994,15 @@
         PrtFree(p_tmp_stmt_0->valueUnion.tuple->values);
         PrtFree(p_tmp_stmt_0->valueUnion.tuple);
         PrtFree(p_tmp_stmt_0);
+        if (!P_BOOL_EXPR(P_EXPR_3(PrtMkBoolValue(PrtPrimGetInt(p_tmp_expr_2) > PrtPrimGetInt(p_tmp_expr_1)), PRT_TRUE, PrtMkIntValue(PrtSeqSizeOf(p_tmp_expr_0)), PRT_TRUE, &P_GEND_VALUE_15, PRT_FALSE, p_tmp_frame.locals[7U], PRT_FALSE), PRT_TRUE))
+        {
+          PrtHandleError(PRT_STATUS_ASSERT, p_tmp_mach_priv);
+        }
         P_STMT_0(PrtSetLocalVarEx(p_tmp_frame.locals, 6U, p_tmp_stmt_0, !PRT_TRUE), P_EXPR_2(PrtMkIntValue(PrtPrimGetInt(p_tmp_expr_0) + PrtPrimGetInt(p_tmp_expr_1)), PRT_TRUE, &P_GEND_VALUE_16, PRT_FALSE, p_tmp_frame.locals[6U], PRT_FALSE), PRT_FALSE);
+      }
+      if (!P_BOOL_EXPR(P_EXPR_3(PrtMkBoolValue(PrtPrimGetInt(p_tmp_expr_2) > PrtPrimGetInt(p_tmp_expr_1)), PRT_TRUE, PrtMkIntValue(PrtSeqSizeOf(p_tmp_expr_0)), PRT_TRUE, &P_GEND_VALUE_15, PRT_FALSE, p_tmp_frame.locals[5U], PRT_FALSE), PRT_TRUE))
+      {
+        PrtHandleError(PRT_STATUS_ASSERT, p_tmp_mach_priv);
       }
       P_EXPR_3(PrtPushNewFrame(p_tmp_mach_priv, 29U, PRT_FUN_PARAM_CLONE, p_tmp_expr_1, PRT_FUN_PARAM_CLONE, p_tmp_expr_2, PRT_FUN_PARAM_CLONE, p_tmp_expr_0), PRT_FALSE, p_tmp_frame.locals[0U], PRT_FALSE, p_tmp_mach_priv->varValues[P_VAR_DistributedMotionPlannerMachine_currentLocationV], PRT_FALSE, p_tmp_frame.locals[5U], PRT_FALSE);
       L10:
@@ -3538,33 +3546,6 @@
   static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON2_IMPL(PRT_MACHINEINST *context)
   {
     {
-      PRT_FUNSTACK_INFO p_tmp_frame;
-      PRT_MACHINEINST_PRIV *p_tmp_mach_priv;
-      PRT_VALUE *p_tmp_expr_0;
-      PRT_VALUE *p_tmp_expr_1;
-      PRT_VALUE *p_tmp_expr_2;
-      PRT_VALUE *p_tmp_expr_3;
-      PRT_VALUE *p_tmp_ret;
-      PRT_VALUE *p_tmp_stmt_0;
-      PRT_VALUE *p_tmp_tuple;
-      p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
-      p_tmp_ret = NULL;
-      PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
-      P_STMT_0(PrtSeqInsertEx(p_tmp_mach_priv->varValues[P_VAR_DistributedMotionPlannerMachine_currentTrajV], PrtTupleGetNC(p_tmp_stmt_0, 0U), PrtTupleGetNC(p_tmp_stmt_0, 1U), PRT_FALSE), P_EXPR_3(P_TUPLE_1(&P_GEND_TYPE_87, p_tmp_expr_1, p_tmp_expr_2), PRT_TRUE, P_TUPLE_1(&P_GEND_TYPE_53, p_tmp_expr_1, p_tmp_expr_0), PRT_TRUE, &P_GEND_VALUE_15, PRT_FALSE, p_tmp_mach_priv->varValues[P_VAR_DistributedMotionPlannerMachine_currentLocationV], PRT_FALSE), PRT_FALSE);
-      PrtFree(PrtTupleGetNC(p_tmp_stmt_0, 0U));
-      PrtFree(p_tmp_stmt_0->valueUnion.tuple->values);
-      PrtFree(p_tmp_stmt_0->valueUnion.tuple);
-      PrtFree(p_tmp_stmt_0);
-      goto P_EXIT_FUN;
-      P_EXIT_FUN:
-      PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
-      return p_tmp_ret;
-    }
-  }
-
-  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON3_IMPL(PRT_MACHINEINST *context)
-  {
-    {
       PRT_BOOLEAN p_tmp_bool;
       PRT_FUNSTACK_INFO p_tmp_frame;
       PRT_MACHINEINST_PRIV *p_tmp_mach_priv;
@@ -3600,7 +3581,7 @@
     }
   }
 
-  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON4_IMPL(PRT_MACHINEINST *context)
+  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON3_IMPL(PRT_MACHINEINST *context)
   {
     {
       PRT_FUNSTACK_INFO p_tmp_frame;
@@ -3616,7 +3597,7 @@
     }
   }
 
-  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON5_IMPL(PRT_MACHINEINST *context)
+  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON4_IMPL(PRT_MACHINEINST *context)
   {
     {
       PRT_FUNSTACK_INFO p_tmp_frame;
@@ -3640,7 +3621,7 @@
     }
   }
 
-  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON6_IMPL(PRT_MACHINEINST *context)
+  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON5_IMPL(PRT_MACHINEINST *context)
   {
     {
       PRT_BOOLEAN p_tmp_bool;
@@ -3674,7 +3655,7 @@
     }
   }
 
-  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON7_IMPL(PRT_MACHINEINST *context)
+  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON6_IMPL(PRT_MACHINEINST *context)
   {
     {
       PRT_FUNSTACK_INFO p_tmp_frame;
@@ -3688,6 +3669,34 @@
       P_STMT_0(PrtSetGlobalVarEx(p_tmp_mach_priv, P_VAR_DistributedMotionPlannerMachine_currentLocationV, p_tmp_stmt_0, !PRT_FALSE), P_EXPR_0(p_tmp_frame.locals[0U], PRT_FALSE), PRT_FALSE);
       P_STMT_0(PrtGoto(p_tmp_mach_priv, P_STATE_DistributedMotionPlannerMachine_WaitForRequests, p_tmp_stmt_0), &P_GEND_VALUE_23, PRT_FALSE);
       goto P_EXIT_FUN;
+      goto P_EXIT_FUN;
+      P_EXIT_FUN:
+      PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
+      return p_tmp_ret;
+    }
+  }
+
+  static PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_ANON7_IMPL(PRT_MACHINEINST *context)
+  {
+    {
+      PRT_FUNSTACK_INFO p_tmp_frame;
+      PRT_MACHINEINST_PRIV *p_tmp_mach_priv;
+      PRT_VALUE *p_tmp_expr_0;
+      PRT_VALUE *p_tmp_expr_1;
+      PRT_VALUE *p_tmp_expr_2;
+      PRT_VALUE *p_tmp_expr_3;
+      PRT_VALUE *p_tmp_ret;
+      PRT_VALUE *p_tmp_stmt_0;
+      PRT_VALUE *p_tmp_tuple;
+      p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
+      p_tmp_ret = NULL;
+      PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
+      P_STMT_0(PrtSetGlobalVarEx(p_tmp_mach_priv, P_VAR_DistributedMotionPlannerMachine_currentTrajV, p_tmp_stmt_0, !PRT_TRUE), P_EXPR_0(PrtMkDefaultValue(&P_GEND_TYPE_75), PRT_TRUE), PRT_FALSE);
+      P_STMT_0(PrtSeqInsertEx(p_tmp_mach_priv->varValues[P_VAR_DistributedMotionPlannerMachine_currentTrajV], PrtTupleGetNC(p_tmp_stmt_0, 0U), PrtTupleGetNC(p_tmp_stmt_0, 1U), PRT_FALSE), P_EXPR_3(P_TUPLE_1(&P_GEND_TYPE_87, p_tmp_expr_1, p_tmp_expr_2), PRT_TRUE, P_TUPLE_1(&P_GEND_TYPE_53, p_tmp_expr_1, p_tmp_expr_0), PRT_TRUE, &P_GEND_VALUE_15, PRT_FALSE, p_tmp_mach_priv->varValues[P_VAR_DistributedMotionPlannerMachine_currentLocationV], PRT_FALSE), PRT_FALSE);
+      PrtFree(PrtTupleGetNC(p_tmp_stmt_0, 0U));
+      PrtFree(p_tmp_stmt_0->valueUnion.tuple->values);
+      PrtFree(p_tmp_stmt_0->valueUnion.tuple);
+      PrtFree(p_tmp_stmt_0);
       goto P_EXIT_FUN;
       P_EXIT_FUN:
       PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
@@ -6344,7 +6353,7 @@
         NULL,
         NULL,
         P_FUN_DistributedMotionPlannerMachine_ANON10,
-        P_FUN_DistributedMotionPlannerMachine_ANON4,
+        P_FUN_DistributedMotionPlannerMachine_ANON3,
         0U,
         NULL
     },
@@ -6360,8 +6369,8 @@
         P_GEND_EVENTSET_eDistMotionPlanMachine,
         NULL,
         P_GEND_DOS_DistributedMotionPlannerMachine_GetAllDistMotionPlanners,
-        P_FUN_DistributedMotionPlannerMachine_ANON4,
-        P_FUN_DistributedMotionPlannerMachine_ANON4,
+        P_FUN_DistributedMotionPlannerMachine_ANON3,
+        P_FUN_DistributedMotionPlannerMachine_ANON3,
         0U,
         NULL
     },
@@ -6378,7 +6387,7 @@
         NULL,
         P_GEND_DOS_DistributedMotionPlannerMachine_GetCurrentStateOfAllRobots,
         P_FUN_DistributedMotionPlannerMachine_ANON9,
-        P_FUN_DistributedMotionPlannerMachine_ANON4,
+        P_FUN_DistributedMotionPlannerMachine_ANON3,
         0U,
         NULL
     },
@@ -6395,7 +6404,7 @@
         NULL,
         NULL,
         P_FUN_DistributedMotionPlannerMachine_ANON8,
-        P_FUN_DistributedMotionPlannerMachine_ANON4,
+        P_FUN_DistributedMotionPlannerMachine_ANON3,
         0U,
         NULL
     },
@@ -6411,8 +6420,8 @@
         P_GEND_EVENTSET_ePlanCompletioneRequestCurrentTraj,
         NULL,
         P_GEND_DOS_DistributedMotionPlannerMachine_WaitForPlanCompletionOrCancellation,
-        P_FUN_DistributedMotionPlannerMachine_ANON4,
-        P_FUN_DistributedMotionPlannerMachine_ANON4,
+        P_FUN_DistributedMotionPlannerMachine_ANON3,
+        P_FUN_DistributedMotionPlannerMachine_ANON3,
         0U,
         NULL
     },
@@ -6428,8 +6437,8 @@
         P_GEND_EVENTSET_eRequestCurrentTraj,
         P_GEND_TRANS_DistributedMotionPlannerMachine_WaitForRequests,
         P_GEND_DOS_DistributedMotionPlannerMachine_WaitForRequests,
-        P_FUN_DistributedMotionPlannerMachine_ANON2,
-        P_FUN_DistributedMotionPlannerMachine_ANON4,
+        P_FUN_DistributedMotionPlannerMachine_ANON7,
+        P_FUN_DistributedMotionPlannerMachine_ANON3,
         0U,
         NULL
     }

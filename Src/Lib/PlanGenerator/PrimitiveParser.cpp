@@ -14,6 +14,7 @@ This file is used for parsing the inputs to complan.
 #include <math.h>
 #include <stdlib.h>
 #include "MotionPrimitives.h"
+#include <Windows.h>
 using namespace std;
 
 void ReadMotionPrimitives(MotionPrimitive_Vector &primitives)
@@ -34,8 +35,12 @@ void ReadMotionPrimitives(MotionPrimitive_Vector &primitives)
   	WS_Coord pos_min;
   	WS_Coord pos_max;
 
+	char buff[FILENAME_MAX];
+	GetCurrentDirectory(FILENAME_MAX, buff);
+	printf("%s", buff);
+
   	ifp.open("primitive.txt");
-	
+
   	if (ifp.is_open())
   	{
     		while (getline(ifp, line))
@@ -119,10 +124,6 @@ void ReadMotionPrimitives(MotionPrimitive_Vector &primitives)
     		}
     		ifp.close();
   	}
-	else
-	{
-		printf("Error: Failed to open Primitives.txt");
-	}
 }
 
 
