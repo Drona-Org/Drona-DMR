@@ -1,15 +1,14 @@
 #include "Workspace.h"
-
-#if defined(TEST_PLAN_EXECUTOR)
-#include "StubMotionPlanner.h"
-#elif defined(TEST_MOTION_PLANNER)
-#include "TestDriver.h"
-#else
-#endif
+#include "linker.h"
 
 #include <Eigen/Dense>
 
-WS_Dimension dim = {4, 4, 1};
+#ifdef __cplusplus
+extern "C" {
+PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context);
+PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context);
+}
+#endif
 
 PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
 {
@@ -31,7 +30,7 @@ PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
 static Eigen::Vector3i ReadVectorCoord(PRT_VALUE* trajSeq, PRT_UINT32 i)
 {
 	int loc = (int)PrtPrimGetInt(PrtSeqGetNCIntIndex(trajSeq, i));
-	WS_Coord coord = ExtractCoordFromGridLocation(loc, dim);
+	WS_Coord coord = ExtractCoordFromGridLocation(loc, WORKSPACE_INFO->dimension);
 	return Eigen::Vector3i(coord.x, coord.y, coord.z);
 }
 

@@ -160,7 +160,6 @@ target_include_directories(test_plan_executor PRIVATE
   ../../../Lib/Compat
   ${TestPlanExecutor_INCLUDE_DIRS}
 )
-target_compile_definitions(test_plan_executor PRIVATE -DTEST_PLAN_EXECUTOR)
 
 add_executable(test_motion_planner 
   ${TestMotionPlaner_GENERATED_SRCS} 
@@ -175,7 +174,6 @@ target_include_directories(test_motion_planner PRIVATE
   ../../../Lib/Compat
   ${TestMotionPlaner_INCLUDE_DIRS}
 )
-target_compile_definitions(test_motion_planner PRIVATE -DTEST_MOTION_PLANNER)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
