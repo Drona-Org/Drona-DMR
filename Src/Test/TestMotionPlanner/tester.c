@@ -1,11 +1,6 @@
 #include "TestDriver.h"
 #include "WorkspaceParser.h"
-
-#ifdef PRT_PLAT_LINUXUSER
-#define _stricmp strcasecmp
-#define LPVOID void*
-typedef void *(*start_routine) (void *);
-#endif
+#include "Compat.h"
 
 WorkspaceInfo* WORKSPACE_INFO;
 
@@ -233,6 +228,7 @@ int main(int argc, char *argv[])
 			WaitForMultipleObjects(threads, threadsArr, TRUE, INFINITE);
 			PrtFree(threadsArr);
 #elif defined(PRT_PLAT_LINUXUSER)
+typedef void *(*start_routine) (void *);
             pthread_t tid[threads];
             for (int i = 0; i < threads; i++)
             {

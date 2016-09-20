@@ -133,6 +133,8 @@ include_directories(
 ## either from message generation or dynamic reconfigure
 # add_dependencies(p_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_subdirectory(../../../Lib/PlanGenerator ${CMAKE_BINARY_DIR}/PlanGenerator)
+
 ## Compile P source
 set(P_COMPILER_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/Debug/x86/Binaries/Pc.exe)
 set(P_BUILT_LIB_PATH ${CMAKE_SOURCE_DIR}/../../../Submodules/P/Bld/Drops/PrtUser)
@@ -154,18 +156,25 @@ add_executable(test_plan_executor
   src/ModelFunctions.cpp
 )
 set_property(TARGET test_plan_executor PROPERTY C_STANDARD 99)
-target_include_directories(test_plan_executor PRIVATE ${TestPlanExecutor_INCLUDE_DIRS})
+target_include_directories(test_plan_executor PRIVATE 
+  ../../../Lib/Compat
+  ${TestPlanExecutor_INCLUDE_DIRS}
+)
 target_compile_definitions(test_plan_executor PRIVATE -DTEST_PLAN_EXECUTOR)
 
 add_executable(test_motion_planner 
   ${TestMotionPlaner_GENERATED_SRCS} 
   ${test_motion_planner_dir}/tester.c 
   ${test_motion_planner_dir}/Constructors.c
+  ${test_motion_planner_dir}/HelperFunctions.cpp
   ${test_motion_planner_dir}/../../SoftwareStack/Utilities/Timer/Timer.c
   src/ModelFunctions.cpp
 )
 set_property(TARGET test_motion_planner PROPERTY C_STANDARD 99)
-target_include_directories(test_motion_planner PRIVATE ${TestMotionPlaner_INCLUDE_DIRS})
+target_include_directories(test_motion_planner PRIVATE 
+  ../../../Lib/Compat
+  ${TestMotionPlaner_INCLUDE_DIRS}
+)
 target_compile_definitions(test_motion_planner PRIVATE -DTEST_MOTION_PLANNER)
 
 ## Add cmake target dependencies of the executable
@@ -184,6 +193,7 @@ target_link_libraries(test_plan_executor
 target_link_libraries(test_motion_planner
   workspace_parser
   goto_solver
+  plan_generator
   ${TestMotionPlaner_LINK_LIBS}
   ${catkin_LIBRARIES}
 )
