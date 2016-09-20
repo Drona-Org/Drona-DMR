@@ -20,7 +20,7 @@ bool GenerateMotionPlanFor(
 	int obsSize,
 	AvoidPositions* avoidPositions,
 	int avoidSize,
-	int sequenceOfSteps[100],
+	int sequenceOfSteps[1000],
 	int* stepsSize
 	)
 {
@@ -32,7 +32,7 @@ bool GenerateMotionPlanFor(
 	WS_Coord coord;
 	WS_Coord pos_start, pos_end, pos_obs;
     int index;
-   	int **obsmap;
+   	int ***obsmap;
 
 	ReadMotionPrimitives(primitives);
 

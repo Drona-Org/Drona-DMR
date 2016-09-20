@@ -89,6 +89,11 @@ inline void SetCoordTo(WS_Coord* _old, WS_Coord _new)
 	_old->z = _new.z;
 }
 
+inline bool CoordAreEqual(WS_Coord w1, WS_Coord w2)
+{
+	return w1.x == w2.x && w1.y == w2.y && w1.z == w2.z;
+}
+
 extern WorkspaceInfo* WORKSPACE_INFO;
 #ifdef __cplusplus
 }

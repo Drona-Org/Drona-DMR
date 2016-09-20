@@ -51,7 +51,7 @@ class CAstar
   private:
   	MotionPrimitive_Vector primitives;
   	WS_Dimension dimension;
-  	int **obsmap;
+  	int ***obsmap;
   	WS_Coord start, end;
     vector <RobotPosition_Vector> avoidTrajs;
  
@@ -72,9 +72,9 @@ class CAstar
   	void SetSEpoint(WS_Coord , WS_Coord );
     void SetAvoidPositions(WS_Dimension, AvoidPositions* , int );
     void PrintAvoidPositions();
-  	int **GetObstacleMap();
+  	int ***GetObstacleMap();
     RobotPosition_Vector FindCollisionFreePath();
-    void printTrajectory(int ** , RobotPosition_Vector );
+    void printTrajectory(int *** , RobotPosition_Vector );
   	virtual ~CAstar();
 };
 
