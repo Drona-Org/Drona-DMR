@@ -18,110 +18,122 @@ using namespace std;
 
 void ReadMotionPrimitives(MotionPrimitive_Vector &primitives)
 {
-  	ifstream ifp;
+	ifstream ifp;
 
-  	string line;
-  	string str;
-  	int location, location1, location2, location3;
-  	WS_Coord pos_tmp;
-  	int xmin, ymin, xmax, ymax;
-  
-  	RobotState q_i, q_f;
-  	WS_Coord pos_f;
-  	string fls;
-  	float cost;
-  	RobotPosition_Vector swath;
-  	WS_Coord pos_min;
-  	WS_Coord pos_max;
+	string line;
+	string str, str1;
+	int location, location1, location2, location3, location4;
+	WS_Coord pos_tmp;
+	int xmin, ymin, xmax, ymax, zmax, zmin;
 
-  	ifp.open("primitive.txt");
-	
-  	if (ifp.is_open())
-  	{
-    		while (getline(ifp, line))
-    		{
-      			//cout << line << endl;
-      			location = line.find(":");
+	RobotState q_i, q_f;
+	WS_Coord pos_f;
+	string fls;
+	float cost;
+	RobotPosition_Vector swath;
+	WS_Coord pos_min;
+	WS_Coord pos_max;
 
-      			if (line.substr(0, location) == "q_i")
-      			{
-        			istringstream (line.substr(location+2, 1)) >> q_i.velocity;
-      			}
+	ifp.open("primitive.txt");
 
-      			if (line.substr(0, location) == "q_f")
-      			{
-				istringstream (line.substr(location+2, 1)) >> q_f.velocity;
-      			}
-
-      			if (line.substr(0, location) == "pos_f")
-      			{
-        			location1 = line.find('[');
-        			location2 = line.find(',');
-        			location3 = line.find(']');
-        			istringstream (line.substr(location1 + 1, location2 - location1 - 1)) >> pos_f.x;
-        			istringstream (line.substr(location2 + 2, location3 - location2 - 2)) >> pos_f.y;
-      			}
-
-      			if (line.substr(0, location) == "cost")
-      			{
-        			fls = line.substr(location + 1);
-        			istringstream (fls) >> cost;
-      			}
-
-      			if (line.substr(0, location) == "swath")
-      			{
-        			str = line.substr(location+1);
-        			xmin = 10000; ymin = 10000; xmax = -10000; ymax = -10000;
-        			location = str.find(';');
-        			while (location != -1)
-        			{
-          				location1 = str.find('[');
-          				location2 = str.find(',');
-          				location3 = str.find(']');
-          				istringstream (str.substr(location1 + 1, location2 - location1 - 1)) >> pos_tmp.x;
-          				istringstream (str.substr(location2 + 2, location3 - location2 - 2)) >> pos_tmp.y;
-          				swath.push_back(pos_tmp);
-          				if (pos_tmp.x < xmin) 
-            					xmin = pos_tmp.x;
-          				if (pos_tmp.y < ymin) 
-            					ymin = pos_tmp.y;
-          				if (pos_tmp.x > xmax) 
-            					xmax = pos_tmp.x;
-          				if (pos_tmp.y > ymax) 
-            					ymax = pos_tmp.y;
-          				str = str.substr(location+1);
-          				location = str.find(';');
-          				//cout << pos_tmp.x << "  ---  " << pos_tmp.y << endl;
-        			}
-        			location1 = str.find('[');
-        			location2 = str.find(',');
-        			location3 = str.find(']');
-        			istringstream (str.substr(location1 + 1, location2 - location1 - 1)) >> pos_tmp.x;
-        			istringstream (str.substr(location2 + 2, location3 - location2 - 2)) >> pos_tmp.y;
-        			//cout << pos_tmp.x << "  ---  " << pos_tmp.y << endl;
-        			swath.push_back(pos_tmp);
-        			if (pos_tmp.x < xmin) 
-          				xmin = pos_tmp.x;
-        			if (pos_tmp.y < ymin) 
-          				ymin = pos_tmp.y;
-        			if (pos_tmp.x > xmax) 
-          				xmax = pos_tmp.x;
-        			if (pos_tmp.y > ymax) 
-          				ymax = pos_tmp.y;
-        			pos_min.x = xmin;
-        			pos_min.y = ymin;
-        			pos_max.x = xmax;
-        			pos_max.y = ymax;        
-        			MotionPrimitive prim(q_i, q_f, pos_f, cost, swath, pos_min, pos_max);
-        			primitives.push_back(prim); 
-        			swath.erase (swath.begin(), swath.end());
-      			}
-    		}
-    		ifp.close();
-  	}
-	else
+	if (ifp.is_open())
 	{
-		printf("Error: Failed to open Primitives.txt");
+		while (getline(ifp, line))
+		{
+			location = line.find(":");
+
+			if (line.substr(0, location) == "q_i")
+			{
+				istringstream(line.substr(location + 2, 1)) >> q_i.velocity;
+			}
+
+			if (line.substr(0, location) == "q_f")
+			{
+				istringstream(line.substr(location + 2, 1)) >> q_f.velocity;
+			}
+
+			if (line.substr(0, location) == "pos_f")
+			{
+				location1 = line.find('[');
+				location2 = line.find(',');
+				location3 = line.find(']');
+				istringstream(line.substr(location1 + 1, location2 - location1 - 1)) >> pos_f.x;
+				str = line.substr(location2 + 2, location3 - location2 - 2);
+				location4 = str.find(',');
+				istringstream(str.substr(0, location4)) >> pos_f.y;
+				istringstream(str.substr(location4 + 2)) >> pos_f.z;
+			}
+
+			if (line.substr(0, location) == "cost")
+			{
+				fls = line.substr(location + 1);
+				istringstream(fls) >> cost;
+			}
+
+			if (line.substr(0, location) == "swath")
+			{
+				str = line.substr(location + 1);
+				xmin = 10000; ymin = 10000; zmin = 10000; xmax = -10000; ymax = -10000; zmax = -10000;
+				location = str.find(';');
+				while (location != -1)
+				{
+					location1 = str.find('[');
+					location2 = str.find(',');
+					location3 = str.find(']');
+					istringstream(str.substr(location1 + 1, location2 - location1 - 1)) >> pos_tmp.x;
+					str1 = str.substr(location2 + 2, location3 - location2 - 2);
+					location4 = str1.find(',');
+					istringstream(str1.substr(0, location4)) >> pos_tmp.y;
+					istringstream(str1.substr(location4 + 2)) >> pos_tmp.z;
+					swath.push_back(pos_tmp);
+					if (pos_tmp.x < xmin)
+						xmin = pos_tmp.x;
+					if (pos_tmp.y < ymin)
+						ymin = pos_tmp.y;
+					if (pos_tmp.z < zmin)
+						zmin = pos_tmp.z;
+					if (pos_tmp.x > xmax)
+						xmax = pos_tmp.x;
+					if (pos_tmp.y > ymax)
+						ymax = pos_tmp.y;
+					if (pos_tmp.z > zmax)
+						zmax = pos_tmp.z;
+					str = str.substr(location + 1);
+					location = str.find(';');
+				}
+				location1 = str.find('[');
+				location2 = str.find(',');
+				location3 = str.find(']');
+				istringstream(str.substr(location1 + 1, location2 - location1 - 1)) >> pos_tmp.x;
+				str1 = str.substr(location2 + 2, location3 - location2 - 2);
+				location4 = str1.find(',');
+				istringstream(str1.substr(0, location4)) >> pos_tmp.y;
+				istringstream(str1.substr(location4 + 2)) >> pos_tmp.z;
+				swath.push_back(pos_tmp);
+				if (pos_tmp.x < xmin)
+					xmin = pos_tmp.x;
+				if (pos_tmp.y < ymin)
+					ymin = pos_tmp.y;
+				if (pos_tmp.z < zmin)
+					zmin = pos_tmp.z;
+				if (pos_tmp.x > xmax)
+					xmax = pos_tmp.x;
+				if (pos_tmp.y > ymax)
+					ymax = pos_tmp.y;
+				if (pos_tmp.z > zmax)
+					zmax = pos_tmp.z;
+				pos_min.x = xmin;
+				pos_min.y = ymin;
+				pos_min.z = zmin;
+				pos_max.x = xmax;
+				pos_max.y = ymax;
+				pos_max.z = zmax;
+				MotionPrimitive prim(q_i, q_f, pos_f, cost, swath, pos_min, pos_max);
+				primitives.push_back(prim);
+				swath.erase(swath.begin(), swath.end());
+			}
+		}
+		ifp.close();
 	}
 }
 

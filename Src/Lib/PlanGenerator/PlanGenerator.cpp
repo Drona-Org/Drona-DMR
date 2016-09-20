@@ -10,6 +10,8 @@
 
 using namespace std;
 
+
+
 bool GenerateMotionPlanFor(
 	WorkspaceInfo WSInfo,
 	int startLocation,
@@ -18,7 +20,7 @@ bool GenerateMotionPlanFor(
 	int obsSize,
 	AvoidPositions* avoidPositions,
 	int avoidSize,
-	int sequenceOfSteps[100],
+	int sequenceOfSteps[1000],
 	int* stepsSize
 	)
 {
@@ -30,30 +32,27 @@ bool GenerateMotionPlanFor(
 	WS_Coord coord;
 	WS_Coord pos_start, pos_end, pos_obs;
     int index;
-   	int **obsmap;
+   	int ***obsmap;
 
 	ReadMotionPrimitives(primitives);
 
 	GetMotionPrimitiveCost(primitives, prim_cost);
 
 	coord = ExtractCoordFromGridLocation(startLocation, WSInfo.dimension);
-	pos_start.x = coord.x;
-	pos_start.y = coord.y;
+	SetCoordTo(&pos_start, coord);
 
 	coord = ExtractCoordFromGridLocation(endLocation, WSInfo.dimension);
-	pos_end.x = coord.x;
-	pos_end.y = coord.y;
+	SetCoordTo(&pos_end, coord);
 
 	for (count = 0; count < obsSize; count++)
 	{
 		coord = ExtractCoordFromGridLocation(sequenceOfObstacles[count], WSInfo.dimension);
 		//cout << "x = " << x << " " << "y = " << y << endl;
-		pos_obs.x = coord.x;
-		pos_obs.y = coord.y;
+		SetCoordTo(&pos_obs, coord);
 		obstacles.push_back(pos_obs);
 	}
 
-        CAstar astar;
+    CAstar astar;
   	astar.SetPrimitive(primitives);
   	astar.SetDimension(WSInfo.dimension);
   	astar.SetObstacleMap(WSInfo.dimension, obstacles);
@@ -71,7 +70,7 @@ bool GenerateMotionPlanFor(
 		sequenceOfSteps[count] = ConvertCoordToGridLocation(path[count], WSInfo.dimension);;
 	}
 
-        obsmap = astar.GetObstacleMap();
+    obsmap = astar.GetObstacleMap();
   	astar.printTrajectory(obsmap, path);
 
 	return true;

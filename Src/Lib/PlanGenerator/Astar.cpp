@@ -30,10 +30,12 @@ CAstar::~CAstar()
  
   	if(obsmap != NULL)
   	{
-    		for(count = 0; count < dimension.x_dim; count++)
-      			delete[] obsmap[count];
-    		delete[] obsmap;
-    		obsmap = NULL;
+		for (count = 0; count < dimension.x_dim; count++)
+		{
+			delete[] obsmap[count];
+		}
+    	delete[] obsmap;
+    	obsmap = NULL;
   	}
 }
 
@@ -59,27 +61,34 @@ void CAstar::SetDimension(WS_Dimension dimension)
 
 void CAstar::SetObstacleMap(WS_Dimension dimension, RobotPosition_Vector obstacles)
 {
-  	unsigned int count, count1, count2;
+	unsigned int count, count1, count2, count3;
 
-  	obsmap = new int*[dimension.x_dim];
-  
-  	for(count = 0; count < dimension.x_dim; count++)
-  	{
-    		obsmap[count] = new int[dimension.y_dim];
-  	}
+	obsmap = new int**[dimension.x_dim];
 
-  	for (count1 = 0; count1 < dimension.x_dim; count1++)
-  	{
-    		for (count2 = 0; count2 < dimension.y_dim; count2++)
-    		{
-      			obsmap[count1][count2] = 0;
-    		}
-  	}
+	for (count = 0; count < dimension.x_dim; count++)
+	{
+		obsmap[count] = new int*[dimension.y_dim];
+		for (count1 = 0; count1 < dimension.y_dim; count1++)
+		{
+			obsmap[count][count1] = new int[dimension.z_dim];
+		}
+	}
 
-  	for (count = 0; count < obstacles.size(); count++)
-  	{
-    		obsmap[obstacles[count].x][obstacles[count].y] = 1;
-  	}
+	for (count1 = 0; count1 < dimension.x_dim; count1++)
+	{
+		for (count2 = 0; count2 < dimension.y_dim; count2++)
+		{
+			for (count3 = 0; count3 < dimension.z_dim; count3++)
+			{
+				obsmap[count1][count2][count3] = 0;
+			}
+		}
+	}
+
+	for (count = 0; count < obstacles.size(); count++)
+	{
+		obsmap[obstacles[count].x][obstacles[count].y][obstacles[count].z] = 1;
+	}
 }
 
 
@@ -117,7 +126,7 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
 				WS_Coord coord;
       			coord = ExtractCoordFromGridLocation(avoidPositions[count1].PositionsOccupied[count2], dimension);
       			cout << "x= " << coord.x << " " << "y = " << coord.y << endl;
-      			tmp_pos.x = coord.x; tmp_pos.y = coord.y;
+				SetCoordTo(&tmp_pos, coord);
       			//avoidTrajs.resize(count2 + 1);
       			avoidTrajs[count2].push_back(tmp_pos);
     		}
@@ -138,21 +147,21 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
 
 void CAstar::PrintAvoidPositions()
 {
-  	unsigned int count1, count2;
-  
-  	for (count1 = 0; count1 < avoidTrajs.size(); count1++)
-  	{
-    		cout << "Time " << count1 << endl;
-    		for (count2 = 0; count2 < avoidTrajs[count1].size(); count2++)
-    		{
-      			cout << (avoidTrajs[count1][count2]).x << " " << (avoidTrajs[count1][count2]).y << endl;
-    		}
-    		cout << endl;
-  	}
+	unsigned int count1, count2;
+
+	for (count1 = 0; count1 < avoidTrajs.size(); count1++)
+	{
+		cout << "Time " << count1 << endl;
+		for (count2 = 0; count2 < avoidTrajs[count1].size(); count2++)
+		{
+			cout << (avoidTrajs[count1][count2]).x << " " << (avoidTrajs[count1][count2]).y << " " << (avoidTrajs[count1][count2]).z << endl;
+		}
+		cout << endl;
+	}
 }
 
 
-int **CAstar::GetObstacleMap()
+int ***CAstar::GetObstacleMap()
 {
   	return obsmap;
 }
@@ -175,10 +184,11 @@ node CAstar::NodeCreate(double g, double h, double f, WS_Coord p, WS_Coord m, in
 
 double CAstar::Get_H (WS_Coord current, WS_Coord end)
 {
-  	int cost_hX = abs(end.x - current.x);
-  	int cost_hY = abs(end.y - current.y);
-  	double cost_h = cost_hX + cost_hY;
-  	return cost_h;
+	int cost_hX = abs(end.x - current.x);
+	int cost_hY = abs(end.y - current.y);
+	int cost_hZ = abs(end.z - current.z);
+	double cost_h = cost_hX + cost_hY + cost_hZ;
+	return cost_h;
 }
 
 
@@ -189,8 +199,7 @@ RobotPosition_Vector CAstar::ExtractPath(WS_Coord end, vector<node> closeList)
   	WS_Coord tmppos;
 
   	cout << endl << "Astar node path building.." << endl;
-  	F.x = end.x;
-  	F.y = end.y;
+	SetCoordTo(&F, end);
 
   	int index=0;
   	nodePath tempPath;
@@ -200,87 +209,85 @@ RobotPosition_Vector CAstar::ExtractPath(WS_Coord end, vector<node> closeList)
   	gFindPath.push_back(tempPath);
   	while(1)
   	{
-    		for(count3 = 0; count3 < closeList.size(); count3++)
-    		{
-      			if( (closeList[count3].selfPos.x==F.x) && (closeList[count3].selfPos.y==F.y))
-      			{
-        			F.x = closeList[count3].parentPos.x;
-        			F.y = closeList[count3].parentPos.y;
-        			tempPath.index=index++;
-        			tempPath.pos = F;
-        			tempPath.primID = closeList[count3].primID;
-        			gFindPath.push_back(tempPath);
-        			break;
-      			}
-    		}
-    		if(F.x == start.x && F.y == start.y) break;
+		for (count3 = 0; count3 < closeList.size(); count3++)
+		{
+			if ((closeList[count3].selfPos.x == F.x) && (closeList[count3].selfPos.y == F.y) && (closeList[count3].selfPos.z == F.z))
+			{
+				SetCoordTo(&F, closeList[count3].parentPos);
+				tempPath.index = index++;
+				tempPath.pos = F;
+				tempPath.primID = closeList[count3].primID;
+				gFindPath.push_back(tempPath);
+				break;
+			}
+		}
+		if (CoordAreEqual(F, start)) break;
   	}
   	cout << "Path building done.." << endl;
 
   	sort(gFindPath.begin(), gFindPath.end(),compare2);
   	for(count1 = 0; count1 < gFindPath.size(); count1++)
   	{
-    		tmppos.x = gFindPath[count1].pos.x;
-    		tmppos.y = gFindPath[count1].pos.y;
-    		path.push_back(tmppos);
-    		/*
-    		RobotPosition_Vector swath = primitives[gFindPath[count1].primID - 1].get_swath();
-    		for(count2 = 0; count2 < swath.size(); count2++)
-    		{
-      			tmppos.x = gFindPath[count1].pos.x + swath[count2].x;
-      			tmppos.y = gFindPath[count1].pos.y + swath[count2].y;
-      			path.push_back(tmppos);
-      			//path.push_back( make_pair(gFindPath[count1].x + swath[count2].x,  gFindPath[count1].y  + swath[count2].y) );
-    		}
-    		*/
+		SetCoordTo(&tmppos, gFindPath[count1].pos);
+    	path.push_back(tmppos);
+    	/*
+    	RobotPosition_Vector swath = primitives[gFindPath[count1].primID - 1].get_swath();
+    	for(count2 = 0; count2 < swath.size(); count2++)
+    	{
+      		tmppos.x = gFindPath[count1].pos.x + swath[count2].x;
+      		tmppos.y = gFindPath[count1].pos.y + swath[count2].y;
+      		path.push_back(tmppos);
+      		//path.push_back( make_pair(gFindPath[count1].x + swath[count2].x,  gFindPath[count1].y  + swath[count2].y) );
+    	}
+    	*/
   	}
   	cout << "Path contruction done.." << endl;
   	return path;
 }
 
 
-bool isBlocked(WS_Coord pos, int timestep, int **obsmap, vector <RobotPosition_Vector> avoidTrajs)
+bool isBlocked(WS_Coord pos, int timestep, int ***obsmap, vector <RobotPosition_Vector> avoidTrajs)
 {
 	int count1, count2;
 	bool collisionKey = false;	
 
 	// Static Obstacles
-	if ( obsmap[pos.x][pos.y] == 1 )
+	if ( obsmap[pos.x][pos.y][pos.z] == 1 )
         {
                 return true;
        	}
         
 	// Other Robots
-        for (count1 = -Delta; count1 <= Delta; count1++)
+    for (count1 = -Delta; count1 <= Delta; count1++)
+    {
+        if (timestep + count1 >=0 && timestep + count1 < avoidTrajs.size())
         {
-                if (timestep + count1 >=0 && timestep + count1 < avoidTrajs.size())
-               	{
-                        for (count2 = 0; count2 < avoidTrajs[timestep + count1].size(); count2++)
-                        {
-				if (pos.x == avoidTrajs[timestep+count1][count2].x && pos.y == avoidTrajs[timestep+count1][count2].y)
-                                {
-                                        collisionKey = true;
-                                        break;
-                                }
-                        }
-                }
-
-                // The final positions of the other robots should not interfere with the trajectory
-                // of the current robot
-                if (timestep + count1 > avoidTrajs.size())
+            for (count2 = 0; count2 < avoidTrajs[timestep + count1].size(); count2++)
+            {
+				if (CoordAreEqual(pos, avoidTrajs[timestep + count1][count2]))
                 {
-                	for (count2 = 0; count2 < avoidTrajs[avoidTrajs.size()-1].size(); count2++)
-                        {
-                        	if (pos.x == avoidTrajs[avoidTrajs.size()-1][count2].x && pos.y  == avoidTrajs[avoidTrajs.size()-1][count2].y)
-                                {
-                                        collisionKey = true;
-                                        break;
-                                }
-                        }
+                        collisionKey = true;
+                        break;
                 }
-                if (collisionKey) 
-			break;
+            }
         }
+
+        // The final positions of the other robots should not interfere with the trajectory
+        // of the current robot
+        if (timestep + count1 > avoidTrajs.size())
+        {
+            for (count2 = 0; count2 < avoidTrajs[avoidTrajs.size()-1].size(); count2++)
+                {
+                    if (CoordAreEqual(pos, avoidTrajs[avoidTrajs.size() - 1][count2]))
+                    {
+                            collisionKey = true;
+                            break;
+                    }
+                }
+        }
+        if (collisionKey) 
+			break;
+    }
 	return collisionKey;
 }
 
@@ -306,7 +313,7 @@ RobotPosition_Vector CAstar::FindCollisionFreePath()
       			h = Get_H(start, end);
       			f = g+h;
       			q.velocity = 0;
-      			tmppos.x = 0; tmppos.y = 0;
+				tmppos.x = 0; tmppos.y = 0; tmppos.z = 0;
       			closeList.push_back(NodeCreate(g,h,f,tmppos, start, 0, q, 0));
     		}
     		else
@@ -314,28 +321,27 @@ RobotPosition_Vector CAstar::FindCollisionFreePath()
       			if(openList.size() == 0 )
       			{
         			cout << "These motion primitives are not applicable for this problem.." << endl;
-				exit(0);	
+					exit(0);	
       			}
       			
-			sort(openList.begin(), openList.end(),compare);
+				sort(openList.begin(), openList.end(),compare);
       			closeList.push_back( openList[0] );
       			openList.erase(openList.begin());
 			
-			if (closeList[closeList.size()-1].timestep > Max_Traj_Length)
-			{
-				cout << "No trajectory of length less than " << Max_Traj_Length << " exists.." << endl;
-				exit(0);
-			}
+				if (closeList[closeList.size()-1].timestep > Max_Traj_Length)
+				{
+					cout << "No trajectory of length less than " << Max_Traj_Length << " exists.." << endl;
+					exit(0);
+				}
 				
-      			if(closeList[closeList.size()-1].selfPos.x == end.x && closeList[closeList.size()-1].selfPos.y == end.y)
+      			if(CoordAreEqual(closeList[closeList.size()-1].selfPos, end))
       			{
         			cout << "Goal Reached.." << endl;
-				break;		
+					break;		
       			}
     		}
 
-    		currpos.x = closeList[closeList.size()-1].selfPos.x;
-    		currpos.y = closeList[closeList.size()-1].selfPos.y;		
+			SetCoordTo(&currpos, closeList[closeList.size() - 1].selfPos);
     		timestep = closeList[closeList.size()-1].timestep;
 	
     		//cout << currpos.x << " " << currpos.y << " " << timestep << endl;	
@@ -349,60 +355,63 @@ RobotPosition_Vector CAstar::FindCollisionFreePath()
         
         			nextpos.x = currpos.x + pos_f.x;
         			nextpos.y = currpos.y + pos_f.y;
-				blockedKey = false;
+					nextpos.z = currpos.z + pos_f.z;
+					blockedKey = false;
 
         			//cout << nextpos.x << " " << nextpos.y << endl;	
         			//if( nextpos.x == currpos.x && nextpos.y == currpos.y) continue;
-        			if( nextpos.x < 0 || nextpos.x >= dimension.x_dim || nextpos.y < 0 || nextpos.y >= dimension.y_dim) continue;				
+					if (nextpos.x < 0 || nextpos.x >= dimension.x_dim || nextpos.y < 0 || nextpos.y >= dimension.y_dim || nextpos.z < 0 || nextpos.z >= dimension.z_dim) continue;
         
         			for(count2 = 0; count2 < swath.size(); count2++)
         			{
-					tmppos.x = currpos.x + swath[count2].x;
-					tmppos.y = currpos.y + swath[count2].y;
-					blockedKey = isBlocked(tmppos, timestep, obsmap, avoidTrajs);
-					if (blockedKey) break;
-				}				
+						tmppos.x = currpos.x + swath[count2].x;
+						tmppos.y = currpos.y + swath[count2].y;
+						tmppos.z = currpos.z + swath[count2].z;
+						blockedKey = isBlocked(tmppos, timestep, obsmap, avoidTrajs);
+						if (blockedKey) break;
+					}				
         			if (blockedKey) continue;
 
         			// Is the new node present in the openlist?
         			key = false;
         			for(count3 = 0; count3 < openList.size(); count3++)
         			{
-          				if(openList[count3].selfPos.x == nextpos.x && openList[count3].selfPos.y == nextpos.y && openList[count3].timestep == timestep + 1)
-	  				{
-	    					g = closeList[closeList.size()-1].G + cost + timestep + 1;
-	    					if (g < openList[count3].G)
-	    					{
-	      						openList[count3].G = g;
-	      						openList[count3].F = openList[count3].G+openList[count3].H;
-	      						openList[count3].parentPos.x = currpos.x;
-	      						openList[count3].parentPos.y = currpos.y;
-	      						openList[count3].primID = count1 + 1;
-	      						openList[count3].timestep = timestep + 1;
-            					}
-	    					key = true;
-	    					break;
-          				}
+						if (openList[count3].selfPos.x == nextpos.x && openList[count3].selfPos.y == nextpos.y && openList[count3].selfPos.z == nextpos.z && openList[count3].timestep == timestep + 1)
+						{
+							g = closeList[closeList.size() - 1].G + cost + timestep + 1;
+							if (g < openList[count3].G)
+							{
+								openList[count3].G = g;
+								openList[count3].F = openList[count3].G + openList[count3].H;
+								openList[count3].parentPos.x = currpos.x;
+								openList[count3].parentPos.y = currpos.y;
+								openList[count3].parentPos.z = currpos.z;
+								openList[count3].primID = count1 + 1;
+								openList[count3].timestep = timestep + 1;
+							}
+							key = true;
+							break;
+						}
         			}
         			if(key) continue;
 
-        			// Is the new node present in the closeList?
-        			key = false;
-        			for(count3 = 0; count3 < closeList.size(); count3++)
-        			{
-	  				if (closeList[count3].selfPos.x == nextpos.x && closeList[count3].selfPos.y == nextpos.y && closeList[count3].timestep == timestep + 1)
-          				{
-	    					key = true;
-	    					break;
-          				}
-        			}
-        			if(key) continue;
+					// Is the new node present in the closeList?
+					key = false;
+					for (count3 = 0; count3 < closeList.size(); count3++)
+					{
+						if (closeList[count3].selfPos.x == nextpos.x && closeList[count3].selfPos.y == nextpos.y && closeList[count3].selfPos.z == nextpos.z && closeList[count3].timestep == timestep + 1)
+						{
+							key = true;
+							break;
+						}
+					}
+					if (key) continue;
 
-        			// Add node to the OpenList
-        			g = closeList[closeList.size()-1].G + cost + timestep + 1;
-        			h = Get_H(nextpos,end);
-        			f = g + h;
-        			openList.push_back(NodeCreate(g, h, f, currpos, nextpos, count1 + 1, primitives[count1].get_q_f(), timestep + 1));
+					// Add node to the OpenList
+					g = closeList[closeList.size() - 1].G + cost + timestep + 1;
+					h = Get_H(nextpos, end);
+					f = g + h;
+					openList.push_back(NodeCreate(g, h, f, currpos, nextpos, count1 + 1, primitives[count1].get_q_f(), timestep + 1));
       			}
     		}
   	}
@@ -413,38 +422,43 @@ RobotPosition_Vector CAstar::FindCollisionFreePath()
 
 
 //void CAstar::printTrajectory(dimension_t dimension, int **map, position start, position end, vector< pair<int, int > > path)
-void CAstar::printTrajectory(int **map,  RobotPosition_Vector path)
+void CAstar::printTrajectory(int ***map,  RobotPosition_Vector path)
 {
-  	cout << endl << "Astar path printing on map.." << endl;
+	cout << endl << "Astar path printing on map.." << endl;
 
-  	int count1, count2;
+	int count1, count2, count3;
 
- 	cout << "Path Size = " << path.size() << endl;
-  	for (count1 = 0; count1 < path.size(); count1++)
-  	{
-    		map[path[count1].x][path[count1].y] = 2;
-  	}
+	cout << "Path Size = " << path.size() << endl;
+	for (count1 = 0; count1 < path.size(); count1++)
+	{
+		map[path[count1].x][path[count1].y][path[count1].z] = 2;
+	}
 
-  	/* exporting robot path on file */
-  	ofstream ofp;
-  	ofp.open("plan_output");
+	/* exporting robot path on file */
+	ofstream ofp;
+	ofp.open("plan_output");
 
-  	for(count1 = 0; count1 < dimension.x_dim; count1++)
-  	{
-    		for(count2 = 0; count2 < dimension.y_dim; count2++)
-    		{
-      			if(map[count1][count2] == 0)
-        			ofp << "  ";
-      			else if(map[count1][count2] == 1)
-        			ofp << "$ ";
-      			else if(count1 == start.x && count2 == start.y)
-        			ofp << "S ";
-      			else if(count1 == end.x && count2 == end.y)
-        			ofp << "G ";
-      			else if(map[count1][count2] == 2)
-        			ofp << "* ";
-    		}
-    		ofp << endl;
-  	}
-  	ofp.close();
+	for (count3 = 0; count3 < dimension.z_dim; count3++)
+	{
+		ofp << "z = " << count3 << endl;
+		for (count1 = 0; count1 < dimension.x_dim; count1++)
+		{
+			for (count2 = 0; count2 < dimension.y_dim; count2++)
+			{
+				if (map[count1][count2][count3] == 0)
+					ofp << "  ";
+				else if (map[count1][count2][count3] == 1)
+					ofp << "$ ";
+				else if (count1 == start.x && count2 == start.y && count3 == start.z)
+					ofp << "S ";
+				else if (count1 == end.x && count2 == end.y && count3 == end.z)
+					ofp << "G ";
+				else if (map[count1][count2][count3] == 2)
+					ofp << "* ";
+			}
+			ofp << endl;
+		}
+		ofp << endl << endl;
+	}
+	ofp.close();
 }

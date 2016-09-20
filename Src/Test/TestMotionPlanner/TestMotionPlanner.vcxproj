@@ -104,7 +104,7 @@
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;MAVLINK_USE_CONVENIENCE_FUNCTIONS;PRT_STATIC;PRT_PLAT_WINUSER;</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Submodules\p\Bld\Drops\Debug\x64\Headers;.\;..\..\SoftwareStack\Workspace\;..\..\Lib\PlanGenerator\;..\..\Lib\WorkspaceParser\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Submodules\p\Bld\Drops\Debug\x64\Headers;.\;..\..\SoftwareStack\Workspace\;..\..\Lib\PlanGenerator\;..\..\Lib\WorkspaceParser\;..\..\Lib\Compat\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

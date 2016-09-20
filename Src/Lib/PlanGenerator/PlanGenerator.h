@@ -48,7 +48,7 @@ bool GenerateMotionPlanFor(
 	int obsSize,
 	AvoidPositions* avoidPositions,
 	int avoidSize,
-	int sequenceOfSteps[100],
+	int sequenceOfSteps[1000],
 	int* stepsSize
 );
 
