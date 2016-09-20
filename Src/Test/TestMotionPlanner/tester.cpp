@@ -1,4 +1,7 @@
 #include "TestDriver.h"
+#include "WorkspaceParser.h"
+
+WorkspaceInfo* WORKSPACE_INFO;
 
 void ErrorHandler(PRT_STATUS status, PRT_MACHINEINST *ptr)
 {
@@ -159,7 +162,7 @@ static void RunToIdle(LPVOID process)
     PRT_PROCESS_PRIV* privateProcess = (PRT_PROCESS_PRIV*)process;
     while (privateProcess->terminating == PRT_FALSE)
     {
-        if (PRT_STEP_IDLE == PrtStepProcess(process))
+        if (PRT_STEP_IDLE == PrtStepProcess((PRT_PROCESS*)process))
         {
             break;
         }
@@ -178,7 +181,7 @@ int main(int argc, char *argv[])
         PrintUsage();
         return 1;
     }
-
+	WORKSPACE_INFO = ParseWorkspaceConfig("");
 	PRT_DBG_START_MEM_BALANCED_REGION
 	{
 		PRT_PROCESS *process;

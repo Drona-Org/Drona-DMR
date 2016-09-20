@@ -66,6 +66,7 @@ inline WS_Coord ExtractCoordFromGridLocation(int loc, WS_Dimension dim)
 	return coord;
 }
 
+extern WorkspaceInfo* WORKSPACE_INFO;
 #ifdef __cplusplus
 }
 #endif

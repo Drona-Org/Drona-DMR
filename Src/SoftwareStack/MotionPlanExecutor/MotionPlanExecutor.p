@@ -33,7 +33,7 @@ machine PlanExecutorMachine {
 			var traj: seq[int];
 			var index: int;
 
-			currTimePeriod = GetCurrentTimePeriod(localTimeV, robotId);
+			currTimePeriod = GetCurrentTimePeriod(localTimeV, robotId, this);
 			if(currTimePeriod - payload[0].0 > 0)
 			Sleep(currTimePeriod - payload[0].0);
 			index = 0;
@@ -45,7 +45,7 @@ machine PlanExecutorMachine {
 
 			StartExecutingPath(traj, robotId);
 
-			send motionplanner, ePlanCompletion, traj[sizeof(traj)];
+			send motionplanner, ePlanCompletion, traj[sizeof(traj) - 1];
 		}
 	}
 }

@@ -1,11 +1,11 @@
-event eGetTimePeriod: int;
+event eGetTimePeriod: (robotid: int, source: machine);
 event eCurrTimePeriod : int;
 
 fun MotionPrimitiveTimePeriod() : int { return 500; /*0.5 ms*/ }
 
-model fun GetCurrentTimePeriod(timeSync:machine, robot: int) : int {
+fun GetCurrentTimePeriod(timeSync:machine, robotid: int, source: machine) : int {
 	var retVal: int;
-	send timeSync, eGetTimePeriod, robot;
+	send timeSync, eGetTimePeriod, (robotid = robotid, source = source);
 
 	receive {
 		case eCurrTimePeriod: (payload: int) { retVal = payload; }
@@ -16,13 +16,10 @@ model fun GetCurrentTimePeriod(timeSync:machine, robot: int) : int {
 machine DistributedTimeSyncMachine {
 	var robotsLocalTimeV : map[int, int];
 	var timerV : machine;
-	var allRobotsV: seq[machine];
-
 	var noOfRobots: int;
 	start state Init {
-		entry(payload:seq[machine]) {
+		entry {
 			var index: int;
-			allRobotsV = payload;
 			noOfRobots = GetNumOfRobots();
 			index = 0;
 			while(index < noOfRobots)
@@ -51,8 +48,8 @@ machine DistributedTimeSyncMachine {
 			//start timer
 			StartTimer(timerV, MotionPrimitiveTimePeriod());
 		}
-		on eGetTimePeriod do (payload : int) {
-			send allRobotsV[payload], eCurrTimePeriod, robotsLocalTimeV[payload];
+		on eGetTimePeriod do (payload : (robotid: int, source: machine)) {
+			send payload.source, eCurrTimePeriod, robotsLocalTimeV[payload.robotid];
 		}
 
 	}

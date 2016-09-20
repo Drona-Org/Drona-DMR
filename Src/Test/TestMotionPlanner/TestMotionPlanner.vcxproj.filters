@@ -26,7 +26,16 @@
     <ClCompile Include="TestDriver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tester.c">
+    <ClCompile Include="Constructors.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SoftwareStack\Utilities\Timer\Timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HelperFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
