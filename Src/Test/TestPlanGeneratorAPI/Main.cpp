@@ -53,7 +53,7 @@ int main()
 	{
 		cout << WSInfo->obstacles.locations[i] << " ";
 	}
-	GenerateMotionPlanFor(*WSInfo, 19, 44, WSInfo->obstacles.locations, WSInfo->obstacles.size, avoidsArr, 1, output_seq_of_locations, output_size);
+	GenerateMotionPlanFor(*WSInfo, 19, 44, WSInfo->obstacles.locations, WSInfo->obstacles.size, avoidsArr, 1, output_seq_of_locations, &output_size);
 
 	cout << "Trajectory Length = " << output_size << endl;
 	cout << "Trajectory: " << endl;
