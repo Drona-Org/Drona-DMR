@@ -70,6 +70,17 @@ inline WS_Coord ExtractCoordFromGridLocation(int loc, WS_Dimension dim)
 	return coord;
 }
 
+inline void PrintObstaclesList(WorkspaceInfo WS)
+{
+	int i = 0;
+	printf("obstacles:\n");
+
+	for (i = 0; i < WS.obstacles.size; i++)
+	{
+		printf("%d ", WS.obstacles.locations[i]);
+	}
+	printf("\n");
+}
 extern WorkspaceInfo* WORKSPACE_INFO;
 #ifdef __cplusplus
 }

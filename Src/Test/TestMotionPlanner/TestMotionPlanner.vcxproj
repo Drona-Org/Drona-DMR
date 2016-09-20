@@ -165,6 +165,14 @@
     <ClInclude Include="linker.h" />
     <ClInclude Include="TestDriver.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lib\PlanGenerator\PlanGenerator.vcxproj">
+      <Project>{06915b44-0be8-4b9c-857b-254ad064e410}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Lib\WorkspaceParser\WorkspaceParser.vcxproj">
+      <Project>{2db351fe-c59f-4425-b4fa-0c2c17e26a84}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
