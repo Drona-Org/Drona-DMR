@@ -110,24 +110,22 @@ PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEI
 	
 	int* output_seq_of_locations = (int*)malloc(1000 * sizeof(int));
 	int output_size = 0;
-	AvoidPositions **avoidsArr = (AvoidPositions**)malloc(sizeOfAvoids*sizeof(AvoidPositions*));
+	AvoidPositions avoidsArr[100];
 	for (int i = 0; i < sizeOfAvoids; i++)
 	{
-		AvoidPositions* avoid = (AvoidPositions*)malloc(sizeof(AvoidPositions));
 		PRT_VALUE* avoid_p = PrtSeqGetNCIntIndex(avoidsList, i);
-		avoid->size = PrtSeqSizeOf(avoid_p);
-		for (int j = 0; j < avoid->size; j++)
+		avoidsArr[i].size = PrtSeqSizeOf(avoid_p);
+		for (int j = 0; j < avoidsArr[i].size; j++)
 		{
-			avoid->PositionsOccupied[j] = PrtPrimGetInt(PrtSeqGetNCIntIndex(avoid_p, j));
+			avoidsArr[i].PositionsOccupied[j] = PrtPrimGetInt(PrtSeqGetNCIntIndex(avoid_p, j));
 		}
-		avoidsArr[i] = avoid;
 	}
 
 	printf("====================================================\n");
 	printf("Robot %d\n", robotid);
 	//print the obstacles list
 	PrintObstaclesList(*WORKSPACE_INFO);
-	GenerateMotionPlanFor(*WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, *avoidsArr, sizeOfAvoids, output_seq_of_locations, &output_size);
+	GenerateMotionPlanFor(*WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, avoidsArr, sizeOfAvoids, output_seq_of_locations, &output_size);
 	
 	printf("Trajectory:");
 	for (int i = 0; i < output_size; i++)

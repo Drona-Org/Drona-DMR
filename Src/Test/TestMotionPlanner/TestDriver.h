@@ -148,10 +148,11 @@
       P_VAR_DistributedMotionPlannerMachine_currentTrajV = 4,
       P_VAR_DistributedMotionPlannerMachine_localTimeV = 5,
       P_VAR_DistributedMotionPlannerMachine_myIdV = 6,
-      P_VAR_DistributedMotionPlannerMachine_pendingRequestsV = 7,
-      P_VAR_DistributedMotionPlannerMachine_planExecutorV = 8,
-      P_VAR_DistributedMotionPlannerMachine_receivedTrajFromV = 9,
-      _P_VARS_DistributedMotionPlannerMachine_COUNT = 10
+      P_VAR_DistributedMotionPlannerMachine_numOfRobots = 7,
+      P_VAR_DistributedMotionPlannerMachine_pendingRequestsV = 8,
+      P_VAR_DistributedMotionPlannerMachine_planExecutorV = 9,
+      P_VAR_DistributedMotionPlannerMachine_receivedTrajFromV = 10,
+      _P_VARS_DistributedMotionPlannerMachine_COUNT = 11
     };
 
     enum P_VARS_DistributedTimeSyncMachine

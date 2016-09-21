@@ -19,7 +19,8 @@ machine DistributedMotionPlannerMachine
 	var currentLocationV: int;
 	var localTimeV: machine;
 	var pendingRequestsV: seq[machine];
-
+	var numOfRobots: int;
+	
 	start state Init {
 		defer eDistMotionPlanMachine;
 		entry (rinfo: RobotInfoType) {
@@ -39,7 +40,6 @@ machine DistributedMotionPlannerMachine
 	state GetAllDistMotionPlanners {
 		defer eNewTask, eRequestCurrentTraj;
 		on eDistMotionPlanMachine do (payload: machine){
-			var numOfRobots: int;
 			numOfRobots = GetNumOfRobots();
 			receivedTrajFromV += (payload, true);
 			if(sizeof(keys(receivedTrajFromV)) == numOfRobots - 1)
@@ -170,7 +170,7 @@ machine DistributedMotionPlannerMachine
 		    index = index + 1;
 		}
 
-		assert sizeof(convertedAvoids) > 0;
+		assert sizeof(convertedAvoids) == numOfRobots - 1;
 		traj = PlanGenerator(currentLocationV, goal, convertedAvoids, myIdV);
 		currentTrajV = default(TimedTrajType);
 		index = 0;
