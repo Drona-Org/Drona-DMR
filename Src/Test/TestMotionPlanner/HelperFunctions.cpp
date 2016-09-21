@@ -105,32 +105,35 @@ PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEI
 	int startLocation = PrtPrimGetInt(p_tmp_frame.locals[0]);
 	int goalLocation = PrtPrimGetInt(p_tmp_frame.locals[1]);
 	PRT_VALUE* avoidsList = p_tmp_frame.locals[2];
+	int robotid = PrtPrimGetInt(p_tmp_frame.locals[3]);
 	int sizeOfAvoids = PrtSeqSizeOf(avoidsList);
 	
 	int* output_seq_of_locations = (int*)malloc(1000 * sizeof(int));
 	int output_size = 0;
-	AvoidPositions **avoidsArr = (AvoidPositions**)malloc(sizeOfAvoids*sizeof(AvoidPositions*));
+	AvoidPositions avoidsArr[100];
 	for (int i = 0; i < sizeOfAvoids; i++)
 	{
-		AvoidPositions* avoid = (AvoidPositions*)malloc(sizeof(AvoidPositions));
 		PRT_VALUE* avoid_p = PrtSeqGetNCIntIndex(avoidsList, i);
-		avoid->size = PrtSeqSizeOf(avoid_p);
-		for (int j = 0; j < avoid->size; j++)
+		avoidsArr[i].size = PrtSeqSizeOf(avoid_p);
+		for (int j = 0; j < avoidsArr[i].size; j++)
 		{
-			avoid->PositionsOccupied[j] = PrtPrimGetInt(PrtSeqGetNCIntIndex(avoid_p, j));
+			avoidsArr[i].PositionsOccupied[j] = PrtPrimGetInt(PrtSeqGetNCIntIndex(avoid_p, j));
 		}
-		avoidsArr[i] = avoid;
 	}
 
+	printf("====================================================\n");
+	printf("Robot %d\n", robotid);
 	//print the obstacles list
 	PrintObstaclesList(*WORKSPACE_INFO);
-	GenerateMotionPlanFor(*WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, *avoidsArr, sizeOfAvoids, output_seq_of_locations, &output_size);
+	GenerateMotionPlanFor(*WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, avoidsArr, sizeOfAvoids, output_seq_of_locations, &output_size);
 	
 	printf("Trajectory:");
 	for (int i = 0; i < output_size; i++)
 	{
 		printf("%d ", output_seq_of_locations[i]);
 	}
+	printf("\n\n");
+	printf("====================================================\n");
 
 	PRT_VALUE* retPlan;
 	intType = PrtMkPrimitiveType(PRT_KIND_INT);
@@ -146,4 +149,32 @@ PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEI
 	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
 	return retPlan;
 }
+
+#ifdef PRT_PLAT_WINUSER
+PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context) {
+	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
+	PRT_VALUE *p_tmp_ret = NULL;
+	PRT_FUNSTACK_INFO p_tmp_frame;
+	PRT_VALUE *p_tmp_params;
+	int time = 0;
+	p_tmp_params = NULL;
+	//remm to pop frame
+	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
+	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
+	return NULL;
+}
+
+PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context) {
+	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
+	PRT_VALUE *p_tmp_ret = NULL;
+	PRT_FUNSTACK_INFO p_tmp_frame;
+	PRT_VALUE *p_tmp_params;
+	int time = 0;
+	p_tmp_params = NULL;
+	//remm to pop frame
+	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
+	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
+	return NULL;
+}
+#endif
 

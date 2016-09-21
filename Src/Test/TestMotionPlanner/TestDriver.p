@@ -40,9 +40,26 @@ machine Main
 
 	state StartSendingTaskRequest {
 		entry {
-			send allRobotsV[0], eNewTask, (taskid = 0, g = 10);
-			send allRobotsV[1], eNewTask, (taskid = 1, g = 20);
-			//goto StartSendingTaskRequest;
+			//all the potential goal locations 
+			var robotid: int;
+			var counter: int;
+			var goalLocations: seq[int];
+			var noOfRobots: int;
+
+			goalLocations = GetGoalLocations();
+			noOfRobots = GetNumOfRobots();
+
+			robotid = 0;
+			counter = 0;
+			//task task
+			while(counter < sizeof(goalLocations))
+			{
+				send allRobotsV[robotid], eNewTask, (taskid = counter, g = goalLocations[counter]);
+				counter = counter + 1;
+				robotid = robotid + 1;
+				if(robotid >= noOfRobots)
+					robotid = 0;
+			}
 		}
 		
 	}

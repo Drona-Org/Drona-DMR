@@ -19,7 +19,8 @@ machine DistributedMotionPlannerMachine
 	var currentLocationV: int;
 	var localTimeV: machine;
 	var pendingRequestsV: seq[machine];
-
+	var numOfRobots: int;
+	
 	start state Init {
 		defer eDistMotionPlanMachine;
 		entry (rinfo: RobotInfoType) {
@@ -39,7 +40,6 @@ machine DistributedMotionPlannerMachine
 	state GetAllDistMotionPlanners {
 		defer eNewTask, eRequestCurrentTraj;
 		on eDistMotionPlanMachine do (payload: machine){
-			var numOfRobots: int;
 			numOfRobots = GetNumOfRobots();
 			receivedTrajFromV += (payload, true);
 			if(sizeof(keys(receivedTrajFromV)) == numOfRobots - 1)
@@ -122,7 +122,7 @@ machine DistributedMotionPlannerMachine
 		}
 	}
 
-	model fun PlanGenerator(s: int, g: int, avoids: seq[seq[int]]) : seq[int] {
+	model fun PlanGenerator(s: int, g: int, avoids: seq[seq[int]], robotid: int) : seq[int] {
 		var ret : seq[int];
 		ret += (0, 1);
 		return ret;
@@ -157,7 +157,7 @@ machine DistributedMotionPlannerMachine
 		var index : int;
 		var traj: seq[int];
 
-		maxComputeTimeForPlanner = 4;
+		maxComputeTimeForPlanner = 2;
 		currTimePeriod = GetCurrentTimePeriod(localTimeV, myIdV, this);
 		startingTimePeriod = currTimePeriod + maxComputeTimeForPlanner;
 
@@ -170,8 +170,8 @@ machine DistributedMotionPlannerMachine
 		    index = index + 1;
 		}
 
-		assert sizeof(convertedAvoids) > 0;
-		traj = PlanGenerator(currentLocationV, goal, convertedAvoids);
+		assert sizeof(convertedAvoids) == numOfRobots - 1;
+		traj = PlanGenerator(currentLocationV, goal, convertedAvoids, myIdV);
 		currentTrajV = default(TimedTrajType);
 		index = 0;
 		assert sizeof(traj) > 0;
@@ -194,9 +194,12 @@ machine DistributedMotionPlannerMachine
 
 	state WaitForPlanCompletionOrCancellation{
 		defer eNewTask;
-		on ePlanCompletion do (payload: int){ currentLocationV = payload; goto WaitForRequests; }
+		on ePlanCompletion do (payload: int){ 
+			currentLocationV = payload; 
+			print "Robot {0} completed task and is at location {1}\n", myIdV, currentLocationV;
+			goto WaitForRequests; 
+		}
 		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)) {
-			print "problem !!";
 			send payload.robot, eCurrentTraj, (robot = this, currTraj = currentTrajV);
 		}
 	}

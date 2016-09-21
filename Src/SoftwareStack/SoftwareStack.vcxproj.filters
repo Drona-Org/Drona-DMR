@@ -51,12 +51,6 @@
     <None Include="MotionPlanExecutor\MotionPlanExecutor.p">
       <Filter>MotionPlanExecutor</Filter>
     </None>
-    <None Include="MotionPlanExecutor\MotionPlanner.p">
-      <Filter>MotionPlanExecutor</Filter>
-    </None>
-    <None Include="MotionPlanner\TestDriver.p">
-      <Filter>MotionPlanner</Filter>
-    </None>
     <None Include="POrb\POrb.p">
       <Filter>POrb\PFiles</Filter>
     </None>
@@ -109,6 +103,9 @@
       <Filter>PX4_Simulator</Filter>
     </None>
     <None Include="MotionPlanner\DAMP.p">
+      <Filter>MotionPlanner</Filter>
+    </None>
+    <None Include="MotionPlanner\DistributedTimeSync.p">
       <Filter>MotionPlanner</Filter>
     </None>
   </ItemGroup>

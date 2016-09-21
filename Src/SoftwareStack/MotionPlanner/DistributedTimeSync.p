@@ -1,7 +1,7 @@
 event eGetTimePeriod: (robotid: int, source: machine);
 event eCurrTimePeriod : int;
 
-fun MotionPrimitiveTimePeriod() : int { return 500; /*0.5 ms*/ }
+fun MotionPrimitiveTimePeriod() : int { return 300; /*0.5 ms*/ }
 
 fun GetCurrentTimePeriod(timeSync:machine, robotid: int, source: machine) : int {
 	var retVal: int;
@@ -45,6 +45,7 @@ machine DistributedTimeSyncMachine {
 				robotsLocalTimeV[index] = robotsLocalTimeV[index] + 1;
 			    index = index + 1;
 			}
+			//print ".";
 			//start timer
 			StartTimer(timerV, MotionPrimitiveTimePeriod());
 		}

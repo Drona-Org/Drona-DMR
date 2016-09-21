@@ -14,30 +14,6 @@
 		<robot id="3">
 			<start x="15" y="15" z="0"/>
 		</robot>
-		<robot id="4">
-			<start x="0" y="14" z="0"/>
-		</robot>
-		<robot id="5">
-			<start x="15" y="14" z="0"/>
-		</robot>
-		<robot id="6">
-			<start x="0" y="1" z="0"/>
-		</robot>
-		<robot id="7">
-			<start x="15" y="1" z="0"/>
-		</robot>
-		<robot id="8">
-			<start x="0" y="0" z="0"/>
-		</robot>
-		<robot id="9">
-			<start x="1" y="0" z="0"/>
-		</robot>
-		<robot id="10">
-			<start x="14" y="0" z="0"/>
-		</robot>
-		<robot id="11">
-			<start x="15" y="0" z="0"/>
-		</robot>
 	</robots>
 	<obstacles>
 		<coord x="4" y="13" z="0"/>
