@@ -1,6 +1,7 @@
 #include "StubMotionPlanner.h"
 #include "WorkspaceParser.h"
 #include "Compat.h"
+#include "InitRos.h"
 
 WorkspaceInfo* WORKSPACE_INFO;
 
@@ -142,7 +143,7 @@ static void RunPerfTest()
 
 }
 
-void PRT_CALL_CONV  MyAssert(PRT_INT32 condition, PRT_CSTRING message)
+void PRT_CALL_CONV MyAssert(PRT_INT32 condition, PRT_CSTRING message)
 {
     if (condition != 0)
     {
@@ -176,13 +177,19 @@ static void RunToIdle(LPVOID process)
     }
 }
 
+
 int main(int argc, char *argv[])
 {
+    init_ros("test_plan_executor", &argc, argv);
+    
     if (!ParseCommandLine(argc, argv))
     {
         PrintUsage();
         return 1;
     }
+
+    printf("Press any key to start simulation\n");
+    getchar();
 
     PRT_DBG_START_MEM_BALANCED_REGION
     {

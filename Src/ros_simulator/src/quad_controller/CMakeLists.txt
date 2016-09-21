@@ -124,6 +124,7 @@ include_directories(
 
 ## Declare a C++ library
 add_library(goto_solver src/goto_solver.cpp)
+target_include_directories(goto_solver PUBLIC include)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

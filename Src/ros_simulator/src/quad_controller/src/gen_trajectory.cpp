@@ -16,7 +16,7 @@ double tscale = 1;
 
 double cur_t, t_end = 0;
 
-double stops[4][3] = { {0.0, 0.0, 0.0}, {0.1, 0.1, 1.2}, {0.2, 0.2, 1.2}, {0.3, 0.3, 1.2}};
+double stops[4][3] = { {0.0, 0.0, 0.0}, {0.0, 0.6, 0.0}, {0.2, 0.6, 0}, {0.2, 0.2, 0}};
 
 void init_traj(){
 	for(int i=0; i<num_seg; i++) {
@@ -27,7 +27,7 @@ void init_traj(){
 
 void initialize_var()
 {
-    set_t_goto(0.5);
+    set_t_goto(6);
 }
 
 int main(int argc, char **argv)

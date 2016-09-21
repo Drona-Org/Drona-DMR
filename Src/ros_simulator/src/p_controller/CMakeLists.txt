@@ -118,15 +118,13 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(p_controller
-#   src/${PROJECT_NAME}/p_controller.cpp
-# )
+add_library(p_ros src/InitRos.cpp src/ModelFunctions.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -148,12 +146,16 @@ p_compile(TestPlanExecutor src/test_plan_executor/StubMotionPlanner.p)
 
 p_compile(TestMotionPlaner ${test_motion_planner_dir}/TestDriver.p)
 
+target_include_directories(p_ros PRIVATE 
+  ../../../Lib/Compat
+  ${P_LIB_INCLUDE_PATH}
+)
+
 ## Declare a C++ executable
 add_executable(test_plan_executor 
   ${TestPlanExecutor_GENERATED_SRCS} 
   ${test_plan_executor_dir}/tester.c 
   ${test_plan_executor_dir}/Constructors.c 
-  src/ModelFunctions.cpp
 )
 set_property(TARGET test_plan_executor PROPERTY C_STANDARD 99)
 target_include_directories(test_plan_executor PRIVATE 
@@ -167,7 +169,6 @@ add_executable(test_motion_planner
   ${test_motion_planner_dir}/Constructors.c
   ${test_motion_planner_dir}/HelperFunctions.cpp
   ${test_motion_planner_dir}/../../SoftwareStack/Utilities/Timer/Timer.c
-  src/ModelFunctions.cpp
 )
 set_property(TARGET test_motion_planner PROPERTY C_STANDARD 99)
 target_include_directories(test_motion_planner PRIVATE 
@@ -177,20 +178,26 @@ target_include_directories(test_motion_planner PRIVATE
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
+add_dependencies(p_ros ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(test_plan_executor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(test_motion_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(test_plan_executor
+target_link_libraries(p_ros
   workspace_parser
   goto_solver
+  Prt
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(test_plan_executor
+  p_ros
   ${TestPlanExecutor_LINK_LIBS}
   ${catkin_LIBRARIES}
 )
 
 target_link_libraries(test_motion_planner
-  workspace_parser
-  goto_solver
+  p_ros
   plan_generator
   ${TestMotionPlaner_LINK_LIBS}
   ${catkin_LIBRARIES}
