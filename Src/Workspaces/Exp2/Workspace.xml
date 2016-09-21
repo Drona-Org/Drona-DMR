@@ -45,7 +45,13 @@
 		<coord x="6" y="0" z="0"/>
 		<coord x="7" y="0" z="0"/>
 	</obstacles>
-	<starts/>
+	<starts>
+		<coord x="6" y="14" z="0"/>
+		<coord x="5" y="15" z="0"/>
+		<coord x="4" y="0" z="0"/>
+		<coord x="0" y="4" z="0"/>
+		<coord x="3" y="4" z="0"/>
+	</starts>
 	<ends/>
 	<charging_stations/>
 </configuration>

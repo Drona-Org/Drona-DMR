@@ -7,34 +7,34 @@
     #endif
     enum P_FUNS_DistributedMotionPlannerMachine
     {
-      P_FUN_DistributedMotionPlannerMachine_ANON0 = 13,
-      P_FUN_DistributedMotionPlannerMachine_ANON1 = 14,
-      P_FUN_DistributedMotionPlannerMachine_ANON2 = 15,
-      P_FUN_DistributedMotionPlannerMachine_ANON3 = 16,
-      P_FUN_DistributedMotionPlannerMachine_ANON4 = 17,
-      P_FUN_DistributedMotionPlannerMachine_ANON5 = 18,
-      P_FUN_DistributedMotionPlannerMachine_ANON6 = 19,
-      P_FUN_DistributedMotionPlannerMachine_ANON7 = 20,
-      P_FUN_DistributedMotionPlannerMachine_ANON8 = 21,
-      P_FUN_DistributedMotionPlannerMachine_ANON9 = 22,
-      P_FUN_DistributedMotionPlannerMachine_ANON10 = 23,
-      P_FUN_DistributedMotionPlannerMachine_ANON11 = 24,
-      P_FUN_DistributedMotionPlannerMachine_ANON12 = 25,
-      P_FUN_DistributedMotionPlannerMachine_ANON13 = 26,
-      P_FUN_DistributedMotionPlannerMachine_ComputeTimedTraj = 27,
-      P_FUN_DistributedMotionPlannerMachine_ConvertTimedTrajToTraj = 28,
-      P_FUN_DistributedMotionPlannerMachine_PlanGenerator = 29,
-      P_FUN_DistributedMotionPlannerMachine_allTrajsReceived = 30,
-      _P_FUNS_DistributedMotionPlannerMachine_COUNT = 31
+      P_FUN_DistributedMotionPlannerMachine_ANON0 = 14,
+      P_FUN_DistributedMotionPlannerMachine_ANON1 = 15,
+      P_FUN_DistributedMotionPlannerMachine_ANON2 = 16,
+      P_FUN_DistributedMotionPlannerMachine_ANON3 = 17,
+      P_FUN_DistributedMotionPlannerMachine_ANON4 = 18,
+      P_FUN_DistributedMotionPlannerMachine_ANON5 = 19,
+      P_FUN_DistributedMotionPlannerMachine_ANON6 = 20,
+      P_FUN_DistributedMotionPlannerMachine_ANON7 = 21,
+      P_FUN_DistributedMotionPlannerMachine_ANON8 = 22,
+      P_FUN_DistributedMotionPlannerMachine_ANON9 = 23,
+      P_FUN_DistributedMotionPlannerMachine_ANON10 = 24,
+      P_FUN_DistributedMotionPlannerMachine_ANON11 = 25,
+      P_FUN_DistributedMotionPlannerMachine_ANON12 = 26,
+      P_FUN_DistributedMotionPlannerMachine_ANON13 = 27,
+      P_FUN_DistributedMotionPlannerMachine_ComputeTimedTraj = 28,
+      P_FUN_DistributedMotionPlannerMachine_ConvertTimedTrajToTraj = 29,
+      P_FUN_DistributedMotionPlannerMachine_PlanGenerator = 30,
+      P_FUN_DistributedMotionPlannerMachine_allTrajsReceived = 31,
+      _P_FUNS_DistributedMotionPlannerMachine_COUNT = 32
     };
 
     enum P_FUNS_DistributedTimeSyncMachine
     {
-      P_FUN_DistributedTimeSyncMachine_ANON0 = 13,
-      P_FUN_DistributedTimeSyncMachine_ANON1 = 14,
-      P_FUN_DistributedTimeSyncMachine_ANON2 = 15,
-      P_FUN_DistributedTimeSyncMachine_ANON3 = 16,
-      _P_FUNS_DistributedTimeSyncMachine_COUNT = 17
+      P_FUN_DistributedTimeSyncMachine_ANON0 = 14,
+      P_FUN_DistributedTimeSyncMachine_ANON1 = 15,
+      P_FUN_DistributedTimeSyncMachine_ANON2 = 16,
+      P_FUN_DistributedTimeSyncMachine_ANON3 = 17,
+      _P_FUNS_DistributedTimeSyncMachine_COUNT = 18
     };
 
     enum P_FUNS_GLOBAL
@@ -49,47 +49,48 @@
       P_FUN_GetNumOfRobots = 7,
       P_FUN_GetRobotInfo = 8,
       P_FUN_MotionPrimitiveTimePeriod = 9,
-      P_FUN_Sleep = 10,
-      P_FUN_StartExecutingPath = 11,
-      P_FUN_StartTimer = 12
+      P_FUN_RosInit = 10,
+      P_FUN_Sleep = 11,
+      P_FUN_StartExecutingPath = 12,
+      P_FUN_StartTimer = 13
     };
 
     enum P_FUNS_Main
     {
-      P_FUN_Main_ANON0 = 13,
-      P_FUN_Main_ANON1 = 14,
-      P_FUN_Main_ANON2 = 15,
-      P_FUN_Main_InitializeSystem = 16,
-      _P_FUNS_Main_COUNT = 17
+      P_FUN_Main_ANON0 = 14,
+      P_FUN_Main_ANON1 = 15,
+      P_FUN_Main_ANON2 = 16,
+      P_FUN_Main_InitializeSystem = 17,
+      _P_FUNS_Main_COUNT = 18
     };
 
     enum P_FUNS_PlanExecutorMachine
     {
-      P_FUN_PlanExecutorMachine_ANON0 = 13,
-      P_FUN_PlanExecutorMachine_ANON1 = 14,
-      P_FUN_PlanExecutorMachine_ANON2 = 15,
-      P_FUN_PlanExecutorMachine_ANON3 = 16,
-      _P_FUNS_PlanExecutorMachine_COUNT = 17
+      P_FUN_PlanExecutorMachine_ANON0 = 14,
+      P_FUN_PlanExecutorMachine_ANON1 = 15,
+      P_FUN_PlanExecutorMachine_ANON2 = 16,
+      P_FUN_PlanExecutorMachine_ANON3 = 17,
+      _P_FUNS_PlanExecutorMachine_COUNT = 18
     };
 
     enum P_FUNS_RobotMachine
     {
-      P_FUN_RobotMachine_ANON0 = 13,
-      P_FUN_RobotMachine_ANON1 = 14,
-      P_FUN_RobotMachine_ANON2 = 15,
-      P_FUN_RobotMachine_ANON3 = 16,
-      P_FUN_RobotMachine_ANON4 = 17,
-      _P_FUNS_RobotMachine_COUNT = 18
+      P_FUN_RobotMachine_ANON0 = 14,
+      P_FUN_RobotMachine_ANON1 = 15,
+      P_FUN_RobotMachine_ANON2 = 16,
+      P_FUN_RobotMachine_ANON3 = 17,
+      P_FUN_RobotMachine_ANON4 = 18,
+      _P_FUNS_RobotMachine_COUNT = 19
     };
 
     enum P_FUNS_Timer
     {
-      P_FUN_Timer_ANON0 = 13,
-      P_FUN_Timer_ANON1 = 14,
-      P_FUN_Timer_ANON2 = 15,
-      P_FUN_Timer_ANON3 = 16,
-      P_FUN_Timer_ANON4 = 17,
-      _P_FUNS_Timer_COUNT = 18
+      P_FUN_Timer_ANON0 = 14,
+      P_FUN_Timer_ANON1 = 15,
+      P_FUN_Timer_ANON2 = 16,
+      P_FUN_Timer_ANON3 = 17,
+      P_FUN_Timer_ANON4 = 18,
+      _P_FUNS_Timer_COUNT = 19
     };
 
     enum P_STATES_DistributedMotionPlannerMachine
@@ -225,6 +226,8 @@
     PRT_VALUE *P_FUN_GetNumOfRobots_IMPL(PRT_MACHINEINST *context);
 
     PRT_VALUE *P_FUN_GetRobotInfo_IMPL(PRT_MACHINEINST *context);
+
+    PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context);
 
     PRT_VALUE *P_FUN_Sleep_IMPL(PRT_MACHINEINST *context);
 

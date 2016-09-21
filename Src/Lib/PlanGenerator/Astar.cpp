@@ -99,8 +99,6 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
   	WS_Coord tmp_pos;
   	RobotPosition_Vector tmp_pos_vec;
 	
-  	cout << "Setting Avoid Trajectories" << endl;
-  	cout << avoidSize << endl;
   	for (count1 = 0; count1 < avoidSize; count1++)
   	{
  		// If the current trajectory size is greater than the size of avoidTrajs,
@@ -125,7 +123,6 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
     		{
 				WS_Coord coord;
       			coord = ExtractCoordFromGridLocation(avoidPositions[count1].PositionsOccupied[count2], dimension);
-      			cout << "x= " << coord.x << " " << "y = " << coord.y << endl;
 				SetCoordTo(&tmp_pos, coord);
       			//avoidTrajs.resize(count2 + 1);
       			avoidTrajs[count2].push_back(tmp_pos);
@@ -148,13 +145,13 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
 void CAstar::PrintAvoidPositions()
 {
 	unsigned int count1, count2;
-
+	cout << "Avoids Trajectories:" << endl;
 	for (count1 = 0; count1 < avoidTrajs.size(); count1++)
 	{
-		cout << "Time " << count1 << endl;
+		cout << "Time : " << count1 << endl;
 		for (count2 = 0; count2 < avoidTrajs[count1].size(); count2++)
 		{
-			cout << (avoidTrajs[count1][count2]).x << " " << (avoidTrajs[count1][count2]).y << " " << (avoidTrajs[count1][count2]).z << endl;
+			cout << ConvertCoordToGridLocation(avoidTrajs[count1][count2], dimension) << " ";
 		}
 		cout << endl;
 	}
@@ -198,7 +195,6 @@ RobotPosition_Vector CAstar::ExtractPath(WS_Coord end, vector<node> closeList)
   	WS_Coord F;
   	WS_Coord tmppos;
 
-  	cout << endl << "Astar node path building.." << endl;
 	SetCoordTo(&F, end);
 
   	int index=0;
@@ -223,7 +219,6 @@ RobotPosition_Vector CAstar::ExtractPath(WS_Coord end, vector<node> closeList)
 		}
 		if (CoordAreEqual(F, start)) break;
   	}
-  	cout << "Path building done.." << endl;
 
   	sort(gFindPath.begin(), gFindPath.end(),compare2);
   	for(count1 = 0; count1 < gFindPath.size(); count1++)
@@ -241,7 +236,6 @@ RobotPosition_Vector CAstar::ExtractPath(WS_Coord end, vector<node> closeList)
     	}
     	*/
   	}
-  	cout << "Path contruction done.." << endl;
   	return path;
 }
 
@@ -304,7 +298,6 @@ RobotPosition_Vector CAstar::FindCollisionFreePath()
   	int timestep;
 	bool key, blockedKey;
 
-  	cout << endl << "In Astar algorithm path function.." << endl;
   	while(1)
   	{	
     		if(closeList.size()==0)
@@ -336,7 +329,6 @@ RobotPosition_Vector CAstar::FindCollisionFreePath()
 				
       			if(CoordAreEqual(closeList[closeList.size()-1].selfPos, end))
       			{
-        			cout << "Goal Reached.." << endl;
 					break;		
       			}
     		}
@@ -424,8 +416,6 @@ RobotPosition_Vector CAstar::FindCollisionFreePath()
 //void CAstar::printTrajectory(dimension_t dimension, int **map, position start, position end, vector< pair<int, int > > path)
 void CAstar::printTrajectory(int ***map,  RobotPosition_Vector path)
 {
-	cout << endl << "Astar path printing on map.." << endl;
-
 	int count1, count2, count3;
 
 	cout << "Path Size = " << path.size() << endl;
@@ -441,9 +431,9 @@ void CAstar::printTrajectory(int ***map,  RobotPosition_Vector path)
 	for (count3 = 0; count3 < dimension.z_dim; count3++)
 	{
 		ofp << "z = " << count3 << endl;
-		for (count1 = 0; count1 < dimension.x_dim; count1++)
+		for (count2 = 0; count2 < dimension.y_dim; count2++)
 		{
-			for (count2 = 0; count2 < dimension.y_dim; count2++)
+			for (count1 = 0; count1 < dimension.x_dim; count1++)
 			{
 				if (map[count1][count2][count3] == 0)
 					ofp << "  ";

@@ -166,9 +166,8 @@
     <None Include="MavlinkMsgs\P_Mavlink_Enums.p" />
     <None Include="MavlinkMsgs\P_Mavlink_MessageTypes.p" />
     <None Include="MotionPlanExecutor\MotionPlanExecutor.p" />
-    <None Include="MotionPlanExecutor\MotionPlanner.p" />
     <None Include="MotionPlanner\DAMP.p" />
-    <None Include="MotionPlanner\TestDriver.p" />
+    <None Include="MotionPlanner\DistributedTimeSync.p" />
     <None Include="POrb\POrb.p" />
     <None Include="POrb\POrbTopics.p" />
     <None Include="PX4Simulator\DriverIncludes.p" />
