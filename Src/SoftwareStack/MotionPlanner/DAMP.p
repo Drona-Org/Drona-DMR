@@ -157,7 +157,7 @@ machine DistributedMotionPlannerMachine
 		var index : int;
 		var traj: seq[int];
 
-		maxComputeTimeForPlanner = 2;
+		maxComputeTimeForPlanner = 5;
 		currTimePeriod = GetCurrentTimePeriod(localTimeV, myIdV, this);
 		startingTimePeriod = currTimePeriod + maxComputeTimeForPlanner;
 
@@ -196,7 +196,7 @@ machine DistributedMotionPlannerMachine
 		defer eNewTask;
 		on ePlanCompletion do (payload: int){ 
 			currentLocationV = payload; 
-			print "Robot {0} completed task and is at location {1}\n", myIdV, currentLocationV;
+			print "--- Robot {0} completed task and is at location {1} ---\n", myIdV, currentLocationV;
 			goto WaitForRequests; 
 		}
 		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)) {
