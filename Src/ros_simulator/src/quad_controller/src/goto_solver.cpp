@@ -30,7 +30,6 @@ static TrajectoryInfo cal_goto_with_A(double x_init, double y_init, double z_ini
     soly = A.colPivHouseholderQr().solve(by);
     bz<< z_init,0.0,0.0,z_dest,0.0,0.0;
     solz = A.colPivHouseholderQr().solve(bz);
-    std::cout << bx;
     cur_traj.duration = t;
     cur_traj.xcoef[0] = 0;
     cur_traj.xcoef[1] = 0;

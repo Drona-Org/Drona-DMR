@@ -10,7 +10,7 @@
         type="map_visual.py"
         name="map_visual"
         output="screen">
-    <param name="map/res" value="1.0"/>
+    <param name="map/res" value="0.8"/>
     <param name="map/cmap" value="$(find p_controller)/datas/Workspaces/Exp1/Workspace.xml"/>
   </node>
 

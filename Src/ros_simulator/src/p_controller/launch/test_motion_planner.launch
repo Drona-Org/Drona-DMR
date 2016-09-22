@@ -10,7 +10,7 @@
         type="map_visual.py"
         name="map_visual"
         output="screen">
-    <param name="map/res" value="1.0"/>
+    <param name="map/res" value="0.8"/>
     <param name="map/cmap" value="$(find p_controller)/datas/Workspaces/Exp1/Workspace.xml"/>
   </node>
 
@@ -20,7 +20,7 @@
         output="screen">
     <param name="rate/odom" value="100.0"/>
     <param name="initial_pos/x" value="0"/>
-    <param name="initial_pos/y" value="15"/>
+    <param name="initial_pos/y" value="12"/>
     <param name="initial_pos/z" value="0"/>
     <param name="gains/rot/x" value="0.05"/>
     <param name="gains/rot/y" value="0.05"/>
@@ -57,7 +57,7 @@
           name="quad_trajectory0"
           output="screen">
       <param name="des_pos/x" value="0"/>
-      <param name="des_pos/y" value="15"/>
+      <param name="des_pos/y" value="12"/>
       <param name="des_pos/z" value="0"/>
       <param name="time/scale" value="1"/>
       <param name="time/takeoff" value="4"/>

@@ -18,7 +18,7 @@ Quadrotor::Quadrotor(void)
   J_ = Eigen::Vector3d(Ixx, Iyy, Izz).asDiagonal();
 
 //  kf_ = 1.3e-9;
-  kf_ = 3; //using hover RPM = 10000
+  kf_ = 2.06e-9; //using hover RPM = 10000
   // km_ = 2.5e-9; // from Nate
   // km = (Cq/Ct)*Dia*kf
   // Cq/Ct for 8 inch props from UIUC prop db ~ 0.07

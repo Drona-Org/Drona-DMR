@@ -21,11 +21,9 @@ machine StubMotionPlannerMachine {
 			RosInit(robot_id);
 			traj += (0, 0);
 			traj += (1, 1);
-			traj += (2, 2);
-			traj += (3, 3);			
-			traj += (4, 19);			
-			traj += (5, 18);
-			traj += (6, 17);
+			traj += (2, 17);
+			traj += (3, 16);			
+			traj += (4, 0);
 			trajs += (0, traj);
 			goto SendCommandLoop;
 		}

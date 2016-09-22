@@ -34,8 +34,8 @@ double tscale = 1;
 void startprogram (const std_msgs::Int8::ConstPtr & msg)
 {
   if(msg->data == 0){
-	start = true;
-	ROS_INFO("GET MESSAGE START");
+    start = true;
+    ROS_INFO("GET MESSAGE START");
   }
 }
 
@@ -195,7 +195,7 @@ int main(int argc, char **argv)
     }
     else{
         sleep(3);
-    	ros::spinOnce();
+        ros::spinOnce();
     }
     // }
 
@@ -227,7 +227,7 @@ int main(int argc, char **argv)
             follow_path = false;
         }
 
-    	if(mode == 1 && done_init){
+        if(mode == 1 && done_init){
             cur_t = ros::Time::now().toSec();
             t_command = cur_t;
             t_start = cur_t;
@@ -252,68 +252,68 @@ int main(int argc, char **argv)
             mode = 2;
             t_command = cur_t;
             follow_path = false;
-    	}
+        }
 
-	if(mode == 2 && (receive_traj || buffer)){
-        traj.mode = 2;
-        traj.write = 1;
-        cur_t = ros::Time::now().toSec();
-        if(follow_path){
-            double t = (cur_t - t_start)/tscale;
-            traj.x = cal_pos(cur_traj.xcoef,t);
-            cur_off[0] = traj.x;
-            traj.y = cal_pos(cur_traj.ycoef,t);
-            cur_off[1] = traj.y;
-            traj.z = cal_pos(cur_traj.zcoef,t);
-            cur_off[2] = traj.z;
-            traj.vx = cal_vel(cur_traj.xcoef,t);
-            traj.vy = cal_vel(cur_traj.ycoef,t);
-            traj.vz = cal_vel(cur_traj.zcoef,t);
-            traj.acc_x = cal_acc(cur_traj.xcoef,t);
-            traj.acc_y = cal_acc(cur_traj.ycoef,t);
-            traj.acc_z = cal_acc(cur_traj.zcoef,t);
-            traj.yaw = 0;
-            t_command = cur_t;
+        if(mode == 2 && (receive_traj || buffer)){
+            traj.mode = 2;
+            traj.write = 1;
+            cur_t = ros::Time::now().toSec();
+            if(follow_path){
+                double t = (cur_t - t_start)/tscale;
+                traj.x = cal_pos(cur_traj.xcoef,t);
+                cur_off[0] = traj.x;
+                traj.y = cal_pos(cur_traj.ycoef,t);
+                cur_off[1] = traj.y;
+                traj.z = cal_pos(cur_traj.zcoef,t);
+                cur_off[2] = traj.z;
+                traj.vx = cal_vel(cur_traj.xcoef,t);
+                traj.vy = cal_vel(cur_traj.ycoef,t);
+                traj.vz = cal_vel(cur_traj.zcoef,t);
+                traj.acc_x = cal_acc(cur_traj.xcoef,t);
+                traj.acc_y = cal_acc(cur_traj.ycoef,t);
+                traj.acc_z = cal_acc(cur_traj.zcoef,t);
+                traj.yaw = 0;
+                t_command = cur_t;
+            }
+            if(cur_t >= t_end){
+                cur_traj.duration = next_traj.duration;
+                count++;
+                for(int ii = 0; ii < 7; ii++){
+                    cur_traj.xcoef[ii] = next_traj.xcoef[ii];
+                    cur_traj.ycoef[ii] = next_traj.ycoef[ii];
+                    cur_traj.zcoef[ii] = next_traj.zcoef[ii];
+                }
+                if(init_b){
+                    cur_traj.xcoef[7] = cur_off[0];
+                    cur_traj.ycoef[7] = cur_off[1];
+                    cur_traj.zcoef[7] = cur_off[2];
+                }
+                else{
+                    cur_traj.xcoef[7] = des_pos[0];
+                    cur_traj.ycoef[7] = des_pos[1];
+                    cur_traj.zcoef[7] = des_height;     
+                    init_b = true;
+                }
+                t_start = cur_t;
+                t_end = cur_t + cur_traj.duration*tscale;
+                ROS_INFO("Traj: %d from %f %f %f",count,cur_traj.xcoef[7],cur_traj.ycoef[7],cur_traj.zcoef[7]);
+                receive_traj = buffer;
+                if(receive_traj){
+                    ROS_INFO("True");
+                }
+                buffer = false;
+            }
+            follow_path = true;
+        } else {
+            t_hover = ros::Time::now().toSec() - t_command;
+            if(t_hover > t_wait) {
+                traj.mode = 3;
+            } else {
+                traj.mode = 1;
+            }
         }
-        if(cur_t >= t_end){
-            cur_traj.duration = next_traj.duration;
-            count++;
-            for(int ii = 0; ii < 7; ii++){
-                cur_traj.xcoef[ii] = next_traj.xcoef[ii];
-                cur_traj.ycoef[ii] = next_traj.ycoef[ii];
-                cur_traj.zcoef[ii] = next_traj.zcoef[ii];
-            }
-            if(init_b){
-                cur_traj.xcoef[7] = cur_off[0];
-                cur_traj.ycoef[7] = cur_off[1];
-                cur_traj.zcoef[7] = cur_off[2];
-            }
-            else{
-                cur_traj.xcoef[7] = des_pos[0];
-                cur_traj.ycoef[7] = des_pos[1];
-                cur_traj.zcoef[7] = des_height;		
-                init_b = true;
-            }
-            t_start = cur_t;
-            t_end = cur_t + cur_traj.duration*tscale;
-            ROS_INFO("Traj: %d from %f %f %f",count,cur_traj.xcoef[7],cur_traj.ycoef[7],cur_traj.zcoef[7]);
-            receive_traj = buffer;
-            if(receive_traj){
-                ROS_INFO("True");
-            }
-            buffer = false;
-        }
-        follow_path = true;
-  }
-  else{
-	    t_hover = ros::Time::now().toSec() - t_command;
-	    if(t_hover > t_wait)
-	        traj.mode = 3;
-	    else
-		traj.mode = 1;
-	}
         pub.publish(traj);
-	ros::spinOnce();
+        ros::spinOnce();
         loop_rate.sleep();
     }
     return 0;

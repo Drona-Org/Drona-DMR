@@ -19,7 +19,7 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context);
 
 std::map<int, ros::Publisher> publishers;
 
-double t_goto = 2;
+double t_goto = 3;
 
 #ifndef USE_EMPTY
 PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
@@ -84,10 +84,10 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
             } while (diff == current_step);
             Eigen::Vector3i straight_step = current_step * step_count;
             current_step = diff;
-            printf("move in (%d, %d, %d)\n", straight_step[0], straight_step[1], straight_step[2]);
+            printf("robot %d move in (%d, %d, %d)\n", robot_id, straight_step[0], straight_step[1], straight_step[2]);
             Eigen::Vector3i end_coord = straight_step + start_coord;
-            Eigen::Vector3d start = start_coord.cast<double>() * 1.0;
-            Eigen::Vector3d end = end_coord.cast<double>() * 1.0;
+            Eigen::Vector3d start = start_coord.cast<double>() * 0.8;
+            Eigen::Vector3d end = end_coord.cast<double>() * 0.8;
             TrajectoryInfo traj = cal_goto_with_t(start[0], start[1], start[2], end[0], end[1], end[2], t_goto * step_count);
             quadrotor_msgs::TrajectoryData seg;
             for(int j = 0; j < 8; j++) {
@@ -97,7 +97,7 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
             }
             seg.duration = traj.duration;
             publishers.at(robot_id).publish(seg);
-            ros::Duration(t_goto * step_count).sleep();
+            ros::Duration(t_goto * step_count + 3).sleep();
         }
     }
     //remm to free the frame

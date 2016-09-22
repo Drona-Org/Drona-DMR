@@ -33,7 +33,7 @@ Visualization Manager:
   Class: ""
   Displays:
     - Alpha: 0.5
-      Cell Size: 1.0
+      Cell Size: 0.8
       Class: rviz/Grid
       Color: 160; 160; 164
       Enabled: true
@@ -88,7 +88,7 @@ Visualization Manager:
       Queue Size: 1000000
       Selectable: true
       Size (Pixels): 3
-      Size (m): 1.0
+      Size (m): 0.8
       Style: Boxes
       Topic: /map_visual/obs_array
       Unreliable: false
@@ -118,7 +118,7 @@ Visualization Manager:
       Queue Size: 1000000
       Selectable: true
       Size (Pixels): 3
-      Size (m): 1.0
+      Size (m): 0.8
       Style: Boxes
       Topic: /map_visual/starts_array
       Unreliable: false
@@ -148,7 +148,7 @@ Visualization Manager:
       Queue Size: 1000000
       Selectable: true
       Size (Pixels): 3
-      Size (m): 1.0
+      Size (m): 0.8
       Style: Boxes
       Topic: /map_visual/ends_array
       Unreliable: false
@@ -178,7 +178,7 @@ Visualization Manager:
       Queue Size: 1000000
       Selectable: true
       Size (Pixels): 3
-      Size (m): 1.0
+      Size (m): 0.8
       Style: Boxes
       Topic: /map_visual/chargings_array
       Unreliable: false
