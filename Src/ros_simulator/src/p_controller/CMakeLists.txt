@@ -175,6 +175,7 @@ target_include_directories(test_motion_planner PRIVATE
   ../../../Lib/Compat
   ${TestMotionPlaner_INCLUDE_DIRS}
 )
+# target_compile_definitions(test_motion_planner PRIVATE -DUSE_EMPTY)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above

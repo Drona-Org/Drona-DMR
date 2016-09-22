@@ -3,7 +3,7 @@
   <node pkg="rviz"
         type="rviz"
         name="rviz"
-        args="-d $(find p_controller)/launch/test_plan_executor.rviz"
+        args="-d $(find p_controller)/launch/test_motion_planner.rviz"
         output="screen"/>
 
   <node pkg="map_visualization"
@@ -20,7 +20,7 @@
         output="screen">
     <param name="rate/odom" value="100.0"/>
     <param name="initial_pos/x" value="0"/>
-    <param name="initial_pos/y" value="0"/>
+    <param name="initial_pos/y" value="15"/>
     <param name="initial_pos/z" value="0"/>
     <param name="gains/rot/x" value="0.05"/>
     <param name="gains/rot/y" value="0.05"/>
@@ -57,7 +57,7 @@
           name="quad_trajectory0"
           output="screen">
       <param name="des_pos/x" value="0"/>
-      <param name="des_pos/y" value="0"/>
+      <param name="des_pos/y" value="15"/>
       <param name="des_pos/z" value="0"/>
       <param name="time/scale" value="1"/>
       <param name="time/takeoff" value="4"/>
@@ -71,19 +71,12 @@
 
 
     <node pkg="p_controller"
-          type="test_plan_executor"
-          name="test_plan_executor"
-          args="-w $(find p_controller)/datas/Workspaces/Exp1/Workspace.xml -cooperative -threads 10"
+          type="test_motion_planner"
+          name="test_motion_planner"
+          args="-w $(find p_controller)/datas/Workspaces/Exp1/Workspace.xml -cooperative -threads 10 -primitive $(find p_controller)/../../../Lib/PlanGenerator/primitive.txt"
           output="screen">
       <remap from="~trajectoryinfo0" to="trajectoryinfo0"/>
     </node>
-
-<!--     <node pkg="quad_controller"
-    type="gen_trajectory"
-    name="gen_trajectory"
-    output="screen">
-    <remap from="~trajectoryinfo" to="trajectoryinfo0"/>
-    </node> -->
 
     <node pkg="quad_controller"
     type="test_control"

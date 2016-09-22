@@ -1,5 +1,5 @@
 //// Program TestDriver_p_LinkModel.4ml
-model TestDriver_p_LinkModel of PLink at "C:\\Workspace\\P\\Bld\\Drops\\Debug\\x64\\Binaries\\PLink.4ml"
+model TestDriver_p_LinkModel of PLink at "/home/user/Desktop/Drona/Submodules/P/Bld/Drops/Debug/x86/Binaries/PLink.4ml"
 {
   p_compiler____FunImpDecl__0x0 is FunImpDecl("InitializeSystem", NIL, NIL, NIL),
   p_compiler____EventDecl__0x1 is EventDecl("UNIT", NIL, NIL),

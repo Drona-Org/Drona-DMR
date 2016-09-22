@@ -5,6 +5,8 @@
 
 using namespace tinyxml2;
 
+WorkspaceInfo* WORKSPACE_INFO;
+
 const XMLNode* ParseXMLChildElement(const XMLNode* node, const char* optionName)
 {
 	const XMLNode *ret = node->FirstChildElement(optionName);

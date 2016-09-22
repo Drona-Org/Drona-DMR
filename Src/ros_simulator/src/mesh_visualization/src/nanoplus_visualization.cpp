@@ -35,9 +35,9 @@ void odom_callback(const nav_msgs::Odometry::ConstPtr &msg)
   marker.pose.orientation.y = q_c.y();
   marker.pose.orientation.z = q_c.z();
   marker.pose.orientation.w = q_c.w();
-  marker.scale.x = 1;
-  marker.scale.y = 1;
-  marker.scale.z = 1;
+  marker.scale.x = 0.001;
+  marker.scale.y = 0.001;
+  marker.scale.z = 0.001;
   marker.color.a = color_a;
   marker.color.r = color_r;
   marker.color.g = color_g;

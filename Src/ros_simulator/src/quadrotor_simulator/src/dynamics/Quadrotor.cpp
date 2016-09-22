@@ -18,7 +18,7 @@ Quadrotor::Quadrotor(void)
   J_ = Eigen::Vector3d(Ixx, Iyy, Izz).asDiagonal();
 
 //  kf_ = 1.3e-9;
-  kf_ = 2.06e-9; //using hover RPM = 10000
+  kf_ = 3; //using hover RPM = 10000
   // km_ = 2.5e-9; // from Nate
   // km = (Cq/Ct)*Dia*kf
   // Cq/Ct for 8 inch props from UIUC prop db ~ 0.07
@@ -142,13 +142,13 @@ void Quadrotor::setInput(double u1, double u2, double u3, double u4)
   input_(1) = u2;
   input_(2) = u3;
   input_(3) = u4;
-  for(int i = 0; i < 4; i++)
-  {
-    if(input_(i) > max_rpm_)
-      input_(i) = max_rpm_;
-    else if(input_(i) < min_rpm_)
-      input_(i) = min_rpm_;
-  }
+  // for(int i = 0; i < 4; i++)
+  // {
+  //   if(input_(i) > max_rpm_)
+  //     input_(i) = max_rpm_;
+  //   else if(input_(i) < min_rpm_)
+  //     input_(i) = min_rpm_;
+  // }
 }
 
 const Quadrotor::State &Quadrotor::getState(void) const

@@ -19,8 +19,9 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context);
 
 std::map<int, ros::Publisher> publishers;
 
-double t_goto = 1;
+double t_goto = 2;
 
+#ifndef USE_EMPTY
 PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
 {
     PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
@@ -85,8 +86,8 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
             current_step = diff;
             printf("move in (%d, %d, %d)\n", straight_step[0], straight_step[1], straight_step[2]);
             Eigen::Vector3i end_coord = straight_step + start_coord;
-            Eigen::Vector3d start = start_coord.cast<double>() * 0.8;
-            Eigen::Vector3d end = end_coord.cast<double>() * 0.8;
+            Eigen::Vector3d start = start_coord.cast<double>() * 1.0;
+            Eigen::Vector3d end = end_coord.cast<double>() * 1.0;
             TrajectoryInfo traj = cal_goto_with_t(start[0], start[1], start[2], end[0], end[1], end[2], t_goto * step_count);
             quadrotor_msgs::TrajectoryData seg;
             for(int j = 0; j < 8; j++) {
@@ -103,3 +104,4 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
     PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
     return p_tmp_ret;
 }
+#endif

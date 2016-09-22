@@ -16,6 +16,8 @@ This file is used for parsing the inputs to complan.
 #include "MotionPrimitives.h"
 using namespace std;
 
+extern const char* primitive_file_path;
+
 void ReadMotionPrimitives(MotionPrimitive_Vector &primitives)
 {
 	ifstream ifp;
@@ -34,7 +36,7 @@ void ReadMotionPrimitives(MotionPrimitive_Vector &primitives)
 	WS_Coord pos_min;
 	WS_Coord pos_max;
 
-	ifp.open("primitive.txt");
+	ifp.open(primitive_file_path);
 
 	if (ifp.is_open())
 	{

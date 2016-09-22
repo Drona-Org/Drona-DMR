@@ -150,7 +150,7 @@ PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEI
 	return retPlan;
 }
 
-#ifdef PRT_PLAT_WINUSER
+#if defined(PRT_PLAT_WINUSER) || defined(USE_EMPTY)
 PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context) {
 	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
 	PRT_VALUE *p_tmp_ret = NULL;

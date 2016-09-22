@@ -1,8 +1,11 @@
 #include "TestDriver.h"
 #include "WorkspaceParser.h"
 #include "Compat.h"
+#ifndef PRT_WINUSER
+#include "InitRos.h"
+#endif
 
-WorkspaceInfo* WORKSPACE_INFO;
+const char* primitive_file_path = "primitive.txt";
 
 void ErrorHandler(PRT_STATUS status, PRT_MACHINEINST *ptr)
 {
@@ -106,6 +109,14 @@ static PRT_BOOLEAN ParseCommandLine(int argc, char *argv[])
 					parg = argv[++i];
 				}
 			}
+            else if (_stricmp(arg + 1, "primitive") == 0)
+            {
+                if(i + 1 < argc)
+                {
+                    printf("read %s\n", primitive_file_path);
+                    primitive_file_path = argv[++i];
+                }
+            }
             else if (_stricmp(arg + 1, "h") == 0 || _stricmp(arg + 1, "help") == 0 || _stricmp(arg + 1, "?") == 0)
             {
                 return PRT_FALSE;
@@ -178,11 +189,17 @@ static void RunToIdle(LPVOID process)
 
 int main(int argc, char *argv[])
 {
+#ifndef PRT_WINUSER
+    init_ros("test_motion_planner", &argc, argv);
+#endif
     if (!ParseCommandLine(argc, argv))
     {
         PrintUsage();
         return 1;
     }
+
+    printf("Press any key to start simulation\n");
+    getchar();
 
 	PRT_DBG_START_MEM_BALANCED_REGION
 	{
