@@ -246,11 +246,13 @@ bool isBlocked(WS_Coord pos, int timestep, int ***obsmap, vector <RobotPosition_
 	bool collisionKey = false;	
 
 	// Static Obstacles
-	if ( obsmap[pos.x][pos.y][pos.z] == 1 )
-        {
-                return true;
-       	}
-        
+	if (obsmap[pos.x][pos.y][pos.z] == 1 )
+    {
+            return true;
+    }
+	if (avoidTrajs.size() == 0)
+		return false;
+
 	// Other Robots
     for (count1 = -Delta; count1 <= Delta; count1++)
     {
