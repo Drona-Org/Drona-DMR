@@ -123,8 +123,7 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
 				WS_Coord coord;
       			coord = ExtractCoordFromGridLocation(avoidPositions[count1].PositionsOccupied[count2], dimension);
 				SetCoordTo(&tmp_pos, coord);
-      			//avoidTrajs.resize(count2 + 1);
-				avoidTrajs.resize(count1 + 1);
+      			avoidTrajs.resize(count1 + 1);
       			avoidTrajs[count1].push_back(tmp_pos);
     		}
 
@@ -199,7 +198,7 @@ void CAstar::PrintAvoidPositions()
 	cout << "Avoids Trajectories:" << endl;
 	for (count1 = 0; count1 < avoidTrajs.size(); count1++)
 	{
-		cout << "Time : " << count1 << endl;
+		cout << "Robot : " << count1 << endl;
 		for (count2 = 0; count2 < avoidTrajs[count1].size(); count2++)
 		{
 			cout << ConvertCoordToGridLocation(avoidTrajs[count1][count2], dimension) << " ";
