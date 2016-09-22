@@ -14,7 +14,7 @@ PRT_VALUE *P_FUN_Sleep_IMPL(PRT_MACHINEINST *context) {
 	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
 	//create a tuple value
 	time = PrtPrimGetInt(p_tmp_frame.locals[0]);
-	SleepMs(time * 500);
+	SleepMs(time);
 	//remm to free the frame
 	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
 	return p_tmp_ret;

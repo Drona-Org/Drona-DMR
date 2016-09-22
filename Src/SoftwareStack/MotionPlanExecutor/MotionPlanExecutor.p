@@ -6,6 +6,19 @@ model fun RosInit(robotId: int)
 
 }
 
+fun InvokeStartExecutingPathAndWait(path: seq[int], robotId: int, timesync: machine)
+{
+
+	var currTimePeriod: int;
+	var expectedEndTime: int;
+	//start executing path
+	StartExecutingPath(path,robotId);
+
+	currTimePeriod = GetCurrentTimePeriod(timesync, robotId, this);
+	expectedEndTime = sizeof(path) + currTimePeriod;
+	Sleep((expectedEndTime - currTimePeriod)*MotionPrimitiveTimePeriod());
+}
+
 model fun StartExecutingPath(path: seq[int], robotId: int)
 {
 
@@ -41,7 +54,7 @@ machine PlanExecutorMachine {
 
 			currTimePeriod = GetCurrentTimePeriod(localTimeV, robotId, this);
 			if(currTimePeriod - payload[0].0 > 0)
-			Sleep(currTimePeriod - payload[0].0);
+			Sleep((currTimePeriod - payload[0].0)*MotionPrimitiveTimePeriod());
 			index = 0;
 			while(index < sizeof(payload))
 			{
@@ -49,7 +62,7 @@ machine PlanExecutorMachine {
 			    index = index + 1;
 			}
 
-			StartExecutingPath(traj, robotId);
+			InvokeStartExecutingPathAndWait(traj, robotId, localTimeV);
 
 			send motionplanner, ePlanCompletion, traj[sizeof(traj) - 1];
 		}
