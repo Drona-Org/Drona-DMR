@@ -198,7 +198,7 @@ void CAstar::PrintAvoidPositions()
 	cout << "Avoids Trajectories:" << endl;
 	for (count1 = 0; count1 < avoidTrajs.size(); count1++)
 	{
-		cout << "Robot : " << count1 + 1 << endl;
+		cout << "Robot : " << count1 << endl;
 		for (count2 = 0; count2 < avoidTrajs[count1].size(); count2++)
 		{
 			cout << ConvertCoordToGridLocation(avoidTrajs[count1][count2], dimension) << " ";
