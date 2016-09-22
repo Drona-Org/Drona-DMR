@@ -165,15 +165,22 @@ static void RunToIdle(LPVOID process)
     // In the tester we run the state machines until there is no more work to do then we exit
     // instead of blocking indefinitely.  This is then equivalent of the non-cooperative case
     // where we PrtRunStateMachine once (inside PrtMkMachine).  So we do NOT call PrtWaitForWork.
-    // PrtWaitForWork(process);
+    
     PRT_PROCESS_PRIV* privateProcess = (PRT_PROCESS_PRIV*)process;
-    while (privateProcess->terminating == PRT_FALSE)
-    {
-        if (PRT_STEP_IDLE == PrtStepProcess(process))
-        {
-            break;
-        }
-    }
+	while (privateProcess->terminating == PRT_FALSE)
+	{
+		PRT_STEP_RESULT result = PrtStepProcess(process);
+		switch (result) {
+		case PRT_STEP_TERMINATING:
+			break;
+		case PRT_STEP_IDLE:
+			PrtWaitForWork(process);
+			break;
+		case PRT_STEP_MORE:
+			PrtYieldThread();
+			break;
+		}
+	}
 }
 
 int main(int argc, char *argv[])
