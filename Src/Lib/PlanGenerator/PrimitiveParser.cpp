@@ -16,7 +16,7 @@ This file is used for parsing the inputs to complan.
 #include "MotionPrimitives.h"
 using namespace std;
 
-extern const char* primitive_file_path;
+extern "C" { extern const char* primitive_file_path; }
 
 void ReadMotionPrimitives(MotionPrimitive_Vector &primitives)
 {
