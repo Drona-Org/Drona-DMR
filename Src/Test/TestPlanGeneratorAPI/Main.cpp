@@ -1,11 +1,12 @@
 #include <iostream>
-#include "PlanGenerator.h"
-#include "WorkspaceParser.h"
+#include "../../Lib/PlanGenerator/PlanGenerator.h"
+#include "../../Lib/WorkspaceParser/WorkspaceParser.h"
 using namespace std;
 
 int main()
 {
-	char* pathToWorkspace = "C:\\Workspace\\Drona\\Src\\Workspaces\\Exp2\\Workspace.xml";
+	//char* pathToWorkspace = "C:\\Workspace\\Drona\\Src\\Workspaces\\Exp2\\Workspace.xml";
+	char* pathToWorkspace = "../../Src/Workspaces/Exp2";
 	int count;
 	int* output_seq_of_locations = (int*)malloc(100 * sizeof(int));
 	int output_size = 0;
@@ -46,7 +47,7 @@ int main()
 	// Testcase: The location of the other robot at timestep 2 blocks the shortest path of the current robot.
 	// We find an alternative path that avoid collision.
 	//AvoidPositions avoidsArr[] = { { { 19, 35, 51, 52 }, 4 } };
-    //GenerateMotionPlanFor(*WSInfo, 3, 53, WSInfo->obstacles.locations, WSInfo->obstacles.size, avoidsArr, 1, output_seq_of_locations, output_size);
+        //GenerateMotionPlanFor(*WSInfo, 3, 53, WSInfo->obstacles.locations, WSInfo->obstacles.size, avoidsArr, 1, output_seq_of_locations, output_size);
 
 	AvoidPositions avoidsArr[] = { { { 60, 59, 58, 57 }, 4 } };
 	for (int i = 0; i < WSInfo->obstacles.size; i++)

@@ -8,7 +8,7 @@ This file defines data types for storing the robot state, position and motion pr
 */
 #include <iostream>
 #include <vector>
-#include "Workspace.h"
+#include "../WorkspaceParser/Workspace.h"
 using namespace std;
 
 

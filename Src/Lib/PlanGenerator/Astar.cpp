@@ -104,16 +104,15 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
  		// If the current trajectory size is greater than the size of avoidTrajs,
 		// extend avoidTrajs up to the length of the current trajectory by repeating
 		// the final locations
-		if (avoidTrajs.size() < avoidPositions[count1].size)
+		if (count1 > 0 && avoidTrajs[count1-1].size() < avoidPositions[count1].size)
    		{
-			original_size = avoidTrajs.size();
-			avoidTrajs.resize(avoidPositions[count1].size);
-			tmp_pos_vec = avoidTrajs[avoidTrajs.size() - 1];
-			for (count2 = original_size; count2 < avoidPositions[count1].size; count2++)
+			original_size = avoidTrajs[count1-1].size();
+			for (count2 = 0; count2 <= count1 - 1; count2++)
 			{
-				for (count3 = 0; count3 < tmp_pos_vec.size(); count3++)
+			        tmp_pos = (avoidTrajs[count2])[original_size -1];
+				for (count3 = original_size + 1; count3 <= avoidPositions[count1].size; count3++)
 				{
-					avoidTrajs[count2].push_back(tmp_pos_vec[count3]);
+					avoidTrajs[count2].push_back(tmp_pos);
 				}
 			}
 		}
@@ -121,25 +120,76 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
 		// Add the positions in the current trajectories to avoidTrajs
     		for (count2 = 0; count2 < avoidPositions[count1].size; count2++)
     		{
-				WS_Coord coord;
+			WS_Coord coord;
       			coord = ExtractCoordFromGridLocation(avoidPositions[count1].PositionsOccupied[count2], dimension);
-				SetCoordTo(&tmp_pos, coord);
-      			//avoidTrajs.resize(count2 + 1);
-      			avoidTrajs[count2].push_back(tmp_pos);
+			SetCoordTo(&tmp_pos, coord);
+      			avoidTrajs.resize(count1 + 1);
+      			avoidTrajs[count1].push_back(tmp_pos);
     		}
 
 		// If the current trajectory size is less than the size of avoidTrajs,
 		// extend the current trajectory upto the length of avoidTrajs by 
 		// repeating the final position of the current trajectory
-		if (avoidPositions[count1].size < avoidTrajs.size())
+		if (count1 > 0 && avoidPositions[count1].size < avoidTrajs[count1-1].size())
 		{
-			for (count2 = avoidPositions[count1].size; count2 < avoidTrajs.size(); count2++)
+			for (count2 = avoidPositions[count1].size; count2 < avoidTrajs[count1-1].size(); count2++)
 			{
-				avoidTrajs[count2].push_back(tmp_pos);
+				avoidTrajs[count1].push_back(tmp_pos);
 			}
 		}
   	}
 }
+
+/*
+void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPositions, int avoidSize)
+{
+        unsigned int count1, count2, count3;
+        int original_size;
+        WS_Coord tmp_pos;
+        RobotPosition_Vector tmp_pos_vec;
+
+        for (count1 = 0; count1 < avoidSize; count1++)
+        {
+                // If the current trajectory size is greater than the size of avoidTrajs,
+                // extend avoidTrajs up to the length of the current trajectory by repeating
+                // the final locations
+                if (avoidTrajs.size() < avoidPositions[count1].size)
+                {
+                        original_size = avoidTrajs.size();
+                        avoidTrajs.resize(avoidPositions[count1].size);
+                        tmp_pos_vec = avoidTrajs[avoidTrajs.size() - 1];
+                        for (count2 = original_size; count2 < avoidPositions[count1].size; count2++)
+                        {
+                                for (count3 = 0; count3 < tmp_pos_vec.size(); count3++)
+                                {
+                                        avoidTrajs[count2].push_back(tmp_pos_vec[count3]);
+                                }
+                        }
+                }
+
+                // Add the positions in the current trajectories to avoidTrajs
+                for (count2 = 0; count2 < avoidPositions[count1].size; count2++)
+                {
+                                WS_Coord coord;
+                        coord = ExtractCoordFromGridLocation(avoidPositions[count1].PositionsOccupied[count2], dimension);
+                                SetCoordTo(&tmp_pos, coord);
+                        //avoidTrajs.resize(count2 + 1);
+                        avoidTrajs[count2].push_back(tmp_pos);
+                }
+
+                // If the current trajectory size is less than the size of avoidTrajs,
+                // extend the current trajectory upto the length of avoidTrajs by
+                // repeating the final position of the current trajectory
+                if (avoidPositions[count1].size < avoidTrajs.size())
+                {
+                        for (count2 = avoidPositions[count1].size; count2 < avoidTrajs.size(); count2++)
+                        {
+                                avoidTrajs[count2].push_back(tmp_pos);
+                        }
+                }
+        }
+}
+*/
 
 
 void CAstar::PrintAvoidPositions()
@@ -148,7 +198,7 @@ void CAstar::PrintAvoidPositions()
 	cout << "Avoids Trajectories:" << endl;
 	for (count1 = 0; count1 < avoidTrajs.size(); count1++)
 	{
-		cout << "Time : " << count1 << endl;
+		cout << "Robot : " << count1 << endl;
 		for (count2 = 0; count2 < avoidTrajs[count1].size(); count2++)
 		{
 			cout << ConvertCoordToGridLocation(avoidTrajs[count1][count2], dimension) << " ";
@@ -156,6 +206,23 @@ void CAstar::PrintAvoidPositions()
 		cout << endl;
 	}
 }
+
+/*
+void CAstar::PrintAvoidPositions()
+{
+        unsigned int count1, count2;
+        cout << "Avoids Trajectories:" << endl;
+        for (count1 = 0; count1 < avoidTrajs.size(); count1++)
+        {
+                cout << "Time : " << count1 << endl;
+                for (count2 = 0; count2 < avoidTrajs[count1].size(); count2++)
+                {
+                        cout << ConvertCoordToGridLocation(avoidTrajs[count1][count2], dimension) << " ";
+                }
+                cout << endl;
+        }
+}
+*/
 
 
 int ***CAstar::GetObstacleMap()
@@ -247,20 +314,69 @@ bool isBlocked(WS_Coord pos, int timestep, int ***obsmap, vector <RobotPosition_
 
 	// Static Obstacles
 	if (obsmap[pos.x][pos.y][pos.z] == 1 )
-    {
-            return true;
-    }
+    	{
+        	return true;
+    	}
 	if (avoidTrajs.size() == 0)
 		return false;
 
 	// Other Robots
+    	for (count1 = -Delta; count1 <= Delta; count1++)
+    	{
+	    	for (count2 = 0; count2 < avoidTrajs.size(); count2++)
+	    	{
+        		if (timestep + count1 >=0 && timestep + count1 < avoidTrajs[count2].size())
+        		{
+				if (CoordAreEqual(pos, avoidTrajs[count2][timestep + count1]))
+                		{
+                        		collisionKey = true;
+                        		break;
+                		}
+        		}
+		}
+
+        	// The final positions of the other robots should not interfere with the trajectory
+        	// of the current robot
+        	if (timestep + count1 > avoidTrajs[0].size())
+        	{
+            		for (count2 = 0; count2 < avoidTrajs.size(); count2++)
+                	{
+                    		if (CoordAreEqual(pos, avoidTrajs[count2][avoidTrajs[0].size() - 1]))
+                    		{
+                            		collisionKey = true;
+                            		break;
+                		}
+        		}
+        		if (collisionKey) 
+				break;
+    		}
+	}
+	return collisionKey;
+}
+
+
+/*
+bool isBlocked(WS_Coord pos, int timestep, int ***obsmap, vector <RobotPosition_Vector> avoidTrajs)
+{
+        int count1, count2;
+        bool collisionKey = false;
+
+        // Static Obstacles
+        if (obsmap[pos.x][pos.y][pos.z] == 1 )
+    {
+            return true;
+    }
+        if (avoidTrajs.size() == 0)
+                return false;
+
+        // Other Robots
     for (count1 = -Delta; count1 <= Delta; count1++)
     {
         if (timestep + count1 >=0 && timestep + count1 < avoidTrajs.size())
         {
             for (count2 = 0; count2 < avoidTrajs[timestep + count1].size(); count2++)
             {
-				if (CoordAreEqual(pos, avoidTrajs[timestep + count1][count2]))
+                                if (CoordAreEqual(pos, avoidTrajs[timestep + count1][count2]))
                 {
                         collisionKey = true;
                         break;
@@ -281,11 +397,12 @@ bool isBlocked(WS_Coord pos, int timestep, int ***obsmap, vector <RobotPosition_
                     }
                 }
         }
-        if (collisionKey) 
-			break;
+        if (collisionKey)
+                        break;
     }
-	return collisionKey;
+        return collisionKey;
 }
+*/
 
 
 
