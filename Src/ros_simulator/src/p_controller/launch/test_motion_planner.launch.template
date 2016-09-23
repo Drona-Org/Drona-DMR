@@ -16,14 +16,14 @@
 
   <node pkg="mesh_visualization"
         type="mesh_visualization"
-        name="nanoplus_visualization0"
+        name="nanoplus_visualization{robot_id}"
         output="screen">
     <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh"/>
     <param name="color/r" value="0.9"/>
     <param name="color/g" value="0.0"/>
     <param name="color/b" value="0.0"/>
     <param name="color/a" value="0.7"/>
-    <remap from="~odom" to="odom0"/>
+    <remap from="~odom" to="odom{robot_id}"/>
   </node>
 
   <node pkg="p_controller"
@@ -31,7 +31,7 @@
         name="test_motion_planner"
         args="-w $(find p_controller)/{workspace_xml_path} -cooperative -threads {num_threads} -primitive $(find p_controller)/../../../Lib/PlanGenerator/primitive.txt"
         output="screen">
-    <!-- <remap from="~odom0" to="odom{x}"/> -->
+    <!-- <remap from="~odom0" to="odom{robot_id}"/> -->
   </node>
 
 </launch>

@@ -50,18 +50,21 @@ def workspace_to_launch_file(outdir, outname, workspace_file):
     launch_xml.remove(mesh_template)
 
     robot_rviz_marker_template = filter(lambda disp: "nanoplus_visualization" in disp.get("Marker Topic", ""), rviz_yaml["Visualization Manager"]["Displays"])[0]
-    import pdb; pdb.set_trace()
     rviz_yaml["Visualization Manager"]["Displays"].remove(robot_rviz_marker_template)
 
     robots = ws_xml.find("robots").findall("robot")
-    for robot in robots:
+    for i, robot in enumerate(robots):
         robot_id = robot.attrib["id"]
         new_mesh = copy.deepcopy(mesh_template)
-        for c in ("r", "g", "b"):
+        color = 0xffffff / (len(robots) + 1) * (i + 1)
+        for c in random.sample(("r", "g", "b"), 2):
             e = filter(lambda e : e.attrib.get("name") == "color/{0}".format(c), new_mesh.findall("param"))[0]
-            e.attrib["value"] = str(random.uniform(0, 1))
+            color_center = float(color & 0xff) / 0xff
+            e.attrib["value"] = str(random.uniform(max(0, color_center - 0.2), min(color_center + 0.2, 1.0)))
+            color >>= 8
         e = filter(lambda e : e.attrib.get("from") == "~odom", new_mesh.findall("remap"))[0]
-        e.attrib["to"] = "odom{0}".format(robot_id)
+        e.attrib["to"] = e.attrib["to"].format(robot_id=robot_id)
+        new_mesh.attrib["name"] = new_mesh.attrib["name"].format(robot_id=robot_id)
         launch_xml.append(new_mesh)
         # add remapping to node test_motion_planner
         ET.SubElement(test_motion_planner_e, 
