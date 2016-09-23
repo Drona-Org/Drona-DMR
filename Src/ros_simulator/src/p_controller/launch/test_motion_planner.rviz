@@ -62,7 +62,7 @@ Visualization Manager:
       Marker Topic: /nanoplus_visualization0/robot
       Name: Marker
       Namespaces:
-        mesh_visualization: true
+        {}
       Queue Size: 5
       Value: true
     - Class: rviz/Marker
@@ -70,7 +70,7 @@ Visualization Manager:
       Marker Topic: /nanoplus_visualization1/robot
       Name: Marker
       Namespaces:
-        mesh_visualization: true
+        {}
       Queue Size: 5
       Value: true
     - Class: rviz/Marker
@@ -78,7 +78,7 @@ Visualization Manager:
       Marker Topic: /nanoplus_visualization2/robot
       Name: Marker
       Namespaces:
-        mesh_visualization: true
+        {}
       Queue Size: 5
       Value: true
     - Class: rviz/Marker
@@ -86,7 +86,7 @@ Visualization Manager:
       Marker Topic: /nanoplus_visualization3/robot
       Name: Marker
       Namespaces:
-        mesh_visualization: true
+        {}
       Queue Size: 5
       Value: true
     - Alpha: 1
@@ -256,11 +256,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 40
+      Scale: 155.839
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 7.19839
-      Y: 7.648
+      X: 1.46692
+      Y: 1.56608
     Saved:
       - Angle: 0
         Class: rviz/TopDownOrtho

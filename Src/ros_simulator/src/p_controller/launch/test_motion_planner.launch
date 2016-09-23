@@ -31,8 +31,8 @@
         name="nanoplus_visualization1"
         output="screen">
     <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh"/>
-    <param name="color/r" value="0.9"/>
-    <param name="color/g" value="0.0"/>
+    <param name="color/r" value="0.0"/>
+    <param name="color/g" value="0.9"/>
     <param name="color/b" value="0.0"/>
     <param name="color/a" value="0.7"/>
     <remap from="~odom" to="odom1"/>
@@ -43,9 +43,9 @@
         name="nanoplus_visualization2"
         output="screen">
     <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh"/>
-    <param name="color/r" value="0.9"/>
+    <param name="color/r" value="0.0"/>
     <param name="color/g" value="0.0"/>
-    <param name="color/b" value="0.0"/>
+    <param name="color/b" value="0.9"/>
     <param name="color/a" value="0.7"/>
     <remap from="~odom" to="odom2"/>
   </node>
@@ -57,7 +57,7 @@
     <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh"/>
     <param name="color/r" value="0.9"/>
     <param name="color/g" value="0.0"/>
-    <param name="color/b" value="0.0"/>
+    <param name="color/b" value="0.9"/>
     <param name="color/a" value="0.7"/>
     <remap from="~odom" to="odom3"/>
   </node>
@@ -65,7 +65,7 @@
   <node pkg="p_controller"
         type="test_motion_planner"
         name="test_motion_planner"
-        args="-w $(find p_controller)/datas/Workspaces/Exp1/Workspace.xml -cooperative -threads 10 -primitive $(find p_controller)/../../../Lib/PlanGenerator/primitive.txt"
+        args="-w $(find p_controller)/datas/Workspaces/Exp1/Workspace.xml -cooperative -threads 20 -primitive $(find p_controller)/../../../Lib/PlanGenerator/primitive.txt"
         output="screen">
     <remap from="~odom0" to="odom0"/>
     <remap from="~odom1" to="odom1"/>

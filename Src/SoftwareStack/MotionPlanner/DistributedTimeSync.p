@@ -1,7 +1,7 @@
 event eGetTimePeriod: (robotid: int, source: machine);
 event eCurrTimePeriod : int;
 
-fun MotionPrimitiveTimePeriod() : int { return 30; /*0.5 ms*/ }
+fun MotionPrimitiveTimePeriod() : int { return 500; /*0.5 ms*/ }
 
 fun GetCurrentTimePeriod(timeSync:machine, robotid: int, source: machine) : int {
 	var retVal: int;

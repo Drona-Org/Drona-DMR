@@ -29,7 +29,7 @@
   <node pkg="p_controller"
         type="test_plan_executor"
         name="test_plan_executor"
-        args="-w $(find p_controller)/datas/Workspaces/Exp1/Workspace.xml -cooperative -threads 10"
+        args="-w $(find p_controller)/datas/Workspaces/Exp1/Workspace.xml -threads 10"
         output="screen">
     <remap from="~odom0" to="odom0"/>
   </node>

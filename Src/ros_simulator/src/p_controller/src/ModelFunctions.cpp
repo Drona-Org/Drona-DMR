@@ -78,29 +78,30 @@ static void publish_traj(int robot_id, Eigen::Vector3d start, Eigen::Vector3d en
     node_handle->param("/map/res", resolution, 1.0);
     start *= resolution;
     end *= resolution;
-
-    TrajectoryInfo trajInfo = cal_goto_with_t(start[0], start[1], start[2], end[0], end[1], end[2], duration);
-
+    
     const ros::Duration odom_pub_duration(0.01);
     double t_start = ros::Time::now().toSec();
     double t_end = t_start + duration * tscale;
+
+    Eigen::Vector3d vel = (end - start) / (duration / tscale);
 
     for(double cur_t = t_start; cur_t < t_end; cur_t = ros::Time::now().toSec()) {
         odom.header.stamp = ros::Time::now();
 
         double t = (cur_t - t_start) / tscale;
-        odom.pose.pose.position.x = cal_pos(trajInfo.xcoef,t);
-        odom.pose.pose.position.y = cal_pos(trajInfo.ycoef,t);
-        odom.pose.pose.position.z = cal_pos(trajInfo.zcoef,t);
+        Eigen::Vector3d loc = t * vel + start;
+        odom.pose.pose.position.x = loc[0];
+        odom.pose.pose.position.y = loc[1];
+        odom.pose.pose.position.z = loc[2];
 
         odom.pose.pose.orientation.x = 0;
         odom.pose.pose.orientation.y = 0;
         odom.pose.pose.orientation.z = 0;
         odom.pose.pose.orientation.w = 0;
 
-        odom.twist.twist.linear.x = cal_vel(trajInfo.xcoef,t);
-        odom.twist.twist.linear.y = cal_vel(trajInfo.xcoef,t);
-        odom.twist.twist.linear.z = cal_vel(trajInfo.xcoef,t);
+        odom.twist.twist.linear.x = vel[0];
+        odom.twist.twist.linear.y = vel[1];
+        odom.twist.twist.linear.z = vel[2];
 
         odom.twist.twist.angular.x = 0;
         odom.twist.twist.angular.y = 0;
