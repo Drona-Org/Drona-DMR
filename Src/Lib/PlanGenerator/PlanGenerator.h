@@ -32,7 +32,7 @@ The grid locations are assinged integer values as follows for a 4x4 grid
 #define SEMPLAN_H
 
 #include "Astar.h"
-#include "Workspace.h"
+#include "../WorkspaceParser/Workspace.h"
 
 #ifdef __cplusplus
 extern "C"{

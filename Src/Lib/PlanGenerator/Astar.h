@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string>
 #include "MotionPrimitives.h"
-#include "Workspace.h"
+#include "../WorkspaceParser/Workspace.h"
 
 using namespace std;
 
