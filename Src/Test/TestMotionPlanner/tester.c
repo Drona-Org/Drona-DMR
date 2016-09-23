@@ -1,7 +1,7 @@
 #include "TestDriver.h"
 #include "WorkspaceParser.h"
 #include "Compat.h"
-#ifndef PRT_WINUSER
+#ifndef PRT_PLAT_WINUSER
 #include "InitRos.h"
 #endif
 
@@ -196,7 +196,7 @@ static void RunToIdle(LPVOID process)
 
 int main(int argc, char *argv[])
 {
-#ifndef PRT_WINUSER
+#ifndef PRT_PLAT_WINUSER
     init_ros("test_motion_planner", &argc, argv);
 #endif
     if (!ParseCommandLine(argc, argv))
