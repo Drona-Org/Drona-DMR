@@ -104,15 +104,16 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
  		// If the current trajectory size is greater than the size of avoidTrajs,
 		// extend avoidTrajs up to the length of the current trajectory by repeating
 		// the final locations
-		if (count1 > 0 && avoidTrajs[count1-1].size() < avoidPositions[count1].size)
+		if (avoidTrajs.size() < avoidPositions[count1].size)
    		{
-			original_size = avoidTrajs[count1-1].size();
-			for (count2 = 0; count2 < count1; count2++)
+			original_size = avoidTrajs.size();
+			avoidTrajs.resize(avoidPositions[count1].size);
+			tmp_pos_vec = avoidTrajs[avoidTrajs.size() - 1];
+			for (count2 = original_size; count2 < avoidPositions[count1].size; count2++)
 			{
-				tmp_pos = (avoidTrajs[count2])[original_size-1];
-				for (count3 = original_size + 1; count3 <= avoidPositions[count1].size; count3++)
+				for (count3 = 0; count3 < tmp_pos_vec.size(); count3++)
 				{
-					avoidTrajs[count2].push_back(tmp_pos);
+					avoidTrajs[count2].push_back(tmp_pos_vec[count3]);
 				}
 			}
 		}
@@ -123,73 +124,22 @@ void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPosi
 				WS_Coord coord;
       			coord = ExtractCoordFromGridLocation(avoidPositions[count1].PositionsOccupied[count2], dimension);
 				SetCoordTo(&tmp_pos, coord);
-      			avoidTrajs.resize(count1 + 1);
-      			avoidTrajs[count1].push_back(tmp_pos);
+      			//avoidTrajs.resize(count2 + 1);
+      			avoidTrajs[count2].push_back(tmp_pos);
     		}
 
 		// If the current trajectory size is less than the size of avoidTrajs,
 		// extend the current trajectory upto the length of avoidTrajs by 
 		// repeating the final position of the current trajectory
-		if (count1 > 0 && avoidPositions[count1].size < avoidTrajs[count1-1].size())
+		if (avoidPositions[count1].size < avoidTrajs.size())
 		{
-			for (count2 = avoidPositions[count1].size + 1; count2 <= avoidTrajs[count1-1].size(); count2++)
+			for (count2 = avoidPositions[count1].size; count2 < avoidTrajs.size(); count2++)
 			{
-				avoidTrajs[count1].push_back(tmp_pos);
+				avoidTrajs[count2].push_back(tmp_pos);
 			}
 		}
   	}
 }
-
-/*
-void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPositions, int avoidSize)
-{
-        unsigned int count1, count2, count3;
-        int original_size;
-        WS_Coord tmp_pos;
-        RobotPosition_Vector tmp_pos_vec;
-
-        for (count1 = 0; count1 < avoidSize; count1++)
-        {
-                // If the current trajectory size is greater than the size of avoidTrajs,
-                // extend avoidTrajs up to the length of the current trajectory by repeating
-                // the final locations
-                if (avoidTrajs.size() < avoidPositions[count1].size)
-                {
-                        original_size = avoidTrajs.size();
-                        avoidTrajs.resize(avoidPositions[count1].size);
-                        tmp_pos_vec = avoidTrajs[avoidTrajs.size() - 1];
-                        for (count2 = original_size; count2 < avoidPositions[count1].size; count2++)
-                        {
-                                for (count3 = 0; count3 < tmp_pos_vec.size(); count3++)
-                                {
-                                        avoidTrajs[count2].push_back(tmp_pos_vec[count3]);
-                                }
-                        }
-                }
-
-                // Add the positions in the current trajectories to avoidTrajs
-                for (count2 = 0; count2 < avoidPositions[count1].size; count2++)
-                {
-                                WS_Coord coord;
-                        coord = ExtractCoordFromGridLocation(avoidPositions[count1].PositionsOccupied[count2], dimension);
-                                SetCoordTo(&tmp_pos, coord);
-                        //avoidTrajs.resize(count2 + 1);
-                        avoidTrajs[count2].push_back(tmp_pos);
-                }
-
-                // If the current trajectory size is less than the size of avoidTrajs,
-                // extend the current trajectory upto the length of avoidTrajs by
-                // repeating the final position of the current trajectory
-                if (avoidPositions[count1].size < avoidTrajs.size())
-                {
-                        for (count2 = avoidPositions[count1].size; count2 < avoidTrajs.size(); count2++)
-                        {
-                                avoidTrajs[count2].push_back(tmp_pos);
-                        }
-                }
-        }
-}
-*/
 
 
 void CAstar::PrintAvoidPositions()
@@ -198,7 +148,7 @@ void CAstar::PrintAvoidPositions()
 	cout << "Avoids Trajectories:" << endl;
 	for (count1 = 0; count1 < avoidTrajs.size(); count1++)
 	{
-		cout << "Robot : " << count1 << endl;
+		cout << "Time : " << count1 << endl;
 		for (count2 = 0; count2 < avoidTrajs[count1].size(); count2++)
 		{
 			cout << ConvertCoordToGridLocation(avoidTrajs[count1][count2], dimension) << " ";
