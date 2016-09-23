@@ -21,11 +21,12 @@
       P_FUN_DistributedMotionPlannerMachine_ANON11 = 26,
       P_FUN_DistributedMotionPlannerMachine_ANON12 = 27,
       P_FUN_DistributedMotionPlannerMachine_ANON13 = 28,
-      P_FUN_DistributedMotionPlannerMachine_ComputeTimedTraj = 29,
-      P_FUN_DistributedMotionPlannerMachine_ConvertTimedTrajToTraj = 30,
-      P_FUN_DistributedMotionPlannerMachine_PlanGenerator = 31,
-      P_FUN_DistributedMotionPlannerMachine_allTrajsReceived = 32,
-      _P_FUNS_DistributedMotionPlannerMachine_COUNT = 33
+      P_FUN_DistributedMotionPlannerMachine_ANON14 = 29,
+      P_FUN_DistributedMotionPlannerMachine_ComputeTimedTraj = 30,
+      P_FUN_DistributedMotionPlannerMachine_ConvertTimedTrajToTraj = 31,
+      P_FUN_DistributedMotionPlannerMachine_PlanGenerator = 32,
+      P_FUN_DistributedMotionPlannerMachine_allTrajsReceived = 33,
+      _P_FUNS_DistributedMotionPlannerMachine_COUNT = 34
     };
 
     enum P_FUNS_DistributedTimeSyncMachine

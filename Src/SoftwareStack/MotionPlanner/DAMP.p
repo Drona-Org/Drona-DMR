@@ -26,6 +26,7 @@ machine DistributedMotionPlannerMachine
 		entry (rinfo: RobotInfoType) {
 			myIdV = rinfo.robotid;
 			currentLocationV = rinfo.startpos;
+			numOfRobots = GetNumOfRobots();
 			receive {
 				case ePlanExecutorMachine: (payload: machine){ planExecutorV = payload; }
 			}
@@ -38,9 +39,12 @@ machine DistributedMotionPlannerMachine
 	}
 
 	state GetAllDistMotionPlanners {
+		entry {
+			if(numOfRobots ==  1)
+				goto WaitForRequests;
+		}
 		defer eNewTask, eRequestCurrentTraj;
 		on eDistMotionPlanMachine do (payload: machine){
-			numOfRobots = GetNumOfRobots();
 			receivedTrajFromV += (payload, true);
 			if(sizeof(keys(receivedTrajFromV)) == numOfRobots - 1)
 			{
@@ -157,7 +161,7 @@ machine DistributedMotionPlannerMachine
 		var index : int;
 		var traj: seq[int];
 
-		maxComputeTimeForPlanner = 5;
+		maxComputeTimeForPlanner = 2;
 		currTimePeriod = GetCurrentTimePeriod(localTimeV, myIdV, this);
 		startingTimePeriod = currTimePeriod + maxComputeTimeForPlanner;
 
