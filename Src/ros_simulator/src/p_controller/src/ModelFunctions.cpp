@@ -5,7 +5,7 @@
 #include "PrtExecution.h"
 #include "goto_solver.h"
 #include <Eigen/Dense>
-#include <quadrotor_msgs/TrajectoryData.h>
+#include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
 #include "InitRos.h"
 #include "Compat.h"
@@ -19,7 +19,8 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context);
 
 std::map<int, ros::Publisher> publishers;
 
-double t_goto = 3;
+double t_goto = 0.5;
+double tscale = 1.0;
 
 #ifndef USE_EMPTY
 PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
@@ -34,8 +35,8 @@ PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
     //create a tuple value
     int robot_id = (int)PrtPrimGetInt(p_tmp_frame.locals[0]);
     std::ostringstream channel_name;
-    channel_name << "trajectoryinfo" << robot_id;
-    ros::Publisher pub = node_handle->advertise<quadrotor_msgs::TrajectoryData>(channel_name.str(), 10, true);
+    channel_name << "odom" << robot_id;
+    ros::Publisher pub = node_handle->advertise<nav_msgs::Odometry>(channel_name.str(), 10, true);
     publishers[robot_id] = pub;
     SleepMs(1000); // Wait for publisher to register...
     printf("Registered robot %d at channel ", robot_id);
@@ -50,6 +51,64 @@ static Eigen::Vector3i ReadVectorCoord(PRT_VALUE* trajSeq, PRT_UINT32 i)
     int loc = (int)PrtPrimGetInt(PrtSeqGetNCIntIndex(trajSeq, i));
     WS_Coord coord = ExtractCoordFromGridLocation(loc, WORKSPACE_INFO->dimension);
     return Eigen::Vector3i(coord.x, coord.y, coord.z);
+}
+
+static double cal_pos(double c[],double t)
+{
+    return c[0]*pow(t,7.0) +c[1]*pow(t,6.0) + c[2]*pow(t,5.0) + c[3]*pow(t,4.0) + c[4]*pow(t,3.0) + c[5]*pow(t,2.0) + c[6]*t + c[7];
+}
+
+static double cal_vel(double c[],double t)
+{
+    return (c[0]*7*pow(t,6.0) +c[1]*6*pow(t,5.0) + c[2]*5*pow(t,4.0) + c[3]*4*pow(t,3.0) + c[4]*3*pow(t,2.0) + c[5]*2*t + c[6])/tscale;
+}
+
+static double cal_acc(double c[],double t)
+{
+    return (c[0]*42*pow(t,5.0) +c[1]*30*pow(t,4.0) + c[2]*20*pow(t,3.0) + c[3]*12*pow(t,2.0) + c[4]*6*t + c[5]*2)/(tscale*tscale);
+}
+
+static void publish_traj(int robot_id, Eigen::Vector3d start, Eigen::Vector3d end, double duration)
+{
+    nav_msgs::Odometry odom;
+    odom.header.frame_id = "/simulator";
+    odom.child_frame_id = "/quadrotor";
+    
+    double resolution;
+    node_handle->param("/map/res", resolution, 1.0);
+    start *= resolution;
+    end *= resolution;
+
+    TrajectoryInfo trajInfo = cal_goto_with_t(start[0], start[1], start[2], end[0], end[1], end[2], duration);
+
+    const ros::Duration odom_pub_duration(0.01);
+    double t_start = ros::Time::now().toSec();
+    double t_end = t_start + duration * tscale;
+
+    for(double cur_t = t_start; cur_t < t_end; cur_t = ros::Time::now().toSec()) {
+        odom.header.stamp = ros::Time::now();
+
+        double t = (cur_t - t_start) / tscale;
+        odom.pose.pose.position.x = cal_pos(trajInfo.xcoef,t);
+        odom.pose.pose.position.y = cal_pos(trajInfo.ycoef,t);
+        odom.pose.pose.position.z = cal_pos(trajInfo.zcoef,t);
+
+        odom.pose.pose.orientation.x = 0;
+        odom.pose.pose.orientation.y = 0;
+        odom.pose.pose.orientation.z = 0;
+        odom.pose.pose.orientation.w = 0;
+
+        odom.twist.twist.linear.x = cal_vel(trajInfo.xcoef,t);
+        odom.twist.twist.linear.y = cal_vel(trajInfo.xcoef,t);
+        odom.twist.twist.linear.z = cal_vel(trajInfo.xcoef,t);
+
+        odom.twist.twist.angular.x = 0;
+        odom.twist.twist.angular.y = 0;
+        odom.twist.twist.angular.z = 0;
+
+        publishers[robot_id].publish(odom);
+        odom_pub_duration.sleep();
+    }
 }
 
 PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
@@ -82,22 +141,12 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
                 }
                 diff = ReadVectorCoord(trajSeq, i) - ReadVectorCoord(trajSeq, i - 1);
             } while (diff == current_step);
+            double duration = step_count * t_goto;
             Eigen::Vector3i straight_step = current_step * step_count;
             current_step = diff;
             printf("robot %d move in (%d, %d, %d)\n", robot_id, straight_step[0], straight_step[1], straight_step[2]);
             Eigen::Vector3i end_coord = straight_step + start_coord;
-            Eigen::Vector3d start = start_coord.cast<double>() * 0.8;
-            Eigen::Vector3d end = end_coord.cast<double>() * 0.8;
-            TrajectoryInfo traj = cal_goto_with_t(start[0], start[1], start[2], end[0], end[1], end[2], t_goto * step_count);
-            quadrotor_msgs::TrajectoryData seg;
-            for(int j = 0; j < 8; j++) {
-                seg.xcoef[j] = traj.xcoef[j];
-                seg.ycoef[j] = traj.ycoef[j];
-                seg.zcoef[j] = traj.zcoef[j];
-            }
-            seg.duration = traj.duration;
-            publishers.at(robot_id).publish(seg);
-            ros::Duration(t_goto * step_count + 3).sleep();
+            publish_traj(robot_id, start_coord.cast<double>(), end_coord.cast<double>(), duration);
         }
     }
     //remm to free the frame

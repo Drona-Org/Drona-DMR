@@ -88,7 +88,7 @@ T Mod(T x, T y)
 void killprogram(const std_msgs::Int8::ConstPtr & msg)
 {
   if(msg->data)
-	quit = true;
+    quit = true;
 }
 
 void trajCallback(const quadrotor_msgs::QuadData::ConstPtr & msg)
@@ -137,86 +137,92 @@ void stateCallback(const nav_msgs::Odometry::ConstPtr& state)
     float pitch_des = 0;
 
     if(mode == 0){
-	lock2 = 0;
-	if(lock1 == 0){
-	    lock1 = 1;
-	    pos_des[0] = pos[0];
-	    vel_des[0] = 0;
-	    acc_des[0] = 0;
-	    pos_des[1] = pos[1];
-	    vel_des[1] = 0;
-	    acc_des[1] = 0;	
-	    yaw_des = euler(0);
-	}
+    lock2 = 0;
+    if(lock1 == 0){
+        lock1 = 1;
+        pos_des[0] = pos[0];
+        vel_des[0] = 0;
+        acc_des[0] = 0;
+        pos_des[1] = pos[1];
+        vel_des[1] = 0;
+        acc_des[1] = 0; 
+        yaw_des = euler(0);
+    }
     }
     if(mode == 1){
-    	lock1 = 0;
-    	if(lock2 == 0){
+        printf("I'm here lock2=%d\n", lock2);
+        lock1 = 0;
+        if(lock2 == 0){
             iswrite = 0;
-    	    lock2 = 1;
-    	    vel_des[0] = 0;
-    	    acc_des[0] = 0;
-    	    vel_des[1] = 0;
-    	    acc_des[1] = 0;	
-    	    vel_des[2] = 0;
-    	    acc_des[2] = 0;
-    	}
+            lock2 = 1;
+            vel_des[0] = 0;
+            acc_des[0] = 0;
+            vel_des[1] = 0;
+            acc_des[1] = 0; 
+            vel_des[2] = 0;
+            acc_des[2] = 0;
+        }
     }
     if(mode == 2){
-    	lock1 = 0;
-    	lock2 = 0;
-    	lock3 = 0;
+        lock1 = 0;
+        lock2 = 0;
+        lock3 = 0;
     }
     if(mode == 3){
-    	if(lock3 == 0){
+        if(lock3 == 0){
             iswrite = 0;
-    	    lock3 = 1;
-    	    pos_des[0] = pos[0];
-    	    vel_des[0] = 0;
-    	    acc_des[0] = 0;
-    	    pos_des[1] = pos[1];
-    	    vel_des[1] = 0;
-    	    acc_des[1] = 0;	
-    	    pos_des[2] = pos[2];
-    	    vel_des[2] = 0;
-    	    acc_des[2] = 0;	
-    	}
-    	pos_des[2] = std::max(pos_des[2] - 0.005,-0.15);
+            lock3 = 1;
+            pos_des[0] = pos[0];
+            vel_des[0] = 0;
+            acc_des[0] = 0;
+            pos_des[1] = pos[1];
+            vel_des[1] = 0;
+            acc_des[1] = 0; 
+            pos_des[2] = pos[2];
+            vel_des[2] = 0;
+            acc_des[2] = 0; 
+        }
+        pos_des[2] = std::max(pos_des[2] - 0.005,-0.15);
     }
 
     if(USE_INT && mode > 0){
-    	cur_t = ros::Time::now().toSec();
-    	if(int_count == 0){
-    	    pos_des[0] = pos[0];
-    	    pos_des[1] = pos[1];
-    	    delT = 0;
-    	}
-    	else{
-    	    delT = (float)(cur_t - prev_t);
-    	}
-    	x_int = delT*(cos(euler[0])*(pos_des[0]-pos[0]) + sin(euler[0])*(pos_des[1]-pos[1]));
-    	y_int = delT*(-sin(euler[0])*(pos_des[0]-pos[0]) + cos(euler[0])*(pos_des[1]-pos[1]));
-    	z_int = delT*(pos_des[2]-pos[2]);
+        cur_t = ros::Time::now().toSec();
+        if(int_count == 0){
+            pos_des[0] = pos[0];
+            pos_des[1] = pos[1];
+            delT = 0;
+        }
+        else{
+            delT = (float)(cur_t - prev_t);
+        }
+        x_int = delT*(cos(euler[0])*(pos_des[0]-pos[0]) + sin(euler[0])*(pos_des[1]-pos[1]));
+        y_int = delT*(-sin(euler[0])*(pos_des[0]-pos[0]) + cos(euler[0])*(pos_des[1]-pos[1]));
+        z_int = delT*(pos_des[2]-pos[2]);
 
-    	roll_int = roll_int - ki_xy*y_int;
-    	pitch_int = pitch_int + ki_xy*x_int;
-    	th_int = th_int + ki_z*z_int;
-    	psi_diff = yaw_des - euler(0);
-    	psi_diff = Mod(psi_diff + _PI, _TWO_PI) - _PI;
-    	//ROS_INFO("yaw angle: des %f  cur %f diff: %f",yaw_des, euler(0),psi_diff);
-    	psi_int = delT * psi_diff;
-    	yaw_int = yaw_int + ki_yaw * psi_int;
-    	yaw_int = Mod(yaw_int + _PI, _TWO_PI) - _PI;
-    	prev_t = cur_t;
-    	//ROS_INFO("int_terms: %f %f %f %f %f %f yaw_diff: %f %f",x_int, y_int, z_int, th_int, roll_int, pitch_int, psi_diff,yaw_int);
-	    int_count++;
+        roll_int = roll_int - ki_xy*y_int;
+        pitch_int = pitch_int + ki_xy*x_int;
+        th_int = th_int + ki_z*z_int;
+        psi_diff = yaw_des - euler(0);
+        psi_diff = Mod(psi_diff + _PI, _TWO_PI) - _PI;
+        //ROS_INFO("yaw angle: des %f  cur %f diff: %f",yaw_des, euler(0),psi_diff);
+        psi_int = delT * psi_diff;
+        yaw_int = yaw_int + ki_yaw * psi_int;
+        yaw_int = Mod(yaw_int + _PI, _TWO_PI) - _PI;
+        prev_t = cur_t;
+        //ROS_INFO("int_terms: %f %f %f %f %f %f yaw_diff: %f %f",x_int, y_int, z_int, th_int, roll_int, pitch_int, psi_diff,yaw_int);
+        int_count++;
     }
     else{
-    	th_int = 0;
-    	roll_int = 0;
-    	pitch_int = 0;
-    	yaw_int = 0;
+        th_int = 0;
+        roll_int = 0;
+        pitch_int = 0;
+        yaw_int = 0;
     }
+
+    printf("pos: %f %f %f\n", pos[0], pos[1], pos[2]);
+    printf("pos_des: %f %f %f\n", pos_des[0], pos_des[1], pos_des[2]);
+    printf("vel_des: %f %f %f\n", vel_des[0], vel_des[1], vel_des[2]);
+    printf("acc_des: %f %f %f\n", acc_des[0], acc_des[1], acc_des[2]);
 
     acc[0] = kp_xy*(pos_des[0]-pos[0])+kd_xy*(vel_des[0]-vel[0])+acc_des[0];
     acc[1] = kp_xy*(pos_des[1]-pos[1])+kd_xy*(vel_des[1]-vel[1])+acc_des[1];
@@ -240,9 +246,9 @@ void stateCallback(const nav_msgs::Odometry::ConstPtr& state)
         command.yaw = 0;
     }
     else{
-	if(iswrite == 1){
-        fprintf(fout,"Time: %f State: %f %f %f %f %f %f %f %f %f\n",ros::Time::now().toSec() - time_st, pos[0],pos[1],pos[2],vel[0],vel[1],vel[2],euler(0),euler(1),euler(2));
-	}
+        if(iswrite == 1){
+            fprintf(fout,"Time: %f State: %f %f %f %f %f %f %f %f %f\n",ros::Time::now().toSec() - time_st, pos[0],pos[1],pos[2],vel[0],vel[1],vel[2],euler(0),euler(1),euler(2));
+        }
         command.header.stamp = ros::Time::now();
         command.thrust = std::min(std::max(((acc[2]+9.81)*m),0.01),1.3);
         command.roll = roll_des;

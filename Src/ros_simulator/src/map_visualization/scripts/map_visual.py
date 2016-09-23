@@ -29,8 +29,8 @@ def parse_config(config_file_name):
 
 def run_publisher():
     rospy.init_node('map_visualization', anonymous=True)
-    res = rospy.get_param('~map/res', 0.2)
-    config_file_name = rospy.get_param('~map/cmap')
+    res = rospy.get_param('/map/res', 0.2)
+    config_file_name = rospy.get_param('/map/cmap')
     obstacles, starts, ends, chargings = parse_config(config_file_name)
     obs_pub = rospy.Publisher(rospy.resolve_name("~obs_array"), PointCloud, queue_size=10)
     ends_pub = rospy.Publisher(rospy.resolve_name("~ends_array"), PointCloud, queue_size=10)

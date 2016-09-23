@@ -1,4 +1,6 @@
 <launch>
+  <param name="map/res" value="0.8"/>
+  <param name="map/cmap" value="$(find p_controller)/datas/Workspaces/Exp1/Workspace.xml"/>
 
   <node pkg="rviz"
         type="rviz"
@@ -10,26 +12,6 @@
         type="map_visual.py"
         name="map_visual"
         output="screen">
-    <param name="map/res" value="0.8"/>
-    <param name="map/cmap" value="$(find p_controller)/datas/Workspaces/Exp1/Workspace.xml"/>
-  </node>
-
-  <node pkg="quadrotor_simulator"
-        type="quadrotor_simulator_trpy"
-        name="quadrotor_simulator_trpy0"
-        output="screen">
-    <param name="rate/odom" value="100.0"/>
-    <param name="initial_pos/x" value="0"/>
-    <param name="initial_pos/y" value="0"/>
-    <param name="initial_pos/z" value="0"/>
-    <param name="gains/rot/x" value="0.05"/>
-    <param name="gains/rot/y" value="0.05"/>
-    <param name="gains/rot/z" value="0.02"/>
-    <param name="gains/ang/x" value="0.008"/>
-    <param name="gains/ang/y" value="0.008"/>
-    <param name="gains/ang/z" value="0.005"/>
-    <remap from="~odom" to="odom0"/>
-    <remap from="~cmd" to="/nanoplus/trpy_cmd0"/>
   </node>
 
   <node pkg="mesh_visualization"
@@ -44,59 +26,12 @@
     <remap from="~odom" to="odom0"/>
   </node>
 
-  <group ns="nanoplus">
+  <node pkg="p_controller"
+        type="test_plan_executor"
+        name="test_plan_executor"
+        args="-w $(find p_controller)/datas/Workspaces/Exp1/Workspace.xml -cooperative -threads 10"
+        output="screen">
+    <remap from="~odom0" to="odom0"/>
+  </node>
 
-    <node pkg="nodelet"
-          type="nodelet"
-          name="nodelet_manager"
-          args="manager"
-    />
-
-    <node pkg="quad_controller"
-          type="quad_trajectory"
-          name="quad_trajectory0"
-          output="screen">
-      <param name="des_pos/x" value="0"/>
-      <param name="des_pos/y" value="0"/>
-      <param name="des_pos/z" value="0"/>
-      <param name="time/scale" value="1"/>
-      <param name="time/takeoff" value="4"/>
-      <param name="time/goto" value="2"/>
-      <param name="time/land" value="1500"/>
-      <remap from="~trajectory" to="trajectory0"/>
-      <remap from="~trajectoryinfo" to="trajectoryinfo0"/>
-      <remap from="~odom" to="/odom0"/>
-      <remap from="~startsignal" to="/Killswitch/Killsignal"/>
-    </node>
-
-
-    <node pkg="p_controller"
-          type="test_plan_executor"
-          name="test_plan_executor"
-          args="-w $(find p_controller)/datas/Workspaces/Exp1/Workspace.xml -cooperative -threads 10"
-          output="screen">
-      <remap from="~trajectoryinfo0" to="trajectoryinfo0"/>
-    </node>
-
-<!--     <node pkg="quad_controller"
-    type="gen_trajectory"
-    name="gen_trajectory"
-    output="screen">
-    <remap from="~trajectoryinfo" to="trajectoryinfo0"/>
-    </node> -->
-
-    <node pkg="quad_controller"
-    type="test_control"
-    name="test_control0"
-    output="screen">
-    <remap from="~trpy_cmd" to="trpy_cmd0"/>
-    <remap from="~odom" to="/odom0"/>
-    <remap from="~trajectory" to="trajectory0"/>
-    <remap from="~euler" to="euler0"/>
-    <remap from="~killsignal" to="/Killswitch/Killsignal"/>
-    <param name="output/pos" value="pos0.txt"/>
-    <param name="output/vel" value="vel0.txt"/>
-    </node>
-
-  </group>
 </launch>
