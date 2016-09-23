@@ -33,6 +33,8 @@ def workspace_to_launch_file(outdir, outname, workspace_file):
     ws_xml = ws_doc.getroot()
     launch_xml = launch_doc.getroot()
 
+    robots = ws_xml.find("robots").findall("robot")
+
     with open(rviz_file_template_path, "r") as rviz_template_f:
         rviz_yaml = yaml.safe_load(rviz_template_f)
 
@@ -43,7 +45,8 @@ def workspace_to_launch_file(outdir, outname, workspace_file):
     e.attrib["args"] = e.attrib["args"].format(rviz_path=os.path.join(os.path.relpath(outdir, p_controller_dir), out_rviz_name))
 
     e = filter(lambda e : e.attrib.get("type") == "test_motion_planner", launch_xml.findall("node"))[0]
-    e.attrib["args"] = e.attrib["args"].format(workspace_xml_path=os.path.relpath(workspace_file, p_controller_dir), num_threads=20)
+    e.attrib["args"] = e.attrib["args"].format(workspace_xml_path=os.path.relpath(workspace_file, p_controller_dir), 
+                                                num_threads=len(robots) * 5)
     test_motion_planner_e = e
 
     mesh_template = filter(lambda e : e.attrib.get("type") == "mesh_visualization", launch_xml.findall("node"))[0]
@@ -52,7 +55,6 @@ def workspace_to_launch_file(outdir, outname, workspace_file):
     robot_rviz_marker_template = filter(lambda disp: "nanoplus_visualization" in disp.get("Marker Topic", ""), rviz_yaml["Visualization Manager"]["Displays"])[0]
     rviz_yaml["Visualization Manager"]["Displays"].remove(robot_rviz_marker_template)
 
-    robots = ws_xml.find("robots").findall("robot")
     for i, robot in enumerate(robots):
         robot_id = robot.attrib["id"]
         new_mesh = copy.deepcopy(mesh_template)
@@ -77,6 +79,9 @@ def workspace_to_launch_file(outdir, outname, workspace_file):
         new_robot_marker = copy.deepcopy(robot_rviz_marker_template)
         new_robot_marker["Marker Topic"] = new_robot_marker["Marker Topic"].format(robot_id=robot_id)
         rviz_yaml["Visualization Manager"]["Displays"].append(new_robot_marker)
+
+    rviz_grid = filter(lambda disp: disp.get("Name", "") == "Grid", rviz_yaml["Visualization Manager"]["Displays"])[0]
+    rviz_grid["Plane Cell Count"] = max(int(ws_xml.find("dimension").attrib["x"]), int(ws_xml.find("dimension").attrib["y"])) * 2 + 1
 
     make_dir(outdir)
     out_launch_file_path = os.path.join(outdir, out_launch_file_name)
