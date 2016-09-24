@@ -9,6 +9,7 @@
 #include <ros/ros.h>
 #include "InitRos.h"
 #include "Compat.h"
+#include <pthread.h>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context);
 PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context);
 }
 
+pthread_mutex_t publishers_map_lock = PTHREAD_MUTEX_INITIALIZER;
 std::map<int, ros::Publisher> publishers;
 
 double t_goto = 0.5;
@@ -37,7 +39,9 @@ PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
     std::ostringstream channel_name;
     channel_name << "odom" << robot_id;
     ros::Publisher pub = node_handle->advertise<nav_msgs::Odometry>(channel_name.str(), 10, true);
+    pthread_mutex_lock(&publishers_map_lock);
     publishers[robot_id] = pub;
+    pthread_mutex_unlock(&publishers_map_lock);
     SleepMs(1000); // Wait for publisher to register...
     printf("Registered robot %d at channel ", robot_id);
     std::cout << channel_name.str() << std::endl;
