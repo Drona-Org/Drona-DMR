@@ -50,13 +50,14 @@ bool GenerateMotionPlanFor(
  	astar.SetSEpoint(pos_start, pos_end);
     astar.SetAvoidPositions(WSInfo.dimension, avoidPositions, avoidSize);
 	
+	astar.PrintAvoidPositions();
+	
 	clock_t begin = clock();
-    astar.PrintAvoidPositions();
+    RobotPosition_Vector path = astar.FindCollisionFreePath();
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 	printf("traj calculation takes %f\n", elapsed_secs);
 
-  	RobotPosition_Vector path = astar.FindCollisionFreePath();
   	
     *stepsSize = path.size();
 	for (count = 0; count < *stepsSize; count++)
