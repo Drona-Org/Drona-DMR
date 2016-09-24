@@ -79,6 +79,7 @@ bool PathSearchNode::GetSuccessors( AStarSearch<PathSearchNode> *astarsearch, Pa
     }                                                                                               \
   }
 
+  add_if_not_blocked(x, 0); // hovering action
   add_if_not_blocked(x, -1);
   add_if_not_blocked(x, +1);
   add_if_not_blocked(y, -1);
@@ -91,7 +92,11 @@ bool PathSearchNode::GetSuccessors( AStarSearch<PathSearchNode> *astarsearch, Pa
 
 float PathSearchNode::GetCost( PathSearchNode &successor , void* context)
 {
-  return 1.0;
+  if(CoordAreEqual(coord, successor.coord)) {
+    return HOVERING_COST;
+  } else {
+    return STEP_COST;
+  }
 }
 
 void PathSearchNode::PrintNodeInfo()

@@ -2,6 +2,9 @@
 #include "Workspace.h"
 #include "Astar.h"
 
+#define STEP_COST 1.0
+#define HOVERING_COST 0.75
+
 class PathSearchNode
 {
 public:
