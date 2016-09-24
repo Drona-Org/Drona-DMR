@@ -50,11 +50,11 @@ PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
     return p_tmp_ret;
 }
 
-static Eigen::Vector3i ReadVectorCoord(PRT_VALUE* trajSeq, PRT_UINT32 i)
+static Eigen::Vector3d ReadVectorCoord(PRT_VALUE* trajSeq, PRT_UINT32 i)
 {
     int loc = (int)PrtPrimGetInt(PrtSeqGetNCIntIndex(trajSeq, i));
     WS_Coord coord = ExtractCoordFromGridLocation(loc, WORKSPACE_INFO->dimension);
-    return Eigen::Vector3i(coord.x, coord.y, coord.z);
+    return Eigen::Vector3d(coord.x, coord.y, coord.z);
 }
 
 static double cal_pos(double c[],double t)
@@ -72,7 +72,7 @@ static double cal_acc(double c[],double t)
     return (c[0]*42*pow(t,5.0) +c[1]*30*pow(t,4.0) + c[2]*20*pow(t,3.0) + c[3]*12*pow(t,2.0) + c[4]*6*t + c[5]*2)/(tscale*tscale);
 }
 
-static void publish_traj(int robot_id, Eigen::Vector3d start, Eigen::Vector3d end, double duration)
+static void publish_straight_traj(int robot_id, Eigen::Vector3d start, Eigen::Vector3d end, double duration)
 {
     nav_msgs::Odometry odom;
     odom.header.frame_id = "/simulator";
@@ -116,6 +116,58 @@ static void publish_traj(int robot_id, Eigen::Vector3d start, Eigen::Vector3d en
     }
 }
 
+
+static const double     _PI= 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348;
+static const double _TWO_PI= 6.2831853071795864769252867665590057683943387987502116419498891846156328125724179972560696;
+
+static void publish_turn_traj(int robot_id, Eigen::Vector3d start, Eigen::Vector3d turning, Eigen::Vector3d end, double duration)
+{
+    nav_msgs::Odometry odom;
+    odom.header.frame_id = "/simulator";
+    odom.child_frame_id = "/quadrotor";
+    
+    double resolution;
+    node_handle->param("/map/res", resolution, 1.0);
+    start *= resolution;
+    end *= resolution;
+    turning *= resolution;
+
+    Eigen::Vector3d origin = end + (start - turning);
+    
+    const ros::Duration odom_pub_duration(0.01);
+    double t_start = ros::Time::now().toSec();
+    double t_end = t_start + duration * tscale;
+
+    double omega = (_PI / 2) / (duration / tscale);
+
+    for(double cur_t = t_start; cur_t < t_end; cur_t = ros::Time::now().toSec()) {
+        odom.header.stamp = ros::Time::now();
+
+        double t = (cur_t - t_start) / tscale;
+        double theta = (omega * t); 
+        Eigen::Vector3d loc = sin(theta) * (end - origin) + cos(theta) * (start - origin) + origin;
+        odom.pose.pose.position.x = loc[0];
+        odom.pose.pose.position.y = loc[1];
+        odom.pose.pose.position.z = loc[2];
+
+        odom.pose.pose.orientation.x = 0;
+        odom.pose.pose.orientation.y = 0;
+        odom.pose.pose.orientation.z = 0;
+        odom.pose.pose.orientation.w = 0;
+
+        odom.twist.twist.linear.x = 0;
+        odom.twist.twist.linear.y = 0;
+        odom.twist.twist.linear.z = 0;
+
+        odom.twist.twist.angular.x = 0;
+        odom.twist.twist.angular.y = 0;
+        odom.twist.twist.angular.z = 0;
+
+        publishers[robot_id].publish(odom);
+        odom_pub_duration.sleep();
+    }
+}
+
 PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
 {
     PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
@@ -130,13 +182,14 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
     int robot_id = (int)PrtPrimGetInt(p_tmp_frame.locals[1]);
     PRT_UINT32 count = PrtSeqSizeOf(trajSeq);
     if(count >= 2) {
-        Eigen::Vector3i diff;
+        Eigen::Vector3d diff;
         PRT_UINT32 i = 1;
-        Eigen::Vector3i current_step = ReadVectorCoord(trajSeq, i) - ReadVectorCoord(trajSeq, i - 1);
+        Eigen::Vector3d current_step = ReadVectorCoord(trajSeq, i) - ReadVectorCoord(trajSeq, i - 1);
         bool done = false;
+        int traj_count = 0;
         while(!done) {
             int step_count = 0;
-            Eigen::Vector3i start_coord = ReadVectorCoord(trajSeq, i - 1);
+            Eigen::Vector3d start_coord = ReadVectorCoord(trajSeq, i - 1);
             do {
                 i++;
                 step_count++;
@@ -146,12 +199,26 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
                 }
                 diff = ReadVectorCoord(trajSeq, i) - ReadVectorCoord(trajSeq, i - 1);
             } while (diff == current_step);
+            traj_count++;
             double duration = step_count * t_goto;
-            Eigen::Vector3i straight_step = current_step * step_count;
-            current_step = diff;
+            Eigen::Vector3d straight_step = current_step * step_count;
             printf("robot %d move in (%d, %d, %d)\n", robot_id, straight_step[0], straight_step[1], straight_step[2]);
-            Eigen::Vector3i end_coord = straight_step + start_coord;
-            publish_traj(robot_id, start_coord.cast<double>(), end_coord.cast<double>(), duration);
+            Eigen::Vector3d end_coord = straight_step + start_coord;
+            if(traj_count != 1) {
+                start_coord += (current_step / 2);
+                duration -= t_goto / 2;
+            }
+            if(i != count) {
+                end_coord -= (current_step / 2);
+                duration -= t_goto / 2;
+            }
+            if(start_coord != end_coord) {
+                publish_straight_traj(robot_id, start_coord, end_coord, duration);
+            } 
+            if(i != count) {
+                publish_turn_traj(robot_id, end_coord, end_coord + current_step / 2, end_coord + (current_step + diff) / 2, t_goto);
+            }
+            current_step = diff;
         }
     }
     //remm to free the frame
