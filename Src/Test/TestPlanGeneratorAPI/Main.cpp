@@ -3,10 +3,12 @@
 #include "../../Lib/WorkspaceParser/WorkspaceParser.h"
 using namespace std;
 
+extern "C" { const char* primitive_file_path = "primitive.txt"; }
+
 int main()
 {
-	//char* pathToWorkspace = "C:\\Workspace\\Drona\\Src\\Workspaces\\Exp2\\Workspace.xml";
-	char* pathToWorkspace = "../../Src/Workspaces/Exp2";
+	char* pathToWorkspace = "C:\\Workspace\\Drona\\Src\\Workspaces\\Exp3\\Workspace.xml";
+	//char* pathToWorkspace = "../../Src/Workspaces/Exp2";
 	int count;
 	int* output_seq_of_locations = (int*)malloc(100 * sizeof(int));
 	int output_size = 0;
@@ -54,7 +56,8 @@ int main()
 	{
 		cout << WSInfo->obstacles.locations[i] << " ";
 	}
-	GenerateMotionPlanFor(*WSInfo, 19, 44, WSInfo->obstacles.locations, WSInfo->obstacles.size, avoidsArr, 1, output_seq_of_locations, &output_size);
+
+	GenerateMotionPlanFor(*WSInfo, WSInfo->starts.locations[0], WSInfo->ends.locations[4], WSInfo->obstacles.locations, WSInfo->obstacles.size, avoidsArr, 1, output_seq_of_locations, &output_size);
 
 	cout << "Trajectory Length = " << output_size << endl;
 	cout << "Trajectory: " << endl;

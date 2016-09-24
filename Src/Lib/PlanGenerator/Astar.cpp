@@ -251,7 +251,7 @@ double CAstar::Get_H (WS_Coord current, WS_Coord end)
 	int cost_hX = abs(end.x - current.x);
 	int cost_hY = abs(end.y - current.y);
 	int cost_hZ = abs(end.z - current.z);
-	double cost_h = cost_hX + cost_hY + cost_hZ;
+	double cost_h = cost_hX + cost_hY + cost_hZ ;
 	return cost_h;
 }
 
@@ -510,7 +510,7 @@ RobotPosition_Vector CAstar::FindCollisionFreePath()
 					key = false;
 					for (count3 = 0; count3 < closeList.size(); count3++)
 					{
-						if (closeList[count3].selfPos.x == nextpos.x && closeList[count3].selfPos.y == nextpos.y && closeList[count3].selfPos.z == nextpos.z && closeList[count3].timestep == timestep + 1)
+						if (closeList[count3].selfPos.x == nextpos.x && closeList[count3].selfPos.y == nextpos.y && closeList[count3].selfPos.z == nextpos.z)
 						{
 							key = true;
 							break;
