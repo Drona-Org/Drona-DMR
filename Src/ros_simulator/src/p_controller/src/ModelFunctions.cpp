@@ -83,7 +83,7 @@ static void publish_straight_traj(int robot_id, Eigen::Vector3d start, Eigen::Ve
     start *= resolution;
     end *= resolution;
     
-    const ros::Duration odom_pub_duration(0.01);
+    ros::Rate odom_pub_duration(100);
     double t_start = ros::Time::now().toSec();
     double t_end = t_start + duration * tscale;
 
@@ -134,7 +134,7 @@ static void publish_turn_traj(int robot_id, Eigen::Vector3d start, Eigen::Vector
 
     Eigen::Vector3d origin = end + (start - turning);
     
-    const ros::Duration odom_pub_duration(0.01);
+    ros::Rate odom_pub_duration(100);
     double t_start = ros::Time::now().toSec();
     double t_end = t_start + duration * tscale;
 
@@ -168,6 +168,9 @@ static void publish_turn_traj(int robot_id, Eigen::Vector3d start, Eigen::Vector
     }
 }
 
+bool time_initialized = false;
+ros::Time initial_time;
+
 PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
 {
     PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
@@ -179,7 +182,16 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
     PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
     //create a tuple value
     PRT_VALUE* trajSeq = p_tmp_frame.locals[0];
-    int robot_id = (int)PrtPrimGetInt(p_tmp_frame.locals[1]);
+    int start_time = (int)PrtPrimGetInt(p_tmp_frame.locals[1]);
+    int robot_id = (int)PrtPrimGetInt(p_tmp_frame.locals[2]);
+
+    if(!time_initialized) {
+        initial_time = ros::Time::now() - ros::Duration(t_goto * start_time);
+        time_initialized = true;
+    }
+
+    ros::Time::sleepUntil(initial_time + ros::Duration(start_time * t_goto));
+
     PRT_UINT32 count = PrtSeqSizeOf(trajSeq);
     if(count >= 2) {
         Eigen::Vector3d diff;
@@ -202,7 +214,7 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
             traj_count++;
             double duration = step_count * t_goto;
             Eigen::Vector3d straight_step = current_step * step_count;
-            printf("robot %d move in (%d, %d, %d)\n", robot_id, straight_step[0], straight_step[1], straight_step[2]);
+            printf("robot %d move in (%f, %f, %f)\n", robot_id, straight_step[0], straight_step[1], straight_step[2]);
             Eigen::Vector3d end_coord = straight_step + start_coord;
             if(traj_count != 1) {
                 start_coord += (current_step / 2);
