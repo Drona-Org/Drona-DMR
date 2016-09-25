@@ -19,7 +19,7 @@
         name="nanoplus_visualization{robot_id}"
         output="screen">
     <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh"/>
-    <param name="color/r" value="0.9"/>
+    <param name="color/r" value="0.0"/>
     <param name="color/g" value="0.0"/>
     <param name="color/b" value="0.0"/>
     <param name="color/a" value="0.7"/>
