@@ -74,9 +74,9 @@ bool GenerateMotionPlanFor(
 	//assert that the traj generated is correct
 	for (count = 0; count < *stepsSize; count++)
 	{
-		for (int x = 0; x < WORKSPACE_INFO->obstacles.size; x++)
+		for (int x = 0; x < WSInfo.obstacles.size; x++)
 		{
-			if (WORKSPACE_INFO->obstacles.locations[x] == sequenceOfSteps[count])
+			if (WSInfo.obstacles.locations[x] == sequenceOfSteps[count])
 			{
 				cout << "Trajectory crashes with a static obstacle" << endl;
 				exit(0);
