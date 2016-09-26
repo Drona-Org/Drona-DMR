@@ -34,19 +34,21 @@ def generate_special_locations(grid, num_locs, color):
     grid[list(unoccupied_idxs[fill_idxs].T)] = color_code_map_inv[color]
 
 def generate_map(options):
-    grid = generate_obstacles(options.grid_size, options.expected_block_size)
+    def stop_when_obstacles_greater_than(grid):
+        return np.count_nonzero(grid == 1) >= options.density * np.prod(grid.shape)
+    grid = generate_obstacles(options.grid_size, stop_when_obstacles_greater_than, options.expected_block_size)
     generate_special_locations(grid, options.num_robots, "b")
     generate_special_locations(grid, options.num_starts, "g")
     generate_special_locations(grid, options.num_ends, "r")
     generate_special_locations(grid, options.num_chargings, "y")
     return grid
 
-def generate_obstacles(dim, expected_cube_size=None):
+def generate_obstacles(dim, stop_criterial, expected_cube_size=None):
     if not expected_cube_size:
         expected_cube_size = np.maximum(np.array(dim) / 8, np.ones(len(dim)))
     grid = np.zeros(dim)
     stop = False
-    for i in range(20):
+    while not stop_criterial(grid):
         grid = put_random_cube(grid, expected_cube_size)
     return grid
 
@@ -122,6 +124,7 @@ def main():
     parser.add_argument('-e', '--num-ends', type=int, dest="num_ends", help="Number of end locations(red)", default=1)
     parser.add_argument('-c', '--num-chargings', type=int, dest="num_chargings", help="Number of charinging locations(yellow)", default=0)
     parser.add_argument('-r', '--num-robots', type=int, dest="num_robots", help="Number of robots(blue for its start locations)", default=2)
+    parser.add_argument('-d', '--density', type=float, dest="density", help="Density of obstacles", default=0.3)
     options = parser.parse_args()
     assert len(options.expected_block_size) == len(options.grid_size)
     grid = generate_map(options)
