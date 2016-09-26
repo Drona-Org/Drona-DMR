@@ -5,8 +5,6 @@
 #include "InitRos.h"
 #endif
 
-const char* primitive_file_path = "primitive.txt";
-
 void ErrorHandler(PRT_STATUS status, PRT_MACHINEINST *ptr)
 {
     if (status == PRT_STATUS_ASSERT)
@@ -109,14 +107,6 @@ static PRT_BOOLEAN ParseCommandLine(int argc, char *argv[])
 					parg = argv[++i];
 				}
 			}
-            else if (_stricmp(arg + 1, "primitive") == 0)
-            {
-                if(i + 1 < argc)
-                {
-                    printf("read %s\n", primitive_file_path);
-                    primitive_file_path = argv[++i];
-                }
-            }
             else if (_stricmp(arg + 1, "h") == 0 || _stricmp(arg + 1, "help") == 0 || _stricmp(arg + 1, "?") == 0)
             {
                 return PRT_FALSE;

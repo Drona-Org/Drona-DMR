@@ -10,8 +10,6 @@
 
 using namespace std;
 
-
-
 bool GenerateMotionPlanFor(
 	WorkspaceInfo WSInfo,
 	int startLocation,
@@ -24,19 +22,13 @@ bool GenerateMotionPlanFor(
 	int* stepsSize
 	)
 {
-	MotionPrimitive_Vector primitives;
 	RobotPosition_Vector obstacles;
-	MotionPrimitive_Cost prim_cost;
 	string line;
 	int count;
 	WS_Coord coord;
 	WS_Coord pos_start, pos_end, pos_obs;
     int index;
    	int ***obsmap;
-
-	ReadMotionPrimitives(primitives);
-
-	GetMotionPrimitiveCost(primitives, prim_cost);
 
 	coord = ExtractCoordFromGridLocation(startLocation, WSInfo.dimension);
 	SetCoordTo(&pos_start, coord);
@@ -53,15 +45,19 @@ bool GenerateMotionPlanFor(
 	}
 
     CAstar astar;
-  	astar.SetPrimitive(primitives);
   	astar.SetDimension(WSInfo.dimension);
   	astar.SetObstacleMap(WSInfo.dimension, obstacles);
  	astar.SetSEpoint(pos_start, pos_end);
     astar.SetAvoidPositions(WSInfo.dimension, avoidPositions, avoidSize);
+	
+	astar.PrintAvoidPositions();
+	
+	clock_t begin = clock();
+    RobotPosition_Vector path = astar.FindCollisionFreePath();
+	clock_t end = clock();
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	printf("traj calculation takes %f\n", elapsed_secs);
 
-    astar.PrintAvoidPositions();
-
-  	RobotPosition_Vector path = astar.FindCollisionFreePath();
   	
     *stepsSize = path.size();
 	for (count = 0; count < *stepsSize; count++)

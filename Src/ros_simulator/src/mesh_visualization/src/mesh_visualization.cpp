@@ -4,7 +4,7 @@
 
 static std::string mesh_resource;
 static ros::Publisher pub_vis;
-static double color_r, color_g, color_b, color_a;
+static double color_r, color_g, color_b, color_a, scale;
 
 void odom_callback(const nav_msgs::Odometry::ConstPtr &msg)
 {
@@ -22,9 +22,9 @@ void odom_callback(const nav_msgs::Odometry::ConstPtr &msg)
   marker.pose.orientation.y = msg->pose.pose.orientation.y;
   marker.pose.orientation.z = msg->pose.pose.orientation.z;
   marker.pose.orientation.w = msg->pose.pose.orientation.w;
-  marker.scale.x = 1;
-  marker.scale.y = 1;
-  marker.scale.z = 1;
+  marker.scale.x = scale;
+  marker.scale.y = scale;
+  marker.scale.z = scale;
   marker.color.a = color_a;
   marker.color.r = color_r;
   marker.color.g = color_g;
@@ -44,6 +44,11 @@ int main(int argc, char **argv)
   nh.param("color/g", color_g, 0.0);
   nh.param("color/b", color_b, 0.0);
   nh.param("color/a", color_a, 1.0);
+
+  double res;
+  nh.param("/map/res", res, 0.2);
+  nh.param("/drone/scale", scale, 1.0);
+  scale *= res * 5 / 2;
 
   ros::Subscriber odom_sub = nh.subscribe("odom", 10, &odom_callback, ros::TransportHints().tcpNoDelay());
   pub_vis = nh.advertise<visualization_msgs::Marker>("robot", 10);

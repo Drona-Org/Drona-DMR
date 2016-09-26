@@ -103,7 +103,6 @@ machine DistributedMotionPlannerMachine
 			}
 
 		}
-		on null do { print "Robot {0} is in GetCurrentStateOfAllRobots waiting for eCurrentTraj\n", myIdV; }
 
 		on eCurrentTraj do (payload: (robot: machine, currTraj : TimedTrajType)){
 			allAvoidsV[payload.robot] = payload.currTraj;
