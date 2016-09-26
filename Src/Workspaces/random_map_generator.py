@@ -68,7 +68,6 @@ def put_random_cube(grid, expected_cube_size):
         else:
             grid = grid_bk
 
-
 def test_connected(grid):
     start = zip(*np.where(grid == 0))[0]
     mark = grid == 1
@@ -115,7 +114,7 @@ def comma_seperated_list(s):
         raise argparse.ArgumentTypeError("Coordinates must be x,y,z")
 
 import argparse
-def main():
+def main(argv):
     parser = argparse.ArgumentParser(description='Random 2/3D grid map generator.')
     parser.add_argument('outfile', type=str, help="ouput filename")
     parser.add_argument('-g', '--grid-size', type=comma_seperated_list, dest="grid_size", help="size of the grid", required = True)
@@ -125,7 +124,7 @@ def main():
     parser.add_argument('-c', '--num-chargings', type=int, dest="num_chargings", help="Number of charinging locations(yellow)", default=0)
     parser.add_argument('-r', '--num-robots', type=int, dest="num_robots", help="Number of robots(blue for its start locations)", default=2)
     parser.add_argument('-d', '--density', type=float, dest="density", help="Density of obstacles", default=0.3)
-    options = parser.parse_args()
+    options = parser.parse_args(argv)
     assert len(options.expected_block_size) == len(options.grid_size)
     grid = generate_map(options)
     with open(options.outfile, "w+") as outfile:
@@ -134,4 +133,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
