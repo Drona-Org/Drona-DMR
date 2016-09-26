@@ -59,10 +59,15 @@ def workspace_to_launch_file(outdir, outname, workspace_file):
         robot_id = robot.attrib["id"]
         new_mesh = copy.deepcopy(mesh_template)
         color = 0xffffff / (len(robots) + 1) * (i + 1)
-        for c in random.sample(("r", "g", "b"), 2):
+        colors = ("r", "g", "b")
+        make_zero_color = random.choice(colors)
+        for c in colors:
             e = filter(lambda e : e.attrib.get("name") == "color/{0}".format(c), new_mesh.findall("param"))[0]
-            color_center = float(color & 0xff) / 0xff
-            e.attrib["value"] = str(random.uniform(max(0, color_center - 0.2), min(color_center + 0.2, 1.0)))
+            if c != make_zero_color:
+                color_center = float(color & 0xff) / 0xff
+                e.attrib["value"] = str(random.uniform(max(0, color_center - 0.2), min(color_center + 0.2, 1.0)))
+            else:
+                e.attrib["value"] = '0'
             color >>= 8
         e = filter(lambda e : e.attrib.get("from") == "~odom", new_mesh.findall("remap"))[0]
         e.attrib["to"] = e.attrib["to"].format(robot_id=robot_id)
