@@ -1,3 +1,4 @@
+import sys
 import itertools
 import numpy as np
 import numpy.random as npr
@@ -133,4 +134,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main(sys.argv[1:])
