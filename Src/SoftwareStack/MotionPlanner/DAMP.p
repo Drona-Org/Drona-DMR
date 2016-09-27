@@ -60,6 +60,7 @@ machine DistributedMotionPlannerMachine
 		entry {
 			//reset the currentTraj variable to current location
 			currentTrajV = default(TimedTrajType);
+			allAvoidsV = default(map[machine, TimedTrajType]);
 			currentTrajV += (0, (0, currentLocationV));
 		}
 		//on receiving a new task update the local task variable and goto GetCurrentStateOfAllRobots
@@ -198,6 +199,7 @@ machine DistributedMotionPlannerMachine
 			pendingRequestsV = default(seq[machine]);
 		}
 		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)) {
+			//assert(payload.priority > currTaskV.taskid);
 			send payload.robot, eCurrentTraj, (robot = this, currTraj = currentTrajV);
 		}
 		on null goto WaitForPlanCompletionOrCancellation;

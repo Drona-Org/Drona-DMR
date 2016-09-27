@@ -4229,6 +4229,7 @@
       p_tmp_ret = NULL;
       PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
       P_STMT_0(PrtSetGlobalVarEx(p_tmp_mach_priv, P_VAR_DistributedMotionPlannerMachine_currentTrajV, p_tmp_stmt_0, !PRT_TRUE), P_EXPR_0(PrtMkDefaultValue(&P_GEND_TYPE_79), PRT_TRUE), PRT_FALSE);
+      P_STMT_0(PrtSetGlobalVarEx(p_tmp_mach_priv, P_VAR_DistributedMotionPlannerMachine_allAvoidsV, p_tmp_stmt_0, !PRT_TRUE), P_EXPR_0(PrtMkDefaultValue(&P_GEND_TYPE_82), PRT_TRUE), PRT_FALSE);
       P_STMT_0(PrtSeqInsertEx(p_tmp_mach_priv->varValues[P_VAR_DistributedMotionPlannerMachine_currentTrajV], PrtTupleGetNC(p_tmp_stmt_0, 0U), PrtTupleGetNC(p_tmp_stmt_0, 1U), PRT_FALSE), P_EXPR_3(P_TUPLE_1(&P_GEND_TYPE_94, p_tmp_expr_1, p_tmp_expr_2), PRT_TRUE, P_TUPLE_1(&P_GEND_TYPE_58, p_tmp_expr_1, p_tmp_expr_0), PRT_TRUE, &P_GEND_VALUE_16, PRT_FALSE, p_tmp_mach_priv->varValues[P_VAR_DistributedMotionPlannerMachine_currentLocationV], PRT_FALSE), PRT_FALSE);
       PrtFree(PrtTupleGetNC(p_tmp_stmt_0, 0U));
       PrtFree(p_tmp_stmt_0->valueUnion.tuple->values);
@@ -4513,6 +4514,7 @@
       PRT_VALUE *p_tmp_expr_2;
       PRT_VALUE *p_tmp_expr_3;
       PRT_VALUE *p_tmp_expr_4;
+      PRT_VALUE *p_tmp_expr_5;
       PRT_VALUE *p_tmp_funstmt_ret;
       PRT_VALUE *p_tmp_ret;
       PRT_VALUE *p_tmp_stmt_0;
@@ -4558,7 +4560,7 @@
       P_STMT_0(PrtSetLocalVarEx(p_tmp_frame.locals, 2U, p_tmp_stmt_0, !PRT_FALSE), P_EXPR_0(&P_GEND_VALUE_16, PRT_FALSE), PRT_FALSE);
       while (P_BOOL_EXPR(P_EXPR_3(PrtMkBoolValue(PrtPrimGetInt(p_tmp_expr_0) < PrtPrimGetInt(p_tmp_expr_2)), PRT_TRUE, PrtMkIntValue(PrtSeqSizeOf(p_tmp_expr_1)), PRT_TRUE, p_tmp_mach_priv->varValues[P_VAR_Main_goalLocations], PRT_FALSE, p_tmp_frame.locals[2U], PRT_FALSE), PRT_TRUE))
       {
-        P_STMT_2(P_SEQ(PrtCheckIsLocalMachineId(context, p_tmp_stmt_0), PrtSend(context, PrtGetMachine(context->process, p_tmp_stmt_0), p_tmp_stmt_1, p_tmp_stmt_2, PRT_FALSE)), P_EXPR_4(P_TUPLE_2(&P_GEND_TYPE_76, p_tmp_expr_0, p_tmp_expr_3, p_tmp_expr_2), PRT_TRUE, PrtSeqGetNC(p_tmp_expr_1, p_tmp_expr_0), PRT_FALSE, p_tmp_mach_priv->id, PRT_FALSE, p_tmp_mach_priv->varValues[P_VAR_Main_goalLocations], PRT_FALSE, p_tmp_frame.locals[2U], PRT_FALSE), PRT_TRUE, P_EXPR_0(&P_GEND_VALUE_9, PRT_FALSE), PRT_FALSE, P_EXPR_2(PrtSeqGetNC(p_tmp_expr_0, p_tmp_expr_1), PRT_FALSE, p_tmp_frame.locals[1U], PRT_FALSE, p_tmp_mach_priv->varValues[P_VAR_Main_allRobotsV], PRT_FALSE), PRT_FALSE);
+        P_STMT_2(P_SEQ(PrtCheckIsLocalMachineId(context, p_tmp_stmt_0), PrtSend(context, PrtGetMachine(context->process, p_tmp_stmt_0), p_tmp_stmt_1, p_tmp_stmt_2, PRT_FALSE)), P_EXPR_5(P_TUPLE_2(&P_GEND_TYPE_76, p_tmp_expr_2, p_tmp_expr_4, p_tmp_expr_3), PRT_TRUE, PrtSeqGetNC(p_tmp_expr_1, p_tmp_expr_0), PRT_FALSE, p_tmp_mach_priv->id, PRT_FALSE, p_tmp_frame.locals[1U], PRT_FALSE, p_tmp_mach_priv->varValues[P_VAR_Main_goalLocations], PRT_FALSE, p_tmp_frame.locals[2U], PRT_FALSE), PRT_TRUE, P_EXPR_0(&P_GEND_VALUE_9, PRT_FALSE), PRT_FALSE, P_EXPR_2(PrtSeqGetNC(p_tmp_expr_0, p_tmp_expr_1), PRT_FALSE, p_tmp_frame.locals[1U], PRT_FALSE, p_tmp_mach_priv->varValues[P_VAR_Main_allRobotsV], PRT_FALSE), PRT_FALSE);
         P_STMT_0(PrtSetLocalVarEx(p_tmp_frame.locals, 2U, p_tmp_stmt_0, !PRT_TRUE), P_EXPR_2(PrtMkIntValue(PrtPrimGetInt(p_tmp_expr_0) + PrtPrimGetInt(p_tmp_expr_1)), PRT_TRUE, &P_GEND_VALUE_17, PRT_FALSE, p_tmp_frame.locals[2U], PRT_FALSE), PRT_FALSE);
         P_STMT_0(PrtSetLocalVarEx(p_tmp_frame.locals, 1U, p_tmp_stmt_0, !PRT_TRUE), P_EXPR_2(PrtMkIntValue(PrtPrimGetInt(p_tmp_expr_0) + PrtPrimGetInt(p_tmp_expr_1)), PRT_TRUE, &P_GEND_VALUE_17, PRT_FALSE, p_tmp_frame.locals[1U], PRT_FALSE), PRT_FALSE);
         if (P_BOOL_EXPR(P_EXPR_2(PrtMkBoolValue(PrtPrimGetInt(p_tmp_expr_1) >= PrtPrimGetInt(p_tmp_expr_0)), PRT_TRUE, p_tmp_frame.locals[1U], PRT_FALSE, p_tmp_frame.locals[3U], PRT_FALSE), PRT_TRUE))

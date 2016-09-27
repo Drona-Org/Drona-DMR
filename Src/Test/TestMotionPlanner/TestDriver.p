@@ -58,7 +58,7 @@ machine Main
 			//task task
 			while(counter < sizeof(goalLocations))
 			{
-				send allRobotsV[robotid], eNewTask, (taskid = counter, g = goalLocations[counter], source = this);
+				send allRobotsV[robotid], eNewTask, (taskid = robotid, g = goalLocations[counter], source = this);
 				counter = counter + 1;
 				robotid = robotid + 1;
 				if(robotid >= noOfRobots)
