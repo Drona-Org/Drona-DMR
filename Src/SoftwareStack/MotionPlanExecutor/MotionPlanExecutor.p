@@ -1,7 +1,7 @@
 event ePlanExecutorMachine: machine;
 event eStartExecutingPlan : TimedTrajType;
 
-model fun RosInit(robotId: int)
+model fun RosInit(robotId: int, startL: int)
 {
 
 }
@@ -41,7 +41,8 @@ machine PlanExecutorMachine {
 		entry(payload: (mp: machine, rid: int)) {
 			motionplanner = payload.mp;
 			robotId = payload.rid;
-			RosInit(robotId);
+
+			RosInit(robotId, GetRobotInfo(robotId).startpos);
 			send motionplanner, ePlanExecutorMachine, this;
 			receive {
 				case eTimeSyncId: (ts: machine) { localTimeV = ts; }
