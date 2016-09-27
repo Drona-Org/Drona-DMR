@@ -38,6 +38,7 @@ The grid locations are assinged integer values as follows for a 4x4 grid
 using namespace std;
 
 bool GenerateMotionPlanFor(
+	int robotid,
 	WorkspaceInfo WSInfo,
 	int startLocation,
 	int endLocation,

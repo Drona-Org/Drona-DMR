@@ -22,7 +22,7 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context);
 pthread_mutex_t publishers_map_lock = PTHREAD_MUTEX_INITIALIZER;
 std::map<int, ros::Publisher> publishers;
 
-double t_goto = 0.51;
+double t_goto = 0.5;
 double tscale = 1.0;
 
 #ifndef USE_EMPTY

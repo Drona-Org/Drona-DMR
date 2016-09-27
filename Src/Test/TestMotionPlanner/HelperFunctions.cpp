@@ -121,19 +121,7 @@ PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEI
 		}
 	}
 
-	printf("====================================================\n");
-	printf("Robot %d\n", robotid);
-	//print the obstacles list
-	PrintObstaclesList(*WORKSPACE_INFO);
-	GenerateMotionPlanFor(*WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, avoidsArr, output_seq_of_locations, &output_size);
-	
-	printf("Trajectory:");
-	for (int i = 0; i < output_size; i++)
-	{
-		printf("%d ", output_seq_of_locations[i]);
-	}
-	printf("\n\n");
-	printf("====================================================\n");
+	GenerateMotionPlanFor(robotid, *WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, avoidsArr, output_seq_of_locations, &output_size);
 
 	PRT_VALUE* retPlan;
 	intType = PrtMkPrimitiveType(PRT_KIND_INT);

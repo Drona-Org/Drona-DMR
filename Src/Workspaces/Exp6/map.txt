@@ -1,0 +1,17 @@
+# Map
+  r g    g  bg  
+gb    rb  b  gr 
+  g  g   r      
+            g   
+    b           
+ r   r          
+b      rb       
+    b b   b r   
+ gg gr    g  bb 
+  r  b b        
+    r b    g gb 
+r r  r    g rr  
+                
+g  b  b b     rb
+        g r     
+     rr g      g
