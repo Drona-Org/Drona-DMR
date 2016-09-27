@@ -1,5 +1,5 @@
 type TimedTrajType = seq[(int, int)];
-type TaskType = (taskid: int, g: int, source: machine);
+type TaskType = (g: int, source: machine);
 
 event eRequestCurrentTraj : (priority : int, robot : machine);
 event eCurrentTraj : (robot: machine, currTraj : TimedTrajType);
@@ -8,6 +8,10 @@ event eTask_completed;
 event eDistMotionPlanMachine: machine;
 event ePlanCompletion: int;
 
+model fun GetUniqueTaskId() : int {
+	return 1;
+}
+
 machine DistributedMotionPlannerMachine
 {
 	var allRobotsMPV : seq[machine];
@@ -15,6 +19,7 @@ machine DistributedMotionPlannerMachine
 	var currentTrajV : TimedTrajType;
 	var myIdV : int;
 	var currTaskV : TaskType;
+	var currTaskId : int;
 	var receivedTrajFromV : map[machine, bool];
 	var planExecutorV : machine;
 	var currentLocationV: int;
@@ -66,7 +71,8 @@ machine DistributedMotionPlannerMachine
 		//on receiving a new task update the local task variable and goto GetCurrentStateOfAllRobots
 		on eNewTask goto GetCurrentStateOfAllRobots with (payload: TaskType) {
 			var index: int;
-			currTaskV = payload; 
+			currTaskV = payload;
+			currTaskId = GetUniqueTaskId();
 			index = 0;
 			while(index < sizeof(allRobotsMPV))
 			{
@@ -98,7 +104,7 @@ machine DistributedMotionPlannerMachine
 		defer eNewTask;
 		entry {
 			//send to all the machines in allRobotsV
-			BROADCAST(allRobotsMPV, eRequestCurrentTraj, (priority = currTaskV.taskid, robot = this), this);
+			BROADCAST(allRobotsMPV, eRequestCurrentTraj, (priority = currTaskId, robot = this), this);
 			if(allTrajsReceived(receivedTrajFromV))
 			{
 				goto ComputeTrajState;
@@ -107,7 +113,7 @@ machine DistributedMotionPlannerMachine
 		}
 
 		on eCurrentTraj do (payload: (robot: machine, currTraj : TimedTrajType)){
-			allAvoidsV[payload.robot] = payload.currTraj;
+			allAvoidsV += (payload.robot, payload.currTraj);
 			assert (payload.robot in receivedTrajFromV);
 			receivedTrajFromV[payload.robot] = true;
 			if(allTrajsReceived(receivedTrajFromV))
@@ -117,7 +123,7 @@ machine DistributedMotionPlannerMachine
 
 		}
 		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)){
-			if(payload.priority < currTaskV.taskid)
+			if(payload.priority < currTaskId)
 			{
 				//there is a higher priority robot trying to compute traj
 				//send your current (empty) traj to unblock the higher priority task
@@ -156,6 +162,7 @@ machine DistributedMotionPlannerMachine
 
 		return retTraj;
 	}
+	
 	fun ComputeTimedTraj (goal: int, avoid: map[machine, TimedTrajType])
 	{
 		var currTimePeriod : int;

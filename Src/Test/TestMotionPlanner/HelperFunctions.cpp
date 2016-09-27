@@ -180,3 +180,23 @@ PRT_VALUE *P_FUN_Main_ExitP_IMPL(PRT_MACHINEINST *context) {
 	exit(0);
 	return NULL;
 }
+
+PRT_INT32 G_taskId;
+PRT_RECURSIVE_MUTEX t_lock = PrtCreateMutex();
+
+PRT_VALUE *P_FUN_GetUniqueTaskId_IMPL(PRT_MACHINEINST *context) {
+	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
+	PRT_VALUE *p_tmp_ret = NULL;
+	PRT_FUNSTACK_INFO p_tmp_frame;
+	PRT_VALUE *p_tmp_params;
+	int t_id = 0;
+	p_tmp_params = NULL;
+	//remm to pop frame
+	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
+	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
+	PrtLockMutex(t_lock);
+	t_id = G_taskId;
+	G_taskId++;
+	PrtUnlockMutex(t_lock);
+	return PrtMkIntValue(t_id);
+}

@@ -303,55 +303,53 @@
         (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_17
     }
   };
-  PRT_STRING P_GEND_TYPE_NMDTUP_NARR_18[] = 
-  {
-    "taskid",
-    "g",
-    "source"
-  };
-  PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_18[] = 
-  {
-    &P_GEND_TYPE_3,
-    &P_GEND_TYPE_3,
-    &P_GEND_TYPE_4
-  };
-  PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_18 = 
-  {
-    3,
-    P_GEND_TYPE_NMDTUP_NARR_18,
-    P_GEND_TYPE_NMDTUP_TARR_18
-  };
-  PRT_TYPE P_GEND_TYPE_18 = 
-  {
-    PRT_KIND_NMDTUP,
-    
-    {
-        (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_18
-    }
-  };
-  PRT_SEQTYPE P_GEND_TYPE_SEQ_19 = 
+  PRT_SEQTYPE P_GEND_TYPE_SEQ_18 = 
   {
     &P_GEND_TYPE_16
   };
-  PRT_TYPE P_GEND_TYPE_19 = 
+  PRT_TYPE P_GEND_TYPE_18 = 
   {
     PRT_KIND_SEQ,
     
     {
-        (PRT_MAPTYPE *)&P_GEND_TYPE_SEQ_19
+        (PRT_MAPTYPE *)&P_GEND_TYPE_SEQ_18
+    }
+  };
+  PRT_STRING P_GEND_TYPE_NMDTUP_NARR_19[] = 
+  {
+    "currTraj"
+  };
+  PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_19[] = 
+  {
+    &P_GEND_TYPE_18
+  };
+  PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_19 = 
+  {
+    1,
+    P_GEND_TYPE_NMDTUP_NARR_19,
+    P_GEND_TYPE_NMDTUP_TARR_19
+  };
+  PRT_TYPE P_GEND_TYPE_19 = 
+  {
+    PRT_KIND_NMDTUP,
+    
+    {
+        (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_19
     }
   };
   PRT_STRING P_GEND_TYPE_NMDTUP_NARR_20[] = 
   {
+    "robot",
     "currTraj"
   };
   PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_20[] = 
   {
-    &P_GEND_TYPE_19
+    &P_GEND_TYPE_4,
+    &P_GEND_TYPE_18
   };
   PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_20 = 
   {
-    1,
+    2,
     P_GEND_TYPE_NMDTUP_NARR_20,
     P_GEND_TYPE_NMDTUP_TARR_20
   };
@@ -363,33 +361,9 @@
         (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_20
     }
   };
-  PRT_STRING P_GEND_TYPE_NMDTUP_NARR_21[] = 
-  {
-    "robot",
-    "currTraj"
-  };
-  PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_21[] = 
-  {
-    &P_GEND_TYPE_4,
-    &P_GEND_TYPE_19
-  };
-  PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_21 = 
-  {
-    2,
-    P_GEND_TYPE_NMDTUP_NARR_21,
-    P_GEND_TYPE_NMDTUP_TARR_21
-  };
-  PRT_TYPE P_GEND_TYPE_21 = 
-  {
-    PRT_KIND_NMDTUP,
-    
-    {
-        (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_21
-    }
-  };
   PRT_TYPE *P_GEND_TYPE_RobotInfoType = &P_GEND_TYPE_15;
-  PRT_TYPE *P_GEND_TYPE_TaskType = &P_GEND_TYPE_18;
-  PRT_TYPE *P_GEND_TYPE_TimedTrajType = &P_GEND_TYPE_19;
+  PRT_TYPE *P_GEND_TYPE_TaskType = &P_GEND_TYPE_12;
+  PRT_TYPE *P_GEND_TYPE_TimedTrajType = &P_GEND_TYPE_18;
   PRT_EVENTDECL P_GEND_EVENTS[] = 
   {
     
@@ -487,7 +461,7 @@
         P_EVENT_eCurrentTraj,
         "eCurrentTraj",
         4294967295U,
-        &P_GEND_TYPE_21,
+        &P_GEND_TYPE_20,
         0U,
         NULL
     },
@@ -514,7 +488,7 @@
         P_EVENT_eNewTask,
         "eNewTask",
         4294967295U,
-        &P_GEND_TYPE_18,
+        &P_GEND_TYPE_12,
         0U,
         NULL
     },
@@ -550,7 +524,7 @@
         P_EVENT_eStartExecutingPlan,
         "eStartExecutingPlan",
         4294967295U,
-        &P_GEND_TYPE_19,
+        &P_GEND_TYPE_18,
         0U,
         NULL
     },

@@ -65,10 +65,9 @@
 
     enum P_FIELD_INDEX_TaskType
     {
-      P_FIELD_INDEX_TaskType_taskid = 0,
-      P_FIELD_INDEX_TaskType_g = 1,
-      P_FIELD_INDEX_TaskType_source = 2,
-      _P_FIELD_INDEX_TaskType_COUNT = 3
+      P_FIELD_INDEX_TaskType_g = 0,
+      P_FIELD_INDEX_TaskType_source = 1,
+      _P_FIELD_INDEX_TaskType_COUNT = 2
     };
 
     enum P_FORGN_TYPES

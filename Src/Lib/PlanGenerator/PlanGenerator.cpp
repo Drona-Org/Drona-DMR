@@ -12,7 +12,7 @@
 
 using namespace std;
 
-pthread_mutex_t print_lock = PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t print_lock = PTHREAD_MUTEX_INITIALIZER;
 
 bool GenerateMotionPlanFor(
 	int robotid,
@@ -59,7 +59,7 @@ bool GenerateMotionPlanFor(
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-	pthread_mutex_lock(&print_lock);
+	//pthread_mutex_lock(&print_lock);
 	printf("====================================================\n");
 	printf("Robot %d\n", robotid);
 	PrintObstaclesList(*WORKSPACE_INFO);
@@ -87,7 +87,7 @@ bool GenerateMotionPlanFor(
 	}
 	printf("\n\n");
 	printf("====================================================\n");
-	pthread_mutex_unlock(&print_lock);
+	//pthread_mutex_unlock(&print_lock);
 
 	//assert that the traj generated is correct
 	for (count = 0; count < *stepsSize; count++)
