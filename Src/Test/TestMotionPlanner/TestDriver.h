@@ -224,26 +224,6 @@
 
     void P_CTOR_Timer_IMPL(PRT_MACHINEINST *context, PRT_VALUE *value);
 
-    PRT_VALUE *P_FUN_CancelTimer_IMPL(PRT_MACHINEINST *context);
-
-    PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEINST *context);
-
-    PRT_VALUE *P_FUN_GetGoalLocations_IMPL(PRT_MACHINEINST *context);
-
-    PRT_VALUE *P_FUN_GetNumOfRobots_IMPL(PRT_MACHINEINST *context);
-
-    PRT_VALUE *P_FUN_GetRobotInfo_IMPL(PRT_MACHINEINST *context);
-
-    PRT_VALUE *P_FUN_Main_ExitP_IMPL(PRT_MACHINEINST *context);
-
-    PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context);
-
-    PRT_VALUE *P_FUN_Sleep_IMPL(PRT_MACHINEINST *context);
-
-    PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context);
-
-    PRT_VALUE *P_FUN_StartTimer_IMPL(PRT_MACHINEINST *context);
-
     #ifdef __cplusplus
       }
     #endif
