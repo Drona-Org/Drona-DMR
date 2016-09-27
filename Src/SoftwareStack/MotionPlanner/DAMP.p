@@ -1,9 +1,10 @@
 type TimedTrajType = seq[(int, int)];
-type TaskType = (taskid: int, g: int);
+type TaskType = (taskid: int, g: int, source: machine);
 
 event eRequestCurrentTraj : (priority : int, robot : machine);
 event eCurrentTraj : (robot: machine, currTraj : TimedTrajType);
 event eNewTask : TaskType;
+event eTask_completed;
 event eDistMotionPlanMachine: machine;
 event ePlanCompletion: int;
 
@@ -203,6 +204,7 @@ machine DistributedMotionPlannerMachine
 		on ePlanCompletion do (payload: int){ 
 			currentLocationV = payload; 
 			print "--- Robot {0} completed task and is at location {1} ---\n", myIdV, currentLocationV;
+			send currTaskV.source, eTask_completed;
 			goto WaitForRequests; 
 		}
 		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)) {

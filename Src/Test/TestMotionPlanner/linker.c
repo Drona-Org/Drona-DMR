@@ -50,11 +50,11 @@
   };
   PRT_STRING P_GEND_TYPE_NMDTUP_NARR_6[] = 
   {
-    "g"
+    "robot"
   };
   PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_6[] = 
   {
-    &P_GEND_TYPE_3
+    &P_GEND_TYPE_4
   };
   PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_6 = 
   {
@@ -72,7 +72,7 @@
   };
   PRT_STRING P_GEND_TYPE_NMDTUP_NARR_7[] = 
   {
-    "robot"
+    "source"
   };
   PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_7[] = 
   {
@@ -94,11 +94,11 @@
   };
   PRT_STRING P_GEND_TYPE_NMDTUP_NARR_8[] = 
   {
-    "source"
+    "startpos"
   };
   PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_8[] = 
   {
-    &P_GEND_TYPE_4
+    &P_GEND_TYPE_3
   };
   PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_8 = 
   {
@@ -116,11 +116,11 @@
   };
   PRT_STRING P_GEND_TYPE_NMDTUP_NARR_9[] = 
   {
-    "startpos"
+    "timesync"
   };
   PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_9[] = 
   {
-    &P_GEND_TYPE_3
+    &P_GEND_TYPE_4
   };
   PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_9 = 
   {
@@ -136,55 +136,57 @@
         (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_9
     }
   };
-  PRT_STRING P_GEND_TYPE_NMDTUP_NARR_10[] = 
-  {
-    "timesync"
-  };
-  PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_10[] = 
+  PRT_SEQTYPE P_GEND_TYPE_SEQ_10 = 
   {
     &P_GEND_TYPE_4
-  };
-  PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_10 = 
-  {
-    1,
-    P_GEND_TYPE_NMDTUP_NARR_10,
-    P_GEND_TYPE_NMDTUP_TARR_10
   };
   PRT_TYPE P_GEND_TYPE_10 = 
-  {
-    PRT_KIND_NMDTUP,
-    
-    {
-        (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_10
-    }
-  };
-  PRT_SEQTYPE P_GEND_TYPE_SEQ_11 = 
-  {
-    &P_GEND_TYPE_4
-  };
-  PRT_TYPE P_GEND_TYPE_11 = 
   {
     PRT_KIND_SEQ,
     
     {
-        (PRT_MAPTYPE *)&P_GEND_TYPE_SEQ_11
+        (PRT_MAPTYPE *)&P_GEND_TYPE_SEQ_10
     }
   };
-  PRT_TYPE *P_GEND_TYPE_TUP_ARR_12[] = 
+  PRT_TYPE *P_GEND_TYPE_TUP_ARR_11[] = 
   {
     &P_GEND_TYPE_3
   };
-  PRT_TUPTYPE P_GEND_TYPE_TUP_12 = 
+  PRT_TUPTYPE P_GEND_TYPE_TUP_11 = 
   {
     1,
-    P_GEND_TYPE_TUP_ARR_12
+    P_GEND_TYPE_TUP_ARR_11
   };
-  PRT_TYPE P_GEND_TYPE_12 = 
+  PRT_TYPE P_GEND_TYPE_11 = 
   {
     PRT_KIND_TUPLE,
     
     {
-        (PRT_MAPTYPE *)&P_GEND_TYPE_TUP_12
+        (PRT_MAPTYPE *)&P_GEND_TYPE_TUP_11
+    }
+  };
+  PRT_STRING P_GEND_TYPE_NMDTUP_NARR_12[] = 
+  {
+    "g",
+    "source"
+  };
+  PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_12[] = 
+  {
+    &P_GEND_TYPE_3,
+    &P_GEND_TYPE_4
+  };
+  PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_12 = 
+  {
+    2,
+    P_GEND_TYPE_NMDTUP_NARR_12,
+    P_GEND_TYPE_NMDTUP_TARR_12
+  };
+  PRT_TYPE P_GEND_TYPE_12 = 
+  {
+    PRT_KIND_NMDTUP,
+    
+    {
+        (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_12
     }
   };
   PRT_STRING P_GEND_TYPE_NMDTUP_NARR_13[] = 
@@ -259,61 +261,63 @@
         (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_15
     }
   };
-  PRT_STRING P_GEND_TYPE_NMDTUP_NARR_16[] = 
-  {
-    "taskid",
-    "g"
-  };
-  PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_16[] = 
+  PRT_TYPE *P_GEND_TYPE_TUP_ARR_16[] = 
   {
     &P_GEND_TYPE_3,
     &P_GEND_TYPE_3
   };
-  PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_16 = 
+  PRT_TUPTYPE P_GEND_TYPE_TUP_16 = 
   {
     2,
-    P_GEND_TYPE_NMDTUP_NARR_16,
-    P_GEND_TYPE_NMDTUP_TARR_16
+    P_GEND_TYPE_TUP_ARR_16
   };
   PRT_TYPE P_GEND_TYPE_16 = 
-  {
-    PRT_KIND_NMDTUP,
-    
-    {
-        (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_16
-    }
-  };
-  PRT_TYPE *P_GEND_TYPE_TUP_ARR_17[] = 
-  {
-    &P_GEND_TYPE_3,
-    &P_GEND_TYPE_3
-  };
-  PRT_TUPTYPE P_GEND_TYPE_TUP_17 = 
-  {
-    2,
-    P_GEND_TYPE_TUP_ARR_17
-  };
-  PRT_TYPE P_GEND_TYPE_17 = 
   {
     PRT_KIND_TUPLE,
     
     {
-        (PRT_MAPTYPE *)&P_GEND_TYPE_TUP_17
+        (PRT_MAPTYPE *)&P_GEND_TYPE_TUP_16
     }
   };
-  PRT_STRING P_GEND_TYPE_NMDTUP_NARR_18[] = 
+  PRT_STRING P_GEND_TYPE_NMDTUP_NARR_17[] = 
   {
     "allrobots",
     "timesync"
   };
+  PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_17[] = 
+  {
+    &P_GEND_TYPE_10,
+    &P_GEND_TYPE_4
+  };
+  PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_17 = 
+  {
+    2,
+    P_GEND_TYPE_NMDTUP_NARR_17,
+    P_GEND_TYPE_NMDTUP_TARR_17
+  };
+  PRT_TYPE P_GEND_TYPE_17 = 
+  {
+    PRT_KIND_NMDTUP,
+    
+    {
+        (PRT_MAPTYPE *)&P_GEND_TYPE_NMDTUP_17
+    }
+  };
+  PRT_STRING P_GEND_TYPE_NMDTUP_NARR_18[] = 
+  {
+    "taskid",
+    "g",
+    "source"
+  };
   PRT_TYPE *P_GEND_TYPE_NMDTUP_TARR_18[] = 
   {
-    &P_GEND_TYPE_11,
+    &P_GEND_TYPE_3,
+    &P_GEND_TYPE_3,
     &P_GEND_TYPE_4
   };
   PRT_NMDTUPTYPE P_GEND_TYPE_NMDTUP_18 = 
   {
-    2,
+    3,
     P_GEND_TYPE_NMDTUP_NARR_18,
     P_GEND_TYPE_NMDTUP_TARR_18
   };
@@ -327,7 +331,7 @@
   };
   PRT_SEQTYPE P_GEND_TYPE_SEQ_19 = 
   {
-    &P_GEND_TYPE_17
+    &P_GEND_TYPE_16
   };
   PRT_TYPE P_GEND_TYPE_19 = 
   {
@@ -384,7 +388,7 @@
     }
   };
   PRT_TYPE *P_GEND_TYPE_RobotInfoType = &P_GEND_TYPE_15;
-  PRT_TYPE *P_GEND_TYPE_TaskType = &P_GEND_TYPE_16;
+  PRT_TYPE *P_GEND_TYPE_TaskType = &P_GEND_TYPE_18;
   PRT_TYPE *P_GEND_TYPE_TimedTrajType = &P_GEND_TYPE_19;
   PRT_EVENTDECL P_GEND_EVENTS[] = 
   {
@@ -465,7 +469,7 @@
         P_EVENT_eAllRobots,
         "eAllRobots",
         4294967295U,
-        &P_GEND_TYPE_18,
+        &P_GEND_TYPE_17,
         0U,
         NULL
     },
@@ -510,7 +514,7 @@
         P_EVENT_eNewTask,
         "eNewTask",
         4294967295U,
-        &P_GEND_TYPE_16,
+        &P_GEND_TYPE_18,
         0U,
         NULL
     },
@@ -547,6 +551,15 @@
         "eStartExecutingPlan",
         4294967295U,
         &P_GEND_TYPE_19,
+        0U,
+        NULL
+    },
+    
+    {
+        P_EVENT_eTask_completed,
+        "eTask_completed",
+        4294967295U,
+        &P_GEND_TYPE_5,
         0U,
         NULL
     },
@@ -595,6 +608,10 @@
   PRT_UINT32 P_GEND_EVENTSET_16[] = 
   {
     0x40000U
+  };
+  PRT_UINT32 P_GEND_EVENTSET_17[] = 
+  {
+    0x080000U
   };
   PRT_UINT32 P_GEND_EVENTSET_2[] = 
   {
@@ -714,6 +731,11 @@
     {
         16,
         P_GEND_EVENTSET_16
+    },
+    
+    {
+        17,
+        P_GEND_EVENTSET_17
     }
   };
   PRT_MACHINEDECL *P_GEND_MACHINES[] = 
@@ -727,8 +749,8 @@
   };
   PRT_PROGRAMDECL P_GEND_PROGRAM = 
   {
-    19U,
-    17U,
+    20U,
+    18U,
     6U,
     0U,
     P_GEND_EVENTS,

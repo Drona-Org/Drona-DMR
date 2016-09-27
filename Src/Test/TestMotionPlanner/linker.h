@@ -26,8 +26,9 @@
       P_EVENT_ePlanExecutorMachine = 15,
       P_EVENT_eRequestCurrentTraj = 16,
       P_EVENT_eStartExecutingPlan = 17,
-      P_EVENT_eTimeSyncId = 18,
-      _P_EVENTS_COUNT = 19
+      P_EVENT_eTask_completed = 18,
+      P_EVENT_eTimeSyncId = 19,
+      _P_EVENTS_COUNT = 20
     };
 
     enum P_EVENTSET
@@ -48,8 +49,9 @@
       P_GEND_EVENTSET_ePlanExecutorMachine = 13,
       P_GEND_EVENTSET_eRequestCurrentTraj = 14,
       P_GEND_EVENTSET_eStartExecutingPlan = 15,
-      P_GEND_EVENTSET_eTimeSyncId = 16,
-      _P_EVENTSETS_COUNT = 17
+      P_GEND_EVENTSET_eTask_completed = 16,
+      P_GEND_EVENTSET_eTimeSyncId = 17,
+      _P_EVENTSETS_COUNT = 18
     };
 
     enum P_FIELD_INDEX_RobotInfoType
@@ -63,7 +65,8 @@
     {
       P_FIELD_INDEX_TaskType_taskid = 0,
       P_FIELD_INDEX_TaskType_g = 1,
-      _P_FIELD_INDEX_TaskType_COUNT = 2
+      P_FIELD_INDEX_TaskType_source = 2,
+      _P_FIELD_INDEX_TaskType_COUNT = 3
     };
 
     enum P_FORGN_TYPES

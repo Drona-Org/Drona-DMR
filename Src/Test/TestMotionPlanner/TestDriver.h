@@ -62,8 +62,10 @@
       P_FUN_Main_ANON0 = 15,
       P_FUN_Main_ANON1 = 16,
       P_FUN_Main_ANON2 = 17,
-      P_FUN_Main_InitializeSystem = 18,
-      _P_FUNS_Main_COUNT = 19
+      P_FUN_Main_ANON3 = 18,
+      P_FUN_Main_ExitP = 19,
+      P_FUN_Main_InitializeSystem = 20,
+      _P_FUNS_Main_COUNT = 21
     };
 
     enum P_FUNS_PlanExecutorMachine
@@ -168,8 +170,10 @@
     enum P_VARS_Main
     {
       P_VAR_Main_allRobotsV = 0,
-      P_VAR_Main_timeSyncV = 1,
-      _P_VARS_Main_COUNT = 2
+      P_VAR_Main_goalLocations = 1,
+      P_VAR_Main_taskscompleted = 2,
+      P_VAR_Main_timeSyncV = 3,
+      _P_VARS_Main_COUNT = 4
     };
 
     enum P_VARS_PlanExecutorMachine
@@ -229,6 +233,8 @@
     PRT_VALUE *P_FUN_GetNumOfRobots_IMPL(PRT_MACHINEINST *context);
 
     PRT_VALUE *P_FUN_GetRobotInfo_IMPL(PRT_MACHINEINST *context);
+
+    PRT_VALUE *P_FUN_Main_ExitP_IMPL(PRT_MACHINEINST *context);
 
     PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context);
 
