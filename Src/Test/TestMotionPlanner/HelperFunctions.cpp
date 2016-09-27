@@ -178,3 +178,17 @@ PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context) {
 }
 #endif
 
+PRT_VALUE *P_FUN_Main_ExitP_IMPL(PRT_MACHINEINST *context) {
+	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
+	PRT_VALUE *p_tmp_ret = NULL;
+	PRT_FUNSTACK_INFO p_tmp_frame;
+	PRT_VALUE *p_tmp_params;
+	int time = 0;
+	p_tmp_params = NULL;
+	//remm to pop frame
+	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
+	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
+	printf("Done !! Good Bye\n");
+	exit(0);
+	return NULL;
+}

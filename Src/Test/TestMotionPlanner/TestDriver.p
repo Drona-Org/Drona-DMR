@@ -38,12 +38,16 @@ machine Main
 		}
 	}
 
+	model fun ExitP() {}
+
+	var goalLocations: seq[int];
+	var taskscompleted: int;
 	state StartSendingTaskRequest {
 		entry {
 			//all the potential goal locations 
 			var robotid: int;
 			var counter: int;
-			var goalLocations: seq[int];
+			
 			var noOfRobots: int;
 
 			goalLocations = GetGoalLocations();
@@ -54,7 +58,7 @@ machine Main
 			//task task
 			while(counter < sizeof(goalLocations))
 			{
-				send allRobotsV[robotid], eNewTask, (taskid = counter, g = goalLocations[counter]);
+				send allRobotsV[robotid], eNewTask, (taskid = counter, g = goalLocations[counter], source = this);
 				counter = counter + 1;
 				robotid = robotid + 1;
 				if(robotid >= noOfRobots)
@@ -62,6 +66,13 @@ machine Main
 			}
 		}
 		
+		on eTask_completed do {
+			taskscompleted = taskscompleted + 1;
+			if(taskscompleted == sizeof(goalLocations))
+			{
+				ExitP();
+			}
+		}
 	}
 }
 
