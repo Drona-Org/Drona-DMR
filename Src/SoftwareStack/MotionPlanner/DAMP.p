@@ -163,7 +163,7 @@ machine DistributedMotionPlannerMachine
 		var index : int;
 		var traj: seq[int];
 
-		maxComputeTimeForPlanner = 2;
+		maxComputeTimeForPlanner = 4;
 		currTimePeriod = GetCurrentTimePeriod(localTimeV, myIdV, this);
 		startingTimePeriod = currTimePeriod + maxComputeTimeForPlanner;
 

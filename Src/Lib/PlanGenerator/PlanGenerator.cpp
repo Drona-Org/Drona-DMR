@@ -58,7 +58,7 @@ bool GenerateMotionPlanFor(
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 	printf("traj calculation takes %f\n", elapsed_secs);
-	assert(elapsed_secs < 0.3);
+	assert(elapsed_secs < 2.0);
 
   	
     *stepsSize = path.size();
@@ -83,21 +83,21 @@ bool GenerateMotionPlanFor(
 				exit(0);
 			}
 		}
-		for (int y = 0; y < avoidSize; y++)
+		for (int y = 0; y < avoidPositions.size(); y++)
 		{
-			if(count < avoidPositions[y].size)
+			if(count < avoidPositions[y].size())
 			{
-				if (avoidPositions[y].PositionsOccupied[count] == sequenceOfObstacles[count])
+				if (ConvertCoordToGridLocation(avoidPositions[y][count], WSInfo.dimension) == sequenceOfSteps[count])
 				{
-					cout << "Trajectory crashes with a robot " << y<< " trajectory at time "<< count << "and location " << sequenceOfObstacles[count] << endl;
+					cout << "Trajectory crashes with a robot " << y<< " trajectory at time "<< count << "and location " << sequenceOfSteps[count] << endl;
 					exit(0);
 				}
 			}
 			else
 			{
-				if (avoidPositions[y].PositionsOccupied[avoidPositions[y].size - 1] == sequenceOfObstacles[count])
+				if (ConvertCoordToGridLocation(avoidPositions[y][avoidPositions[y].size() - 1], WSInfo.dimension) == sequenceOfSteps[count])
 				{
-					cout << "Trajectory crashes with a robot " << y << " stationary at time " << count << "and location " << sequenceOfObstacles[count] << endl;
+					cout << "Trajectory crashes with a robot " << y << " stationary at time " << count << "and location " << sequenceOfSteps[count] << endl;
 					exit(0);
 				}
 			}

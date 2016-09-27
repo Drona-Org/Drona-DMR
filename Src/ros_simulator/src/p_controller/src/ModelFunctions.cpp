@@ -1,4 +1,5 @@
 #include <map>
+#include <assert.h>
 #include <sstream>
 #include "Workspace.h"
 #include "PrtUser.h"
@@ -21,7 +22,7 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context);
 pthread_mutex_t publishers_map_lock = PTHREAD_MUTEX_INITIALIZER;
 std::map<int, ros::Publisher> publishers;
 
-double t_goto = 0.5;
+double t_goto = 0.51;
 double tscale = 1.0;
 
 #ifndef USE_EMPTY
@@ -186,11 +187,17 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
     int robot_id = (int)PrtPrimGetInt(p_tmp_frame.locals[2]);
 
     if(!time_initialized) {
-        initial_time = ros::Time::now() - ros::Duration(t_goto * start_time);
+        initial_time = ros::Time::now() - ros::Duration(t_goto * start_time - 0.0001);
         time_initialized = true;
     }
 
-    ros::Time::sleepUntil(initial_time + ros::Duration(start_time * t_goto));
+    ros::Time sleep_until = initial_time + ros::Duration(start_time * t_goto);
+#ifdef ASSERT_TIME_SYNC
+    double went_by = (sleep_until- ros::Time::now()).toSec();
+    printf("went by %f\n", went_by);
+    assert(went_by >= 0);
+#endif
+    ros::Time::sleepUntil(sleep_until);
 
     PRT_UINT32 count = PrtSeqSizeOf(trajSeq);
     if(count >= 2) {
@@ -214,7 +221,9 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
             traj_count++;
             double duration = step_count * t_goto;
             Eigen::Vector3d straight_step = current_step * step_count;
+#ifdef SIM_LOG_MOVE
             printf("robot %d move in (%f, %f, %f)\n", robot_id, straight_step[0], straight_step[1], straight_step[2]);
+#endif
             Eigen::Vector3d end_coord = straight_step + start_coord;
             if(traj_count != 1) {
                 start_coord += (current_step / 2);
@@ -224,7 +233,7 @@ PRT_VALUE *P_FUN_StartExecutingPath_IMPL(PRT_MACHINEINST *context)
                 end_coord -= (current_step / 2);
                 duration -= t_goto / 2;
             }
-            if(start_coord != end_coord) {
+            if(step_count != 0) {
                 publish_straight_traj(robot_id, start_coord, end_coord, duration);
             } 
             if(i != count) {

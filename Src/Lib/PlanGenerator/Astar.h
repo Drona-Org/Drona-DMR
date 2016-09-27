@@ -34,7 +34,7 @@ class CAstar
   	WS_Dimension dimension;
   	int ***obsmap;
   	WS_Coord start, end;
-    vector <RobotPosition_Vector> avoidTrajs;
+    vector< vector<WS_Coord> > avoidTrajs;
   	  
   public:
   	CAstar();
@@ -42,8 +42,8 @@ class CAstar
     WS_Dimension GetDimension();
   	void SetObstacleMap(WS_Dimension , RobotPosition_Vector );
   	void SetSEpoint(WS_Coord , WS_Coord );
-    void SetAvoidPositions(WS_Dimension, AvoidPositions* , int );
-    vector <RobotPosition_Vector> GetAvoidTrajs();
+    void SetAvoidPositions(WS_Dimension, vector< vector<WS_Coord> >);
+    vector< vector<WS_Coord> > GetAvoidTrajs();
     void PrintAvoidPositions();
     int*** GetObstacleMap();
     RobotPosition_Vector FindCollisionFreePath();

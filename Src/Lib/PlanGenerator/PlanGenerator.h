@@ -32,13 +32,10 @@ The grid locations are assinged integer values as follows for a 4x4 grid
 #define SEMPLAN_H
 
 #include "Astar.h"
+#include <vector>
 #include "../WorkspaceParser/Workspace.h"
 
-#ifdef __cplusplus
-extern "C"{
-#define BOOLEAN bool
-#endif
-
+using namespace std;
 
 bool GenerateMotionPlanFor(
 	WorkspaceInfo WSInfo,
@@ -46,14 +43,10 @@ bool GenerateMotionPlanFor(
 	int endLocation,
 	int* sequenceOfObstacles,
 	int obsSize,
-	AvoidPositions* avoidPositions,
-	int avoidSize,
+	vector< vector<WS_Coord> > avoidPositions,
 	int sequenceOfSteps[1000],
 	int* stepsSize
 );
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif

@@ -41,10 +41,14 @@ def run_publisher():
     starts_cloud = create_pointcload(starts, res)
     ends_cloud = create_pointcload(ends, res)
     chargings_cloud = create_pointcload(chargings, res)
-    obs_pub.publish(obscacles_cloud)
-    starts_pub.publish(starts_cloud)
-    ends_pub.publish(ends_cloud)
-    chargings_pub.publish(chargings_cloud)
+    def publish_cloud(pub, cloud):
+        while pub.get_num_connections() < 1:
+            rospy.sleep(1)    
+        pub.publish(cloud)
+    publish_cloud(obs_pub, obscacles_cloud)
+    publish_cloud(starts_pub, starts_cloud)
+    publish_cloud(ends_pub, ends_cloud)
+    publish_cloud(chargings_pub, chargings_cloud)
 
 if __name__ == "__main__":
     try:

@@ -82,59 +82,15 @@ int ***CAstar::GetObstacleMap()
     return obsmap;
 }
 
-void CAstar::SetAvoidPositions(WS_Dimension dimension, AvoidPositions* avoidPositions, int avoidSize)
+void CAstar::SetAvoidPositions(WS_Dimension dimension, vector< vector<WS_Coord> > avoidPositions)
 {
-  	unsigned int count1, count2, count3;
-  	int original_size;
-  	WS_Coord tmp_pos;
-  	RobotPosition_Vector tmp_pos_vec;
-	
-  	for (count1 = 0; count1 < avoidSize; count1++)
-  	{
- 		// If the current trajectory size is greater than the size of avoidTrajs,
-		// extend avoidTrajs up to the length of the current trajectory by repeating
-		// the final locations
-		if (count1 > 0 && avoidTrajs[count1-1].size() < avoidPositions[count1].size)
-   		{
-			original_size = avoidTrajs[count1-1].size();
-			for (count2 = 0; count2 <= count1 - 1; count2++)
-			{
-			        tmp_pos = (avoidTrajs[count2])[original_size -1];
-				for (count3 = original_size + 1; count3 <= avoidPositions[count1].size; count3++)
-				{
-					avoidTrajs[count2].push_back(tmp_pos);
-				}
-			}
-		}
-
-		// Add the positions in the current trajectories to avoidTrajs
-    		for (count2 = 0; count2 < avoidPositions[count1].size; count2++)
-    		{
-			WS_Coord coord;
-      			coord = ExtractCoordFromGridLocation(avoidPositions[count1].PositionsOccupied[count2], dimension);
-			SetCoordTo(&tmp_pos, coord);
-      			avoidTrajs.resize(count1 + 1);
-      			avoidTrajs[count1].push_back(tmp_pos);
-    		}
-
-		// If the current trajectory size is less than the size of avoidTrajs,
-		// extend the current trajectory upto the length of avoidTrajs by 
-		// repeating the final position of the current trajectory
-		if (count1 > 0 && avoidPositions[count1].size < avoidTrajs[count1-1].size())
-		{
-			for (count2 = avoidPositions[count1].size; count2 < avoidTrajs[count1-1].size(); count2++)
-			{
-				avoidTrajs[count1].push_back(tmp_pos);
-			}
-		}
-  	}
+	avoidTrajs = avoidPositions;
 }
 
-vector <RobotPosition_Vector> CAstar::GetAvoidTrajs()
+vector< vector<WS_Coord> > CAstar::GetAvoidTrajs()
 {
   return avoidTrajs;
 }
-
 
 void CAstar::PrintAvoidPositions()
 {

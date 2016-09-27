@@ -14,56 +14,48 @@ float PathSearchNode::GoalDistanceEstimate( PathSearchNode &nodeGoal , void* con
   return cost_h;
 }
 
-bool PathSearchNode::IsGoal( PathSearchNode &nodeGoal , void* context)
+bool PathSearchNode::IsGoal( PathSearchNode &nodeGoal , void* _context)
 {
-  return CoordAreEqual(coord, nodeGoal.coord);
+  CAstar* context = (CAstar*)_context;
+  if(CoordAreEqual(coord, nodeGoal.coord)) {
+    vector< vector<WS_Coord> > avoidTrajs = context->GetAvoidTrajs();
+    for(int i=0; i < avoidTrajs.size(); i++)
+    {
+      for(int t=timestamp; t < avoidTrajs[i].size(); t++)
+      {
+        if(CoordAreEqual(avoidTrajs[i][t], nodeGoal.coord)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  return false;
 }
 
-bool isBlocked(WS_Coord pos, int timestep, int ***obsmap, vector <RobotPosition_Vector> avoidTrajs)
+bool isBlocked(WS_Coord pos, int timestep, int ***obsmap, vector< vector<WS_Coord> > avoidTrajs)
 {
-  int count1, count2;
-  bool collisionKey = false;  
-
-  // Static Obstacles
-  if (obsmap[pos.x][pos.y][pos.z] == 1 )
-    {
-      return true;
-    }
-  if (avoidTrajs.size() == 0)
-    return false;
-
-  // Other Robots
-    for (count1 = -Delta; count1 <= Delta; count1++)
-    {
-      for (count2 = 0; count2 < avoidTrajs.size(); count2++)
-      {
-        if (timestep + count1 >=0 && timestep + count1 < avoidTrajs[count2].size())
-        {
-        if (CoordAreEqual(pos, avoidTrajs[count2][timestep + count1]))
-            {
-              collisionKey = true;
-              break;
-            }
-        }
-    }
-
-      // The final positions of the other robots should not interfere with the trajectory
-      // of the current robot
-      if (timestep + count1 > avoidTrajs[0].size())
-      {
-          for (count2 = 0; count2 < avoidTrajs.size(); count2++)
-          {
-              if (CoordAreEqual(pos, avoidTrajs[count2][avoidTrajs[0].size() - 1]))
-              {
-                collisionKey = true;
-                break;
-            }
-        }
-        if (collisionKey) 
-        break;
-      }
+  if(obsmap[pos.x][pos.y][pos.z] == 1) {
+    return true;
   }
-  return collisionKey;
+  for(int i=0; i < avoidTrajs.size(); i++)
+  {
+    for(int t = timestep - Delta; t <= timestep + Delta; t++)
+    {
+      if(t >= 0) {
+        if(t < avoidTrajs[i].size()) {
+          if(CoordAreEqual(pos, avoidTrajs[i][t])) {
+            return true;
+          } 
+        } else {
+          if(CoordAreEqual(pos, avoidTrajs[i][avoidTrajs[i].size() - 1])) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;  
 }
 
 bool PathSearchNode::GetSuccessors( AStarSearch<PathSearchNode> *astarsearch, PathSearchNode *parent_node, void* _context) 
