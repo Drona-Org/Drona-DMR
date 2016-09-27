@@ -30,7 +30,8 @@
         type="test_motion_planner"
         name="test_motion_planner"
         args="-w $(find p_controller)/{workspace_xml_path} -cooperative -threads {num_threads}"
-        output="screen">
+        output="screen"
+        required="true" >
     <!-- <remap from="~odom0" to="odom{robot_id}"/> -->
   </node>
 
