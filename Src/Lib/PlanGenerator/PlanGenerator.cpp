@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <assert.h>
 #include "PlanGenerator.h"
 
 using namespace std;
@@ -16,8 +17,7 @@ bool GenerateMotionPlanFor(
 	int endLocation,
 	int* sequenceOfObstacles,
 	int obsSize,
-	AvoidPositions* avoidPositions,
-	int avoidSize,
+	vector< vector<WS_Coord> > avoidPositions,
 	int sequenceOfSteps[1000],
 	int* stepsSize
 	)
@@ -48,7 +48,7 @@ bool GenerateMotionPlanFor(
   	astar.SetDimension(WSInfo.dimension);
   	astar.SetObstacleMap(WSInfo.dimension, obstacles);
  	astar.SetSEpoint(pos_start, pos_end);
-    astar.SetAvoidPositions(WSInfo.dimension, avoidPositions, avoidSize);
+    astar.SetAvoidPositions(WSInfo.dimension, avoidPositions);
 	
 	astar.PrintAvoidPositions();
 	
@@ -57,6 +57,7 @@ bool GenerateMotionPlanFor(
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 	printf("traj calculation takes %f\n", elapsed_secs);
+	assert(elapsed_secs < 0.3);
 
   	
     *stepsSize = path.size();
