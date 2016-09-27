@@ -587,31 +587,39 @@
   };
   PRT_UINT32 P_GEND_EVENTSET_11[] = 
   {
-    0x12000U
+    0x6000U
   };
   PRT_UINT32 P_GEND_EVENTSET_12[] = 
   {
-    0x14000U
+    0x12000U
   };
   PRT_UINT32 P_GEND_EVENTSET_13[] = 
   {
-    0x08000U
+    0x14000U
   };
   PRT_UINT32 P_GEND_EVENTSET_14[] = 
   {
-    0x10000U
+    0x08000U
   };
   PRT_UINT32 P_GEND_EVENTSET_15[] = 
   {
-    0x20000U
+    0x10000U
   };
   PRT_UINT32 P_GEND_EVENTSET_16[] = 
   {
-    0x40000U
+    0x20000U
   };
   PRT_UINT32 P_GEND_EVENTSET_17[] = 
   {
+    0x40000U
+  };
+  PRT_UINT32 P_GEND_EVENTSET_18[] = 
+  {
     0x080000U
+  };
+  PRT_UINT32 P_GEND_EVENTSET_19[] = 
+  {
+    0x1U
   };
   PRT_UINT32 P_GEND_EVENTSET_2[] = 
   {
@@ -736,6 +744,16 @@
     {
         17,
         P_GEND_EVENTSET_17
+    },
+    
+    {
+        18,
+        P_GEND_EVENTSET_18
+    },
+    
+    {
+        19,
+        P_GEND_EVENTSET_19
     }
   };
   PRT_MACHINEDECL *P_GEND_MACHINES[] = 
@@ -750,7 +768,7 @@
   PRT_PROGRAMDECL P_GEND_PROGRAM = 
   {
     20U,
-    18U,
+    20U,
     6U,
     0U,
     P_GEND_EVENTS,

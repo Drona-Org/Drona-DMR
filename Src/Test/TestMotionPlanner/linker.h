@@ -44,14 +44,16 @@
       P_GEND_EVENTSET_eCurrentTrajeRequestCurrentTraj = 8,
       P_GEND_EVENTSET_eDistMotionPlanMachine = 9,
       P_GEND_EVENTSET_eNewTask = 10,
-      P_GEND_EVENTSET_eNewTaskeRequestCurrentTraj = 11,
-      P_GEND_EVENTSET_ePlanCompletioneRequestCurrentTraj = 12,
-      P_GEND_EVENTSET_ePlanExecutorMachine = 13,
-      P_GEND_EVENTSET_eRequestCurrentTraj = 14,
-      P_GEND_EVENTSET_eStartExecutingPlan = 15,
-      P_GEND_EVENTSET_eTask_completed = 16,
-      P_GEND_EVENTSET_eTimeSyncId = 17,
-      _P_EVENTSETS_COUNT = 18
+      P_GEND_EVENTSET_eNewTaskePlanCompletion = 11,
+      P_GEND_EVENTSET_eNewTaskeRequestCurrentTraj = 12,
+      P_GEND_EVENTSET_ePlanCompletioneRequestCurrentTraj = 13,
+      P_GEND_EVENTSET_ePlanExecutorMachine = 14,
+      P_GEND_EVENTSET_eRequestCurrentTraj = 15,
+      P_GEND_EVENTSET_eStartExecutingPlan = 16,
+      P_GEND_EVENTSET_eTask_completed = 17,
+      P_GEND_EVENTSET_eTimeSyncId = 18,
+      P_GEND_EVENTSET_null = 19,
+      _P_EVENTSETS_COUNT = 20
     };
 
     enum P_FIELD_INDEX_RobotInfoType

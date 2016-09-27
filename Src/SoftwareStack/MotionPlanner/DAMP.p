@@ -189,14 +189,18 @@ machine DistributedMotionPlannerMachine
 		}
 	}
 	state ComputeTrajState {
+		defer eNewTask, ePlanCompletion;
 		entry {
 			//compute the current trajectory
 			ComputeTimedTraj(currTaskV.g, allAvoidsV);
 			send planExecutorV, eStartExecutingPlan, currentTrajV;
 			BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
 			pendingRequestsV = default(seq[machine]);
-			goto WaitForPlanCompletionOrCancellation;
 		}
+		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)) {
+			send payload.robot, eCurrentTraj, (robot = this, currTraj = currentTrajV);
+		}
+		on null goto WaitForPlanCompletionOrCancellation;
 	}
 
 	state WaitForPlanCompletionOrCancellation{
