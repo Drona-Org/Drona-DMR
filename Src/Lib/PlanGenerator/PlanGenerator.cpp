@@ -8,6 +8,7 @@
 #include <time.h>
 #include <assert.h>
 #include "PlanGenerator.h"
+#include <assert.h>
 
 using namespace std;
 
@@ -70,5 +71,37 @@ bool GenerateMotionPlanFor(
     obsmap = astar.GetObstacleMap();
   	astar.printTrajectory(obsmap, path);
 
+
+	//assert that the traj generated is correct
+	for (count = 0; count < *stepsSize; count++)
+	{
+		for (int x = 0; x < WSInfo.obstacles.size; x++)
+		{
+			if (WSInfo.obstacles.locations[x] == sequenceOfSteps[count])
+			{
+				cout << "Trajectory crashes with a static obstacle" << endl;
+				exit(0);
+			}
+		}
+		for (int y = 0; y < avoidSize; y++)
+		{
+			if(count < avoidPositions[y].size)
+			{
+				if (avoidPositions[y].PositionsOccupied[count] == sequenceOfObstacles[count])
+				{
+					cout << "Trajectory crashes with a robot " << y<< " trajectory at time "<< count << "and location " << sequenceOfObstacles[count] << endl;
+					exit(0);
+				}
+			}
+			else
+			{
+				if (avoidPositions[y].PositionsOccupied[avoidPositions[y].size - 1] == sequenceOfObstacles[count])
+				{
+					cout << "Trajectory crashes with a robot " << y << " stationary at time " << count << "and location " << sequenceOfObstacles[count] << endl;
+					exit(0);
+				}
+			}
+		}
+	}
 	return true;
 }

@@ -7,7 +7,7 @@ extern "C" { const char* primitive_file_path = "primitive.txt"; }
 
 int main()
 {
-	char* pathToWorkspace = "C:\\Workspace\\Drona\\Src\\Workspaces\\Exp3\\Workspace.xml";
+	char* pathToWorkspace = "C:\\Workspace\\Drona\\Src\\Workspaces\\Exp1\\Workspace.xml";
 	//char* pathToWorkspace = "../../Src/Workspaces/Exp2";
 	int count;
 	int* output_seq_of_locations = (int*)malloc(100 * sizeof(int));
