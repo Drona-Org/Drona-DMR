@@ -120,5 +120,7 @@ bool GenerateMotionPlanFor(
 			}
 		}
 	}
+
+	//CAM: Fix this and return false when appropriate;
 	return true;
 }

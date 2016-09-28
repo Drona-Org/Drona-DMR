@@ -163,7 +163,7 @@ machine DistributedMotionPlannerMachine
 		return retTraj;
 	}
 	
-	fun ComputeTimedTraj (goal: int, avoid: map[machine, TimedTrajType])
+	fun ComputeTimedTraj (goal: int, avoid: map[machine, TimedTrajType]) : bool
 	{
 		var currTimePeriod : int;
 		var startingTimePeriod : int;
@@ -187,6 +187,11 @@ machine DistributedMotionPlannerMachine
 
 		assert sizeof(convertedAvoids) == numOfRobots - 1;
 		traj = PlanGenerator(currentLocationV, goal, convertedAvoids, myIdV);
+		if(sizeof(traj) == 0)
+		{
+			return false;
+		}
+
 		currentTrajV = default(TimedTrajType);
 		index = 0;
 		assert sizeof(traj) > 0;
@@ -195,12 +200,22 @@ machine DistributedMotionPlannerMachine
 			currentTrajV += (index, (startingTimePeriod + index, traj[index]));
 		    index = index + 1;
 		}
+
+		return true;
 	}
 	state ComputeTrajState {
 		defer eNewTask, ePlanCompletion;
 		entry {
+			var success: bool;
 			//compute the current trajectory
-			ComputeTimedTraj(currTaskV.g, allAvoidsV);
+			success = ComputeTimedTraj(currTaskV.g, allAvoidsV);
+			if(!success)
+			{
+				//could not find feasible path
+				//enqueue this task back in the queue
+				send this, eNewTask, currTaskV;
+				goto WaitForRequests;
+			}
 			send planExecutorV, eStartExecutingPlan, currentTrajV;
 			BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
 			pendingRequestsV = default(seq[machine]);

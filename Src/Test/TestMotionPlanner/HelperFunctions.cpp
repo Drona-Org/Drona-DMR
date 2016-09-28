@@ -121,13 +121,20 @@ PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEI
 		}
 	}
 
-	GenerateMotionPlanFor(robotid, *WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, avoidsArr, output_seq_of_locations, &output_size);
-
+	bool success;
 	PRT_VALUE* retPlan;
 	intType = PrtMkPrimitiveType(PRT_KIND_INT);
 	intSeqType = PrtMkSeqType(intType);
 	retPlan = PrtMkDefaultValue(intSeqType);
 	PrtFreeType(intType); PrtFreeType(intSeqType);
+
+	success = GenerateMotionPlanFor(robotid, *WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, avoidsArr, output_seq_of_locations, &output_size);
+
+	if (!success)
+	{
+		return retPlan;
+	}
+	
 	
 	for (int counter = 0; counter < output_size; counter++)
 	{
