@@ -1,6 +1,11 @@
 event eAllRobots: (allrobots: seq[machine], timesync: machine);
 event eTimeSyncId : machine;
 
+model fun RosInit(robotId: int, startL: int)
+{
+
+}
+
 machine RobotMachine
 {
 	var robotid: int;
@@ -14,6 +19,7 @@ machine RobotMachine
 		{
 			robotid = payload.robotid;
 			currentLocation = payload.startpos;
+			RosInit(robotid, payload.startpos);
 			motionplanner = new DistributedMotionPlannerMachine(payload);
 			planexecutor = new PlanExecutorMachine((mp = motionplanner, rid = robotid));
 		}

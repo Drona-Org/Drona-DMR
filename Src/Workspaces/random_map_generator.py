@@ -31,7 +31,7 @@ def generate_special_locations(grid, num_locs, color):
     # for idx in unoccupied_idxs:
     prob = np.array(map(lambda coord: np.count_nonzero(grid[list(np.array(cell_neighbors(coord, grid.shape)).T)] == 1), unoccupied_idxs)) + 0.5
     prob /= np.sum(prob)
-    fill_idxs = np.random.choice(len(unoccupied_idxs), size=num_locs, p=prob)
+    fill_idxs = np.random.choice(len(unoccupied_idxs), size=num_locs, p=prob, replace=False)
     grid[list(unoccupied_idxs[fill_idxs].T)] = color_code_map_inv[color]
 
 def generate_map(options):
