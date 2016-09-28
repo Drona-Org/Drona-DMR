@@ -1,17 +1,25 @@
 #include "PathSearchNode.h"
+#include "DijkstraPrecomputation.h"
 
 bool PathSearchNode::IsSameState( PathSearchNode &rhs , void* context)
 {
   return CoordAreEqual(coord, rhs.coord) && timestamp == rhs.timestamp;
 }
 
-float PathSearchNode::GoalDistanceEstimate( PathSearchNode &nodeGoal , void* context)
+float PathSearchNode::GoalDistanceEstimate( PathSearchNode &nodeGoal , void* _context)
 {
+#ifdef USE_DIJKSTRA_PRECOMPUTATION
+  CAstar* context = (CAstar*)_context;
+  int goal_loc = ConvertCoordToGridLocation(nodeGoal.coord, context->GetDimension());
+  int curr_loc = ConvertCoordToGridLocation(coord, context->GetDimension());
+  return precomputed_dists[goal_loc][curr_loc];
+#else
   int cost_hX = abs(coord.x - nodeGoal.coord.x);
   int cost_hY = abs(coord.y - nodeGoal.coord.y);
   int cost_hZ = abs(coord.z - nodeGoal.coord.z);
   float cost_h = cost_hX + cost_hY + cost_hZ;
   return cost_h;
+#endif
 }
 
 bool PathSearchNode::IsGoal( PathSearchNode &nodeGoal , void* _context)

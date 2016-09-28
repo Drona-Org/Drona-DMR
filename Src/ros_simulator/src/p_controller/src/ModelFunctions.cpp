@@ -37,6 +37,7 @@ PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
     PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
     //create a tuple value
     int robot_id = (int)PrtPrimGetInt(p_tmp_frame.locals[0]);
+    int start_location = (int)PrtPrimGetInt(p_tmp_frame.locals[1]);
     std::ostringstream channel_name;
     channel_name << "odom" << robot_id;
     ros::Publisher pub = node_handle->advertise<nav_msgs::Odometry>(channel_name.str(), 10, true);
@@ -46,6 +47,18 @@ PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context)
     SleepMs(1000); // Wait for publisher to register...
     printf("Registered robot %d at channel ", robot_id);
     std::cout << channel_name.str() << std::endl;
+
+    WS_Coord start_coord = ExtractCoordFromGridLocation(start_location, WORKSPACE_INFO->dimension);
+    nav_msgs::Odometry odom;
+    odom.header.frame_id = "/simulator";
+    odom.child_frame_id = "/quadrotor";
+    double resolution;
+    node_handle->param("/map/res", resolution, 1.0);
+    odom.pose.pose.position.x = start_coord.x * resolution;
+    odom.pose.pose.position.y = start_coord.y * resolution;
+    odom.pose.pose.position.z = start_coord.z * resolution;
+    pub.publish(odom);
+
     //remm to free the frame
     PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
     return p_tmp_ret;

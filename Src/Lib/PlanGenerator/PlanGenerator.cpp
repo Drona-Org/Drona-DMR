@@ -12,7 +12,13 @@
 
 using namespace std;
 
-//pthread_mutex_t print_lock = PTHREAD_MUTEX_INITIALIZER;
+#ifdef _WIN32
+#include <windows.h>
+HANDLE print_lock = NULL;
+#else
+#include <pthread.h>
+pthread_mutex_t print_lock = PTHREAD_MUTEX_INITIALIZER;
+#endif
 
 bool GenerateMotionPlanFor(
 	int robotid,
@@ -26,6 +32,12 @@ bool GenerateMotionPlanFor(
 	int* stepsSize
 	)
 {
+#ifdef _WIN32
+	if(!mutex) {
+		mutex = CreateMutex(NULL, FALSE, NULL);
+	}
+#endif
+
 	RobotPosition_Vector obstacles;
 	string line;
 	int count;
@@ -59,16 +71,19 @@ bool GenerateMotionPlanFor(
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-	//pthread_mutex_lock(&print_lock);
+#ifdef _WIN32
+	WaitForSingleObject(print_lock, INFINITE);
+#else
+	pthread_mutex_lock(&print_lock);
+#endif
+
 	printf("====================================================\n");
 	printf("Robot %d\n", robotid);
 	PrintObstaclesList(*WORKSPACE_INFO);
 	
 	astar.PrintAvoidPositions();
 	printf("traj calculation takes %f\n", elapsed_secs);
-	assert(elapsed_secs < 2.0);
 
-  	
     *stepsSize = path.size();
 	for (count = 0; count < *stepsSize; count++)
 	{
@@ -86,8 +101,14 @@ bool GenerateMotionPlanFor(
 		printf("%d ", sequenceOfSteps[i]);
 	}
 	printf("\n\n");
+	assert(elapsed_secs < 2.0);
 	printf("====================================================\n");
-	//pthread_mutex_unlock(&print_lock);
+
+#ifdef _WIN32
+	ReleaseMutex(print_lock);
+#else
+	pthread_mutex_unlock(&print_lock);
+#endif
 
 	//assert that the traj generated is correct
 	for (count = 0; count < *stepsSize; count++)

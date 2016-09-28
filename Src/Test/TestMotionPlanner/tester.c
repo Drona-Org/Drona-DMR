@@ -1,6 +1,7 @@
 #include "TestDriver.h"
 #include "WorkspaceParser.h"
 #include "Compat.h"
+#include "DijkstraPrecomputation.h"
 #ifndef PRT_PLAT_WINUSER
 #include "InitRos.h"
 #endif
@@ -206,6 +207,21 @@ int main(int argc, char *argv[])
 
 		//Initialize the workspace
 		WORKSPACE_INFO = ParseWorkspaceConfig(workspaceConfig);
+
+#ifdef USE_DIJKSTRA_PRECOMPUTATION
+        WS_LocationsList ends;
+        ends.size = WORKSPACE_INFO->starts.size + WORKSPACE_INFO->ends.size;
+        ends.locations = malloc(sizeof(WS_Coord) * ends.size);
+        int count = 0;
+        for(int i=0; i < WORKSPACE_INFO->starts.size; i++) {
+            ends.locations[count++] = WORKSPACE_INFO->starts.locations[i];
+        }
+        for(int i=0; i < WORKSPACE_INFO->ends.size; i++) {
+            ends.locations[count++] = WORKSPACE_INFO->ends.locations[i];
+        }
+        PreComputeObstacleDistanceH(WORKSPACE_INFO->dimension, WORKSPACE_INFO->obstacles, ends);
+#endif
+
 		processGuid.data1 = 1;
 		processGuid.data2 = 0;
 		processGuid.data3 = 0;

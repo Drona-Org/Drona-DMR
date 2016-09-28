@@ -1,6 +1,9 @@
 #ifndef DRONA_ASTAR_H
 #define DRONA_ASTAR_H
 
+#include "../WorkspaceParser/Workspace.h"
+
+#ifdef __cplusplus
 #include <memory>
 #include <vector>
 #include <algorithm>
@@ -9,15 +12,12 @@
 #include <math.h>
 #include <stdio.h>
 #include <string>
-#include "../WorkspaceParser/Workspace.h"
 
 using namespace std;
-
 
 const int Delta = 1;
 
 const int Max_Traj_Length = 1000;
-
 
 struct A {
         int PositionsOccupied[1000];
@@ -50,5 +50,6 @@ class CAstar
     void printTrajectory(int *** , RobotPosition_Vector );
   	virtual ~CAstar();
 };
+#endif
 
 #endif
