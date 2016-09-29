@@ -1,4 +1,6 @@
 # Drona
 Drona is a programming framework for building reliable drones.
 
-More details coming soon !!
+Some simulation videos are available in videos.
+
+
