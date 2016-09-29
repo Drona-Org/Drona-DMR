@@ -129,16 +129,12 @@ PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEI
 	PrtFreeType(intType); PrtFreeType(intSeqType);
 
 	success = GenerateMotionPlanFor(robotid, *WORKSPACE_INFO, startLocation, goalLocation, WORKSPACE_INFO->obstacles.locations, WORKSPACE_INFO->obstacles.size, avoidsArr, output_seq_of_locations, &output_size);
-
-	if (!success)
-	{
-		return retPlan;
-	}
 	
-	
-	for (int counter = 0; counter < output_size; counter++)
-	{
-		PrtSeqInsertExIntIndex(retPlan, counter, PrtMkIntValue(output_seq_of_locations[counter]), PRT_FALSE);
+	if(success) {	
+		for (int counter = 0; counter < output_size; counter++)
+		{
+			PrtSeqInsertExIntIndex(retPlan, counter, PrtMkIntValue(output_seq_of_locations[counter]), PRT_FALSE);
+		}
 	}
 
 	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);

@@ -125,9 +125,10 @@ bool CAstar::FindCollisionFreePath(RobotPosition_Vector& ret)
     {
       SearchState = astarsearch.SearchStep();
       SearchSteps++;
-      if(SearchSteps % 8192 == 0) {
+      if(SearchSteps % 64 == 0) {
 			double elapsed_secs = double(clock() - begin) / CLOCKS_PER_SEC;
 			if(elapsed_secs > 1.9) {
+				printf("%f\n", elapsed_secs);
 				timeout = true;
 				break;
 			}

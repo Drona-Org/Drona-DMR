@@ -3,7 +3,7 @@
 #include "Astar.h"
 
 #define STEP_COST 1.0
-#define HOVERING_COST 0.75
+#define HOVERING_COST 1.0
 
 class PathSearchNode
 {
