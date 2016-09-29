@@ -591,10 +591,6 @@
   {
     0x080000U
   };
-  PRT_UINT32 P_GEND_EVENTSET_19[] = 
-  {
-    0x1U
-  };
   PRT_UINT32 P_GEND_EVENTSET_2[] = 
   {
     0x5U
@@ -723,11 +719,6 @@
     {
         18,
         P_GEND_EVENTSET_18
-    },
-    
-    {
-        19,
-        P_GEND_EVENTSET_19
     }
   };
   PRT_MACHINEDECL *P_GEND_MACHINES[] = 
@@ -742,7 +733,7 @@
   PRT_PROGRAMDECL P_GEND_PROGRAM = 
   {
     20U,
-    20U,
+    19U,
     6U,
     0U,
     P_GEND_EVENTS,

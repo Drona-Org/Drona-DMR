@@ -33,8 +33,8 @@ bool GenerateMotionPlanFor(
 	)
 {
 #ifdef _WIN32
-	if(!mutex) {
-		mutex = CreateMutex(NULL, FALSE, NULL);
+	if(!print_lock) {
+		print_lock = CreateMutex(NULL, FALSE, NULL);
 	}
 #endif
 

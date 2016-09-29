@@ -52,8 +52,7 @@
       P_GEND_EVENTSET_eStartExecutingPlan = 16,
       P_GEND_EVENTSET_eTask_completed = 17,
       P_GEND_EVENTSET_eTimeSyncId = 18,
-      P_GEND_EVENTSET_null = 19,
-      _P_EVENTSETS_COUNT = 20
+      _P_EVENTSETS_COUNT = 19
     };
 
     enum P_FIELD_INDEX_RobotInfoType

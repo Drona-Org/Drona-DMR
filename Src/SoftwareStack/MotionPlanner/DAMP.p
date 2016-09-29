@@ -186,13 +186,15 @@ machine DistributedMotionPlannerMachine
 		}
 
 		assert sizeof(convertedAvoids) == numOfRobots - 1;
+		currentTrajV = default(TimedTrajType);
 		traj = PlanGenerator(currentLocationV, goal, convertedAvoids, myIdV);
 		if(sizeof(traj) == 0)
 		{
+			currentTrajV += (0, (0, currentLocationV));
 			return false;
 		}
 
-		currentTrajV = default(TimedTrajType);
+		
 		index = 0;
 		assert sizeof(traj) > 0;
 		while(index < sizeof(traj))
@@ -214,17 +216,20 @@ machine DistributedMotionPlannerMachine
 				//could not find feasible path
 				//enqueue this task back in the queue
 				send this, eNewTask, currTaskV;
+				//send it to the pending guys
+				BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
+				pendingRequestsV = default(seq[machine]);
 				goto WaitForRequests;
 			}
-			send planExecutorV, eStartExecutingPlan, currentTrajV;
-			BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
-			pendingRequestsV = default(seq[machine]);
+			else
+			{
+				send planExecutorV, eStartExecutingPlan, currentTrajV;
+				BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
+				pendingRequestsV = default(seq[machine]);
+				goto WaitForPlanCompletionOrCancellation;
+			}
+			
 		}
-		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)) {
-			//assert(payload.priority > currTaskV.taskid);
-			send payload.robot, eCurrentTraj, (robot = this, currTraj = currentTrajV);
-		}
-		on null goto WaitForPlanCompletionOrCancellation;
 	}
 
 	state WaitForPlanCompletionOrCancellation{
