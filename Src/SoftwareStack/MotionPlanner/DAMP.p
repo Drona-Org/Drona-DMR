@@ -209,16 +209,19 @@ machine DistributedMotionPlannerMachine
 		defer eNewTask, ePlanCompletion;
 		entry {
 			var success: bool;
+			var nextRobot: int;
 			//compute the current trajectory
 			success = ComputeTimedTraj(currTaskV.g, allAvoidsV);
 			if(!success)
 			{
 				//could not find feasible path
 				//enqueue this task back in the queue
-				send this, eNewTask, currTaskV;
+
+				send allRobotsMPV[0], eNewTask, currTaskV;
 				//send it to the pending guys
 				BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
 				pendingRequestsV = default(seq[machine]);
+				Sleep(myIdV*100);
 				goto WaitForRequests;
 			}
 			else
