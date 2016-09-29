@@ -222,7 +222,7 @@ machine DistributedMotionPlannerMachine
 			{
 				//could not find feasible path
 				//enqueue this task back in the queue
-				nextRobot = GetRandomNumber(numOfRobots - 1);
+				nextRobot = GetRandomNumber(numOfRobots);
 				send allRobotsMPV[nextRobot], eNewTask, currTaskV;
 				//send it to the pending guys
 				BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
