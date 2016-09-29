@@ -67,9 +67,14 @@ bool GenerateMotionPlanFor(
     astar.SetAvoidPositions(WSInfo.dimension, avoidPositions);
 		
 	clock_t begin = clock();
-    RobotPosition_Vector path = astar.FindCollisionFreePath();
+    RobotPosition_Vector path;
+    bool success = astar.FindCollisionFreePath(path);
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
+	if(!success) {
+		return false;
+	}
 
 #ifdef _WIN32
 	WaitForSingleObject(print_lock, INFINITE);
@@ -110,6 +115,7 @@ bool GenerateMotionPlanFor(
 	pthread_mutex_unlock(&print_lock);
 #endif
 
+#ifdef CHECK_ASTAR_TRAJ
 	//assert that the traj generated is correct
 	for (count = 0; count < *stepsSize; count++)
 	{
@@ -141,7 +147,7 @@ bool GenerateMotionPlanFor(
 			}
 		}
 	}
+#endif
 
-	//CAM: Fix this and return false when appropriate;
 	return true;
 }

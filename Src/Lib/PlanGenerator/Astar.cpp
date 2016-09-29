@@ -107,10 +107,8 @@ void CAstar::PrintAvoidPositions()
 	}
 }
 
-RobotPosition_Vector CAstar::FindCollisionFreePath()
+bool CAstar::FindCollisionFreePath(RobotPosition_Vector& ret)
 {
-    RobotPosition_Vector ret;
-
     AStarSearch<PathSearchNode> astarsearch(1000000, this);
     
     PathSearchNode nodeStart(this->start, 0);
@@ -121,34 +119,46 @@ RobotPosition_Vector CAstar::FindCollisionFreePath()
     unsigned int SearchState;
     unsigned int SearchSteps = 0;
 
+    bool timeout = false;
+    clock_t begin = clock();
     do
     {
       SearchState = astarsearch.SearchStep();
       SearchSteps++;
+      if(SearchSteps % 8192 == 0) {
+			double elapsed_secs = double(clock() - begin) / CLOCKS_PER_SEC;
+			if(elapsed_secs > 1.9) {
+				timeout = true;
+				break;
+			}
+      }  
     }
     while( SearchState == AStarSearch<PathSearchNode>::SEARCH_STATE_SEARCHING );
-
-    if( SearchState == AStarSearch<PathSearchNode>::SEARCH_STATE_SUCCEEDED )
+    if(timeout) {
+    	cout << "Search timeout" << endl;
+    	return false;
+    }
+    else if( SearchState == AStarSearch<PathSearchNode>::SEARCH_STATE_SUCCEEDED )
     {
       for(PathSearchNode *node = astarsearch.GetSolutionStart(); node != NULL; node = astarsearch.GetSolutionNext())
       {
         ret.push_back(node->coord);
       }
       astarsearch.FreeSolutionNodes();
+      astarsearch.EnsureMemoryFreed();
     }
     else if( SearchState == AStarSearch<PathSearchNode>::SEARCH_STATE_FAILED ) 
     {
-      printf("Failed to search!\n");
-      assert(false);
+      cout << "Failed to search. No solution\n";
+      return false;
     }
     else if( SearchState == AStarSearch<PathSearchNode>::SEARCH_STATE_OUT_OF_MEMORY ) 
     {
-      cout << "Search terminated. Out of memory\n";    
+      cout << "Search terminated. Out of memory\n";
+      return false;
     }
 
-
-    astarsearch.EnsureMemoryFreed();
-    return ret;
+    return true;
 }
 
 

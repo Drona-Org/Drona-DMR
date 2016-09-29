@@ -46,7 +46,7 @@ class CAstar
     vector< vector<WS_Coord> > GetAvoidTrajs();
     void PrintAvoidPositions();
     int*** GetObstacleMap();
-    RobotPosition_Vector FindCollisionFreePath();
+    bool FindCollisionFreePath(RobotPosition_Vector&);
     void printTrajectory(int *** , RobotPosition_Vector );
   	virtual ~CAstar();
 };
