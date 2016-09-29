@@ -24,9 +24,10 @@
       P_FUN_DistributedMotionPlannerMachine_ANON14 = 30,
       P_FUN_DistributedMotionPlannerMachine_ComputeTimedTraj = 31,
       P_FUN_DistributedMotionPlannerMachine_ConvertTimedTrajToTraj = 32,
-      P_FUN_DistributedMotionPlannerMachine_PlanGenerator = 33,
-      P_FUN_DistributedMotionPlannerMachine_allTrajsReceived = 34,
-      _P_FUNS_DistributedMotionPlannerMachine_COUNT = 35
+      P_FUN_DistributedMotionPlannerMachine_GetRandomNumber = 33,
+      P_FUN_DistributedMotionPlannerMachine_PlanGenerator = 34,
+      P_FUN_DistributedMotionPlannerMachine_allTrajsReceived = 35,
+      _P_FUNS_DistributedMotionPlannerMachine_COUNT = 36
     };
 
     enum P_FUNS_DistributedTimeSyncMachine
@@ -227,6 +228,8 @@
     void P_CTOR_Timer_IMPL(PRT_MACHINEINST *context, PRT_VALUE *value);
 
     PRT_VALUE *P_FUN_CancelTimer_IMPL(PRT_MACHINEINST *context);
+
+    PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_GetRandomNumber_IMPL(PRT_MACHINEINST *context);
 
     PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEINST *context);
 

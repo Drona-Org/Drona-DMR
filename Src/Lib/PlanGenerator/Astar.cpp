@@ -6,6 +6,7 @@
 #include "Astar.h"
 #include "PathSearchNode.h"
 #include "stlastar.h"
+#include <time.h>
 
 CAstar::CAstar()
 {

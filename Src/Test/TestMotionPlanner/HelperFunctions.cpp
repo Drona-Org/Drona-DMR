@@ -203,3 +203,18 @@ PRT_VALUE *P_FUN_GetUniqueTaskId_IMPL(PRT_MACHINEINST *context) {
 	PrtUnlockMutex(t_lock);
 	return PrtMkIntValue(t_id);
 }
+
+PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_GetRandomNumber_IMPL(PRT_MACHINEINST *context) {
+	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
+	PRT_VALUE *p_tmp_ret = NULL;
+	PRT_FUNSTACK_INFO p_tmp_frame;
+	PRT_VALUE *p_tmp_params;
+	int t_id = 0;
+	p_tmp_params = NULL;
+	//remm to pop frame
+	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
+	t_id = PrtPrimGetInt(p_tmp_frame.locals[0]);
+	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
+	
+	return PrtMkIntValue((rand() % (int)(t_id)));
+}

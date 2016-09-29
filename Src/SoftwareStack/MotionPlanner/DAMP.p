@@ -205,6 +205,12 @@ machine DistributedMotionPlannerMachine
 
 		return true;
 	}
+
+	model fun GetRandomNumber(t: int) :int
+	{
+		return 0;
+	}
+
 	state ComputeTrajState {
 		defer eNewTask, ePlanCompletion;
 		entry {
@@ -216,8 +222,8 @@ machine DistributedMotionPlannerMachine
 			{
 				//could not find feasible path
 				//enqueue this task back in the queue
-
-				send allRobotsMPV[0], eNewTask, currTaskV;
+				nextRobot = GetRandomNumber(numOfRobots - 1);
+				send allRobotsMPV[nextRobot], eNewTask, currTaskV;
 				//send it to the pending guys
 				BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
 				pendingRequestsV = default(seq[machine]);
