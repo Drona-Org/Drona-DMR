@@ -24,7 +24,9 @@ def make_dir(path):
                 pass
             else: raise
 
-def workspace_to_launch_file(outdir, outname, workspace_file):
+def workspace_to_launch_file(options):
+    outdir, outname, workspace_file = options.outdir, options.outname, options.workspace
+
     out_rviz_name = outname + ".rviz"
     out_launch_file_name = outname + ".launch"
 
@@ -42,7 +44,10 @@ def workspace_to_launch_file(outdir, outname, workspace_file):
     e.attrib["value"] = e.attrib["value"].format(workspace_xml_path=os.path.relpath(workspace_file, p_controller_dir))
 
     e = filter(lambda e : e.attrib.get("pkg") == "rviz", launch_xml.findall("node"))[0]
-    e.attrib["args"] = e.attrib["args"].format(rviz_path=os.path.join(os.path.relpath(outdir, p_controller_dir), out_rviz_name))
+    if options.no_rviz:
+        launch_xml.remove(e)
+    else:
+        e.attrib["args"] = e.attrib["args"].format(rviz_path=os.path.join(os.path.relpath(outdir, p_controller_dir), out_rviz_name))
 
     e = filter(lambda e : e.attrib.get("type") == "test_motion_planner", launch_xml.findall("node"))[0]
     e.attrib["args"] = e.attrib["args"].format(workspace_xml_path=os.path.relpath(workspace_file, p_controller_dir), 
@@ -72,7 +77,8 @@ def workspace_to_launch_file(outdir, outname, workspace_file):
         e = filter(lambda e : e.attrib.get("from") == "~odom", new_mesh.findall("remap"))[0]
         e.attrib["to"] = e.attrib["to"].format(robot_id=robot_id)
         new_mesh.attrib["name"] = new_mesh.attrib["name"].format(robot_id=robot_id)
-        launch_xml.append(new_mesh)
+        if not options.no_rviz:
+            launch_xml.append(new_mesh)
         # add remapping to node test_motion_planner
         ET.SubElement(test_motion_planner_e, 
                       tag="remap", 
@@ -88,24 +94,29 @@ def workspace_to_launch_file(outdir, outname, workspace_file):
     rviz_grid = filter(lambda disp: disp.get("Name", "") == "Grid", rviz_yaml["Visualization Manager"]["Displays"])[0]
     rviz_grid["Plane Cell Count"] = max(int(ws_xml.find("dimension").attrib["x"]), int(ws_xml.find("dimension").attrib["y"])) * 2 + 1
 
+    if options.no_rviz:
+        e = filter(lambda e : e.attrib.get("name") == "map_visual", launch_xml.findall("node"))[0]
+        launch_xml.remove(e)
+
     make_dir(outdir)
     out_launch_file_path = os.path.join(outdir, out_launch_file_name)
     launch_doc.write(out_launch_file_path, encoding='utf-8', xml_declaration=False)
     with open(os.path.join(outdir, out_rviz_name), "w+") as out_rviz_f:
         out_rviz_f.write(yaml.dump(rviz_yaml))
 
-def main():
+def main(argv):
     parser = argparse.ArgumentParser(description='Convert workspace.xml into ros launch files.')
     parser.add_argument('-dir', '--outdir', type=str, dest="outdir", help="ouput directory")
     parser.add_argument('-o', '--outname', type=str, dest="outname", help="ouput filename")
     parser.add_argument('-w', '--workspace', type=str, dest="workspace", help="workspace.xml file")
-    options = parser.parse_args()
+    parser.add_argument('--no-rviz', dest="no_rviz", action="store_true", help="use rviz visualization")
+    options = parser.parse_args(argv)
     if options.outdir == None:
         options.outdir = os.path.splitext(os.path.basename(options.workspace))[0]
     if options.outname == None:
         options.outname = os.path.splitext(os.path.basename(options.workspace))[0]
-    workspace_to_launch_file(options.outdir, options.outname, options.workspace)
+    workspace_to_launch_file(options)
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
 

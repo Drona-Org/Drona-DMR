@@ -1,3 +1,5 @@
+#include <iostream>
+#include <stdlib.h>
 #include "TestDriver.h"
 #include "Workspace.h"
 #include "PlanGenerator.h"
@@ -106,6 +108,7 @@ PRT_VALUE *P_FUN_DistributedMotionPlannerMachine_PlanGenerator_IMPL(PRT_MACHINEI
 	int goalLocation = PrtPrimGetInt(p_tmp_frame.locals[1]);
 	PRT_VALUE* avoidsList = p_tmp_frame.locals[2];
 	int robotid = PrtPrimGetInt(p_tmp_frame.locals[3]);
+	printf("%d starts calculation for goalLocation %d\n", robotid, goalLocation);
 	int sizeOfAvoids = PrtSeqSizeOf(avoidsList);
 	
 	int* output_seq_of_locations = (int*)malloc(1000 * sizeof(int));
@@ -169,6 +172,30 @@ PRT_VALUE *P_FUN_RosInit_IMPL(PRT_MACHINEINST *context) {
 }
 #endif
 
+static void PrintStat() {
+	const char* out_stat_file_name = getenv("TEST_DRIVER_OUT_STAT_FILE");
+
+    std::ostream* out = &cout;
+    std::ofstream fout;
+    
+	if(out_stat_file_name) {
+        fout.open(out_stat_file_name, std::ofstream::out | std::ofstream::app);
+        out = &fout;
+	}
+
+	double total_elapsed_secs = double(total_elapsed_clock) / CLOCKS_PER_SEC;
+	double total_elapsed_secs_ext = double(total_elapsed_clock_ext) / CLOCKS_PER_SEC;
+	*out << "Total A* solving(timeout included): " << total_elapsed_secs << " seconds" << std::endl;
+	*out << "Total A* solving(timeout excluded): " << total_elapsed_secs_ext << " seconds" << std::endl;
+	*out << "Total number of A* solver calls(timeout included): " << total_num_calculations << std::endl;
+	*out << "Total number of A* solver calls(timeout excluded): " << total_num_calculations_ext << std::endl;
+	*out << "Total length of solution(timeout excluded): " << total_length_of_path << std::endl;
+
+	if(out_stat_file_name) {
+		fout.close();
+	}
+}
+
 PRT_VALUE *P_FUN_Main_ExitP_IMPL(PRT_MACHINEINST *context) {
 	PRT_MACHINEINST_PRIV *p_tmp_mach_priv = (PRT_MACHINEINST_PRIV *)context;
 	PRT_VALUE *p_tmp_ret = NULL;
@@ -179,6 +206,7 @@ PRT_VALUE *P_FUN_Main_ExitP_IMPL(PRT_MACHINEINST *context) {
 	//remm to pop frame
 	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
 	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
+	PrintStat();
 	printf("Done !! Good Bye\n");
 	exit(0);
 	return NULL;

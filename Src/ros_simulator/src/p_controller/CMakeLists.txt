@@ -204,6 +204,12 @@ target_link_libraries(test_motion_planner
   ${catkin_LIBRARIES}
 )
 
+option(USE_DIJKSTRA_PRECOMPUTATION "Use dijkstra precomputation for A* heuristic" OFF) # Enabled by default
+
+IF(USE_DIJKSTRA_PRECOMPUTATION)
+    add_definitions(-DUSE_DIJKSTRA_PRECOMPUTATION)
+ENDIF()
+
 #############
 ## Install ##
 #############

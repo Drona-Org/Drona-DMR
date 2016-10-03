@@ -5,7 +5,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include <assert.h>
 #include "PlanGenerator.h"
 #include <assert.h>
@@ -15,10 +14,18 @@ using namespace std;
 #ifdef _WIN32
 #include <windows.h>
 HANDLE print_lock = NULL;
+HANDLE stat_lock = NULL;
 #else
 #include <pthread.h>
 pthread_mutex_t print_lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t stat_lock = PTHREAD_MUTEX_INITIALIZER;
 #endif
+
+clock_t total_elapsed_clock = 0;
+clock_t total_elapsed_clock_ext = 0;
+int total_num_calculations = 0;
+int total_num_calculations_ext = 0;
+int total_length_of_path = 0;
 
 bool GenerateMotionPlanFor(
 	int robotid,
@@ -35,6 +42,9 @@ bool GenerateMotionPlanFor(
 #ifdef _WIN32
 	if(!print_lock) {
 		print_lock = CreateMutex(NULL, FALSE, NULL);
+	}
+	if(!stat_lock) {
+		stat_lock = CreateMutex(NULL, FALSE, NULL);
 	}
 #endif
 
@@ -71,6 +81,24 @@ bool GenerateMotionPlanFor(
     bool success = astar.FindCollisionFreePath(path);
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	total_elapsed_clock += end - begin;
+
+#ifdef _WIN32
+	WaitForSingleObject(stat_lock, INFINITE);
+#else
+	pthread_mutex_lock(&stat_lock);
+#endif
+	total_num_calculations++;
+	if(success) {
+		total_elapsed_clock_ext += end - begin;
+		total_num_calculations_ext++;
+		total_length_of_path += path.size();
+	}
+#ifdef _WIN32
+	ReleaseMutex(stat_lock);
+#else
+	pthread_mutex_unlock(&stat_lock);
+#endif
 
 	if(!success) {
 		return false;
@@ -98,7 +126,6 @@ bool GenerateMotionPlanFor(
 
     obsmap = astar.GetObstacleMap();
   	astar.printTrajectory(obsmap, path);
-
 
 	printf("Trajectory:");
 	for (int i = 0; i < *stepsSize; i++)

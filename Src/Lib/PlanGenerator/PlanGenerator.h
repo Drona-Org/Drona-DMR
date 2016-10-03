@@ -33,6 +33,7 @@ The grid locations are assinged integer values as follows for a 4x4 grid
 
 #include "Astar.h"
 #include <vector>
+#include <time.h>
 #include "../WorkspaceParser/Workspace.h"
 
 using namespace std;
@@ -49,5 +50,10 @@ bool GenerateMotionPlanFor(
 	int* stepsSize
 );
 
+extern clock_t total_elapsed_clock;
+extern clock_t total_elapsed_clock_ext;
+extern int total_num_calculations;
+extern int total_num_calculations_ext;
+extern int total_length_of_path;
 
 #endif

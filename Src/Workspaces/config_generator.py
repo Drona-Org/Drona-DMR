@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
 import sys, os, itertools
+import random
 
 COLOR_BLACK = 0x000000
 COLOR_WHITE = 0xffffff
@@ -111,7 +112,13 @@ def set_xml_config(xml_config, env_map):
 	create_list_of_coord(COLOR_YELLOW, "charging_stations")
 	return xml_config
 
-def main(input_file, config_file_name):
+def take_num_robots(env_map, num_robots):
+	env_map[COLOR_BLUE] = random.sample(env_map[COLOR_BLUE], num_robots)
+
+def take_num_starts(env_map, num_starts):
+	env_map[COLOR_GREEN] = random.sample(env_map[COLOR_GREEN], num_starts)
+
+def main(input_file, config_file_name, num_robots=None, num_starts=None):
 	with open(input_file, "r") as inputf:
 		input_is_map = inputf.readline().startswith("# Map")
 	if input_is_map:
@@ -125,6 +132,10 @@ def main(input_file, config_file_name):
 	else:
 		xml_config = ET.Element('configuration')
 		config_document = ET.ElementTree(xml_config)
+	if num_robots:
+		take_num_robots(env_map, num_robots)
+	if num_starts:
+		take_num_starts(env_map, num_starts)
 	set_xml_config(xml_config, env_map)
 	config_document.write(config_file_name, encoding='utf-8', xml_declaration=True) 
 	

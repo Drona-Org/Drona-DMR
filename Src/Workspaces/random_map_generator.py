@@ -2,6 +2,7 @@ import sys
 import itertools
 import numpy as np
 import numpy.random as npr
+import math
 
 color_code_map = {
     0: " ",
@@ -26,20 +27,34 @@ def cell_neighbors(coord, grid_dim):
             ret.append(neighbor)
     return ret
 
-def generate_special_locations(grid, num_locs, color):
-    unoccupied_idxs = np.argwhere(grid == 0)
-    # for idx in unoccupied_idxs:
-    prob = np.array(map(lambda coord: np.count_nonzero(grid[list(np.array(cell_neighbors(coord, grid.shape)).T)] == 1), unoccupied_idxs)) + 0.5
-    prob /= np.sum(prob)
-    fill_idxs = np.random.choice(len(unoccupied_idxs), size=num_locs, p=prob, replace=False)
-    grid[list(unoccupied_idxs[fill_idxs].T)] = color_code_map_inv[color]
+def generate_special_locations(grid, num_locs, color, make_sure_connected=False):
+    if not make_sure_connected:
+        unoccupied_idxs = np.argwhere(grid == 0)
+        # for idx in unoccupied_idxs:
+        prob = np.array(map(lambda coord: np.count_nonzero(grid[list(np.array(cell_neighbors(coord, grid.shape)).T)] == 1), unoccupied_idxs)) + 0.1
+        prob /= np.sum(prob)
+        fill_idxs = np.random.choice(len(unoccupied_idxs), size=num_locs, p=prob, replace=False)
+        grid[list(unoccupied_idxs[fill_idxs].T)] = color_code_map_inv[color]
+    else:
+        unoccupied_idxs = list(np.argwhere(grid == 0))
+        prob = np.array(map(lambda coord: np.count_nonzero(grid[list(np.array(cell_neighbors(coord, grid.shape)).T)] == 1), unoccupied_idxs)) + 0.1
+        while num_locs > 0:
+            fill_idx = np.random.choice(len(unoccupied_idxs), size=1, p=prob/np.sum(prob), replace=False)[0]
+            chosen_coord = tuple(unoccupied_idxs[fill_idx])
+            grid[chosen_coord] = color_code_map_inv[color]
+            if test_connected(grid, chosen_coord, tolerence=0.7):
+                num_locs -= 1
+            else:
+                grid[chosen_coord] = 0
+            del unoccupied_idxs[fill_idx]
+            prob = np.delete(prob, fill_idx)
 
 def generate_map(options):
     def stop_when_obstacles_greater_than(grid):
         return np.count_nonzero(grid == 1) >= options.density * np.prod(grid.shape)
     grid = generate_obstacles(options.grid_size, stop_when_obstacles_greater_than, options.expected_block_size)
     generate_special_locations(grid, options.num_robots, "b")
-    generate_special_locations(grid, options.num_starts, "g")
+    generate_special_locations(grid, options.num_starts, "g", make_sure_connected=True)
     generate_special_locations(grid, options.num_ends, "r")
     generate_special_locations(grid, options.num_chargings, "y")
     return grid
@@ -64,20 +79,21 @@ def put_random_cube(grid, expected_cube_size):
             continue
         grid_bk = np.copy(grid)
         grid[sub_m_slice] = 1
-        if test_connected(grid):
+        if test_connected(grid, zip(*np.where(grid == 0))[0]):
             return grid
         else:
             grid = grid_bk
 
-def test_connected(grid):
-    start = zip(*np.where(grid == 0))[0]
-    mark = grid == 1
-    walk_grid(grid, start, mark)
-    return mark.all()
-
-def walk_grid(grid, start, mark):
+def test_connected(grid, start, tolerence=1):
+    mark = np.in1d(grid, [
+                        color_code_map_inv['w'], 
+                        color_code_map_inv['g']
+                    ]
+            ).reshape(grid.shape)
     frontier = [start]
     mark[tuple(start)] = True
+    mark_cnt = 1
+    needed_mark_count = math.floor((mark.size - np.count_nonzero(mark)) * tolerence)
     while len(frontier) > 0:
         loc = frontier.pop()
         for i in range(len(grid.shape)):
@@ -85,11 +101,16 @@ def walk_grid(grid, start, mark):
             l[i] = loc[i] - 1
             if l[i] >= 0 and not mark[tuple(l)]:
                 mark[tuple(l)] = True
+                mark_cnt += 1
                 frontier.append(np.copy(l))
             l[i] = loc[i] + 1
             if l[i] < grid.shape[i] and not mark[tuple(l)]:
                 mark[tuple(l)] = True
+                mark_cnt += 1
                 frontier.append(np.copy(l))
+        if mark_cnt >= needed_mark_count:
+            return True
+    return False
 
 
 def grid_to_str(grid):
