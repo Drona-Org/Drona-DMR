@@ -1,0 +1,643 @@
+Panels:
+- Class: rviz/Displays
+  Help Height: 78
+  Name: Displays
+  Property Tree Widget:
+    Expanded: [/Grid1, /Grid1/Offset1, /Marker1, /Marker1/Namespaces1]
+    Splitter Ratio: 0.485465
+  Tree Height: 359
+- {Class: rviz/Selection, Name: Selection}
+- Class: rviz/Tool Properties
+  Expanded: [/2D Pose Estimate1, /2D Nav Goal1, /Publish Point1]
+  Name: Tool Properties
+  Splitter Ratio: 0.588679
+- Class: rviz/Views
+  Expanded: [/Current View1]
+  Name: Views
+  Splitter Ratio: 0.5
+- {Class: rviz/Time, Experimental: false, Name: Time, SyncMode: 0, SyncSource: PointCloud}
+Visualization Manager:
+  Class: ''
+  Displays:
+  - Alpha: 0.5
+    Cell Size: 0.2
+    Class: rviz/Grid
+    Color: 160; 160; 164
+    Enabled: true
+    Line Style: {Line Width: 0.03, Value: Lines}
+    Name: Grid
+    Normal Cell Count: 0
+    Offset: {X: 0, Y: 0, Z: 0}
+    Plane: XY
+    Plane Cell Count: 129
+    Reference Frame: <Fixed Frame>
+    Value: true
+  - {Class: rviz/Axes, Enabled: false, Length: 0.5, Name: Axes, Radius: 0.02, Reference Frame: <Fixed
+      Frame>, Value: false}
+  - Alpha: 1
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds: {Max Value: 10, Min Value: -10, Value: true}
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud
+    Color: 255; 165; 75
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: true
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Max Intensity: 4096
+    Min Color: 0; 0; 0
+    Min Intensity: 0
+    Name: PointCloud
+    Position Transformer: XYZ
+    Queue Size: 1000000
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.2
+    Style: Boxes
+    Topic: /map_visual/obs_array
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: true
+  - Alpha: 0.5
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds: {Max Value: 10, Min Value: -10, Value: true}
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud
+    Color: 0; 255; 0
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: true
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Max Intensity: 4096
+    Min Color: 0; 0; 0
+    Min Intensity: 0
+    Name: PointCloud
+    Position Transformer: XYZ
+    Queue Size: 1000000
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.2
+    Style: Boxes
+    Topic: /map_visual/starts_array
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: true
+  - Alpha: 0.5
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds: {Max Value: 10, Min Value: -10, Value: true}
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud
+    Color: 255; 0; 0
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: true
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Max Intensity: 4096
+    Min Color: 0; 0; 0
+    Min Intensity: 0
+    Name: PointCloud
+    Position Transformer: XYZ
+    Queue Size: 1000000
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.2
+    Style: Boxes
+    Topic: /map_visual/ends_array
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: true
+  - Alpha: 0.5
+    Autocompute Intensity Bounds: true
+    Autocompute Value Bounds: {Max Value: 10, Min Value: -10, Value: true}
+    Axis: Z
+    Channel Name: intensity
+    Class: rviz/PointCloud
+    Color: 255; 255; 0
+    Color Transformer: FlatColor
+    Decay Time: 0
+    Enabled: true
+    Invert Rainbow: false
+    Max Color: 255; 255; 255
+    Max Intensity: 4096
+    Min Color: 0; 0; 0
+    Min Intensity: 0
+    Name: PointCloud
+    Position Transformer: XYZ
+    Queue Size: 1000000
+    Selectable: true
+    Size (Pixels): 3
+    Size (m): 0.2
+    Style: Boxes
+    Topic: /map_visual/chargings_array
+    Unreliable: false
+    Use Fixed Frame: true
+    Use rainbow: true
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization0/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization1/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization2/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization3/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization4/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization5/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization6/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization7/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization8/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization9/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization10/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization11/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization12/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization13/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization14/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization15/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization16/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization17/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization18/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization19/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization20/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization21/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization22/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization23/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization24/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization25/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization26/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization27/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization28/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization29/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization30/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization31/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization32/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization33/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization34/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization35/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization36/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization37/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization38/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization39/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization40/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization41/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization42/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization43/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization44/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization45/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization46/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization47/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization48/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization49/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization50/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization51/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization52/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization53/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization54/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization55/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization56/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization57/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization58/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization59/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization60/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization61/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization62/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  - Class: rviz/Marker
+    Enabled: true
+    Marker Topic: /nanoplus_visualization63/robot
+    Name: Marker
+    Namespaces: {}
+    Queue Size: 5
+    Value: true
+  Enabled: true
+  Global Options: {Background Color: 255; 255; 255, Fixed Frame: simulator, Frame Rate: 30}
+  Name: root
+  Tools:
+  - {Class: rviz/Interact, Hide Inactive Objects: true}
+  - {Class: rviz/MoveCamera}
+  - {Class: rviz/Select}
+  - {Class: rviz/FocusCamera}
+  - {Class: rviz/Measure}
+  - {Class: rviz/SetInitialPose, Topic: /initialpose}
+  - {Class: rviz/SetGoal, Topic: /move_base_simple/goal}
+  - {Class: rviz/PublishPoint, Single click: true, Topic: /clicked_point}
+  Value: true
+  Views:
+    Current:
+      Angle: 0.005
+      Class: rviz/TopDownOrtho
+      Enable Stereo Rendering: {Stereo Eye Separation: 0.06, Stereo Focal Distance: 1,
+        Swap Stereo Eyes: false, Value: false}
+      Name: Current View
+      Near Clip Distance: 0.01
+      Scale: 155.839
+      Target Frame: <Fixed Frame>
+      Value: TopDownOrtho (rviz)
+      X: 1.46692
+      Y: 1.56608
+    Saved:
+    - Angle: 0
+      Class: rviz/TopDownOrtho
+      Enable Stereo Rendering: {Stereo Eye Separation: 0.06, Stereo Focal Distance: 1,
+        Swap Stereo Eyes: false, Value: false}
+      Name: TopDownOrtho
+      Near Clip Distance: 0.01
+      Scale: 150
+      Target Frame: <Fixed Frame>
+      Value: TopDownOrtho (rviz)
+      X: 1.43883
+      Y: 1.54412
+Window Geometry:
+  Displays: {collapsed: true}
+  Height: 846
+  Hide Left Dock: true
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd00000004000000000000016a000002c4fc0200000008fb0000001200530065006c0065006300740069006f006e0000000028000002c40000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730000000028000002c4000000dd00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000002c4fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a005600690065007700730100000028000002c4000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004b00000003efc0100000002fb0000000800540069006d00650100000000000004b0000002f600fffffffb0000000800540069006d006501000000000000045000000000000000000000039b000002c400000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection: {collapsed: false}
+  Time: {collapsed: false}
+  Tool Properties: {collapsed: false}
+  Views: {collapsed: false}
+  Width: 1200
+  X: 55
+  Y: 14

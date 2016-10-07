@@ -15,7 +15,7 @@
 
 using namespace std;
 
-const int Delta = 1;
+extern int Delta;
 
 const int Max_Traj_Length = 1000;
 

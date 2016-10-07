@@ -8,6 +8,8 @@
 #include "stlastar.h"
 #include <time.h>
 
+int Delta = 1;
+
 CAstar::CAstar()
 {
   	obsmap = NULL;

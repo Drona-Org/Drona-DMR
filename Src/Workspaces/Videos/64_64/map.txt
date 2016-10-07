@@ -1,0 +1,65 @@
+# Map
+                 wwww                                           
+                 wwwwb                         www              
+    ww          gwwww      g                   wwwg             
+    ww           www     wwwwwwwww             wwwg             
+    ww           www     wwwwwwwww             www w     ww     
+   gww      www    g    bwwwwwwwww              gg wg    gg     
+            www            gwwwwww                 w    wwwwg   
+            www  ww                 g              wg   wwww    
+                gww                 www wwww    wwww     g      
+             g  gww                 www wwww  b wwww            
+             wwwwww                 www g bwwww wwww            
+             wwwwww                 www    wwww wwww            
+     g       wwwwwwb                wwwwww wwwwb g              
+              wwwg                     www gb ww                
+                                  gg   www   gww                
+                                ggwwwwwwww    ww g g            
+                              wwwwwwwww b g   bg  ww            
+                              wwwwwwwwwb          ww    ww      
+wwww      gww                 g   wwwww       g         ww      
+wwww      gww                     wwwww      www          g     
+wwww      bww                     bb  b       b         wwwwwww 
+ www    b  wwg                             b      ww   gwwwwwwwg
+g  b   www ww                             wwwwb   ww  g wwwwwww 
+       wwwgww                             wwwwg   wwgww wwwwwwww
+      bwwwgww               g             wwwwg      wwgwwwwwwww
+       www ww     ww    gwwwww           bwwww       ww   g wwww
+        www       wwb    wwwww            wwwww      ww      b  
+        wwwg             ww                gwwwg                
+                         ww                bwww   b b           
+       g                   g                 g    wwwwbwwb      
+       g                    wwwwwb                wwwwwww       
+                         wwwwwwww    wwww            wwww     g 
+                         wwwww  b    wwww            wwww    g  
+        www                gww   g   wwwwb   g        g         
+gww     www        gg            bwwwwwww  wwww                 
+ ww     www         ww            www g    wwww                 
+ wwb    www         wwg           www     bwwww  bw         www 
+                    ww                      g b   w        gwww 
+                g   ww                   g       g          www 
+  wwwwwb           gwwg                                      g  
+  wwwww g           ww             g  wwwb                  b   
+  wwwwwwww   w                        www                g wwwg 
+   ww  wwwg  w    g    wwww           wwwgg              bwwwwwg
+  b    www   w   wwww  wwww              www              wwwww 
+  g    www      bwwww                    www   wwwwg      wwwwww
+www   g       wwwwwww                   g      wwww      gwwwwww
+wwwg         bwwwwwwwgg    g              ww   wwww             
+wwwg          wwwwbwwwwww                 ww  gwwww  b          
+              wwwwbwwwwww       b         wwb  wwwwg wwww       
+             b bb bwwwwww  ww wwwg       b        w  wwww       
+                   wwwwww  wwbwww        wwwb     wwwwwww       
+               g   gwwwwwbwww www        wwwg     wwwwwww       
+              wwb   wwwwwgwww  ggwww     www        bg          
+ ww          www    gwg g www    wwwg   g                       
+gwwb         wwwg   w                                           
+ wwg         wwwg   w                                bwwww      
+             bwwg   w           www                  gwwww      
+              g      g          www                     b       
+       gg                                                 b     
+     wwww                                           b   wwwg    
+     wwww           ww    g                             www     
+     wwww  wwwwg    ww                                  wwwg    
+    gwwww  wwww     ww                                  www     
+      g    wwww                                         www     

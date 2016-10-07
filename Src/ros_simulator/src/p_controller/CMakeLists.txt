@@ -205,9 +205,14 @@ target_link_libraries(test_motion_planner
 )
 
 option(USE_DIJKSTRA_PRECOMPUTATION "Use dijkstra precomputation for A* heuristic" OFF) # Enabled by default
+option(USE_ROBOTID_AS_PRIORITY "Use static robot id as task priority(for demo only)" OFF) # Enabled by default
 
 IF(USE_DIJKSTRA_PRECOMPUTATION)
     add_definitions(-DUSE_DIJKSTRA_PRECOMPUTATION)
+ENDIF()
+
+IF(USE_ROBOTID_AS_PRIORITY)
+    add_definitions(-DUSE_ROBOTID_AS_PRIORITY)
 ENDIF()
 
 #############

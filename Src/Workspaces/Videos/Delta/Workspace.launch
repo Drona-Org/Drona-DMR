@@ -1,0 +1,32 @@
+<launch>
+  <param name="map/res" value="0.2" />
+  <param name="map/cmap" value="$(find p_controller)/../../../Workspaces/Videos/Delta/Workspace.xml" />
+
+  <node args="-d $(find p_controller)/../../../Workspaces/Videos/Delta/Workspace.rviz" name="rviz" output="screen" pkg="rviz" type="rviz" />
+
+  <node name="map_visual" output="screen" pkg="map_visualization" type="map_visual.py">
+  </node>
+
+  <node args="-w $(find p_controller)/../../../Workspaces/Videos/Delta/Workspace.xml -cooperative -threads 10" name="test_motion_planner" output="screen" pkg="p_controller" required="true" type="test_motion_planner">
+    
+  <remap from="~odom0" to="odom0" /><remap from="~odom1" to="odom1" /></node>
+
+<node name="nanoplus_visualization0" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.437228116622" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.173228218169" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom0" />
+  </node>
+
+  <node name="nanoplus_visualization1" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.835983209848" />
+    <param name="color/b" value="0.680849465548" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom1" />
+  </node>
+
+  </launch>

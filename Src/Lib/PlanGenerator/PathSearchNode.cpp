@@ -79,13 +79,13 @@ bool PathSearchNode::GetSuccessors( AStarSearch<PathSearchNode> *astarsearch, Pa
     }                                                                                               \
   }
 
-  add_if_not_blocked(x, 0); // hovering action
   add_if_not_blocked(x, -1);
   add_if_not_blocked(x, +1);
   add_if_not_blocked(y, -1);
   add_if_not_blocked(y, +1);
   add_if_not_blocked(z, -1);
   add_if_not_blocked(z, +1);
+  add_if_not_blocked(x, 0); // hovering action
 
   return true;
 }

@@ -8,7 +8,7 @@ event eTask_completed;
 event eDistMotionPlanMachine: machine;
 event ePlanCompletion: int;
 
-model fun GetUniqueTaskId() : int {
+model fun GetUniqueTaskId(robotid : int) : int {
 	return 1;
 }
 
@@ -72,7 +72,7 @@ machine DistributedMotionPlannerMachine
 		on eNewTask goto GetCurrentStateOfAllRobots with (payload: TaskType) {
 			var index: int;
 			currTaskV = payload;
-			currTaskId = GetUniqueTaskId();
+			currTaskId = GetUniqueTaskId(myIdV);
 			index = 0;
 			while(index < sizeof(allRobotsMPV))
 			{

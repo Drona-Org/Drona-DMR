@@ -185,6 +185,8 @@ static void RunToIdle(LPVOID process)
 	}
 }
 
+extern int Delta;
+
 int main(int argc, char *argv[])
 {
 #ifndef PRT_PLAT_WINUSER
@@ -194,6 +196,12 @@ int main(int argc, char *argv[])
     {
         PrintUsage();
         return 1;
+    }
+
+    const char* motion_planner_delta_s = getenv("MOTION_PLANNER_DELTA");
+    if(motion_planner_delta_s) {
+        Delta = atoi(motion_planner_delta_s);
+        printf("Using MOTION_PLANNER_DELTA = %d\n", Delta);
     }
 
     printf("Press any key to start simulation\n");

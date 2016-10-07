@@ -1,0 +1,590 @@
+<launch>
+  <param name="map/res" value="0.2" />
+  <param name="map/cmap" value="$(find p_controller)/../../../Workspaces/Videos/64_64/Workspace.xml" />
+
+  <node args="-d $(find p_controller)/../../../Workspaces/Videos/64_64/Workspace.rviz" name="rviz" output="screen" pkg="rviz" type="rviz" />
+
+  <node name="map_visual" output="screen" pkg="map_visualization" type="map_visual.py">
+  </node>
+
+  <node args="-w $(find p_controller)/../../../Workspaces/Videos/64_64/Workspace.xml -cooperative -threads 320" name="test_motion_planner" output="screen" pkg="p_controller" required="true" type="test_motion_planner">
+    
+  <remap from="~odom0" to="odom0" /><remap from="~odom1" to="odom1" /><remap from="~odom2" to="odom2" /><remap from="~odom3" to="odom3" /><remap from="~odom4" to="odom4" /><remap from="~odom5" to="odom5" /><remap from="~odom6" to="odom6" /><remap from="~odom7" to="odom7" /><remap from="~odom8" to="odom8" /><remap from="~odom9" to="odom9" /><remap from="~odom10" to="odom10" /><remap from="~odom11" to="odom11" /><remap from="~odom12" to="odom12" /><remap from="~odom13" to="odom13" /><remap from="~odom14" to="odom14" /><remap from="~odom15" to="odom15" /><remap from="~odom16" to="odom16" /><remap from="~odom17" to="odom17" /><remap from="~odom18" to="odom18" /><remap from="~odom19" to="odom19" /><remap from="~odom20" to="odom20" /><remap from="~odom21" to="odom21" /><remap from="~odom22" to="odom22" /><remap from="~odom23" to="odom23" /><remap from="~odom24" to="odom24" /><remap from="~odom25" to="odom25" /><remap from="~odom26" to="odom26" /><remap from="~odom27" to="odom27" /><remap from="~odom28" to="odom28" /><remap from="~odom29" to="odom29" /><remap from="~odom30" to="odom30" /><remap from="~odom31" to="odom31" /><remap from="~odom32" to="odom32" /><remap from="~odom33" to="odom33" /><remap from="~odom34" to="odom34" /><remap from="~odom35" to="odom35" /><remap from="~odom36" to="odom36" /><remap from="~odom37" to="odom37" /><remap from="~odom38" to="odom38" /><remap from="~odom39" to="odom39" /><remap from="~odom40" to="odom40" /><remap from="~odom41" to="odom41" /><remap from="~odom42" to="odom42" /><remap from="~odom43" to="odom43" /><remap from="~odom44" to="odom44" /><remap from="~odom45" to="odom45" /><remap from="~odom46" to="odom46" /><remap from="~odom47" to="odom47" /><remap from="~odom48" to="odom48" /><remap from="~odom49" to="odom49" /><remap from="~odom50" to="odom50" /><remap from="~odom51" to="odom51" /><remap from="~odom52" to="odom52" /><remap from="~odom53" to="odom53" /><remap from="~odom54" to="odom54" /><remap from="~odom55" to="odom55" /><remap from="~odom56" to="odom56" /><remap from="~odom57" to="odom57" /><remap from="~odom58" to="odom58" /><remap from="~odom59" to="odom59" /><remap from="~odom60" to="odom60" /><remap from="~odom61" to="odom61" /><remap from="~odom62" to="odom62" /><remap from="~odom63" to="odom63" /></node>
+
+<node name="nanoplus_visualization0" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.272365045088" />
+    <param name="color/b" value="0.15248915127" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom0" />
+  </node>
+
+  <node name="nanoplus_visualization1" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.373505197444" />
+    <param name="color/b" value="0.165583158116" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom1" />
+  </node>
+
+  <node name="nanoplus_visualization2" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.373958521592" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.138881203794" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom2" />
+  </node>
+
+  <node name="nanoplus_visualization3" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.639687929528" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.20126130535" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom3" />
+  </node>
+
+  <node name="nanoplus_visualization4" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.0786034749563" />
+    <param name="color/g" value="0.259043295035" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom4" />
+  </node>
+
+  <node name="nanoplus_visualization5" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.0596728640142" />
+    <param name="color/g" value="0.245763570891" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom5" />
+  </node>
+
+  <node name="nanoplus_visualization6" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.317544757057" />
+    <param name="color/b" value="0.206292652908" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom6" />
+  </node>
+
+  <node name="nanoplus_visualization7" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.520173412742" />
+    <param name="color/g" value="0.389254481282" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom7" />
+  </node>
+
+  <node name="nanoplus_visualization8" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.29408329666" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.211856446261" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom8" />
+  </node>
+
+  <node name="nanoplus_visualization9" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.294440340705" />
+    <param name="color/g" value="0.108808985473" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom9" />
+  </node>
+
+  <node name="nanoplus_visualization10" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.232245048904" />
+    <param name="color/b" value="0.121387048473" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom10" />
+  </node>
+
+  <node name="nanoplus_visualization11" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.296949798182" />
+    <param name="color/g" value="0.0113025191198" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom11" />
+  </node>
+
+  <node name="nanoplus_visualization12" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.0244613115498" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.0183786037788" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom12" />
+  </node>
+
+  <node name="nanoplus_visualization13" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.186500450635" />
+    <param name="color/b" value="0.10573518547" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom13" />
+  </node>
+
+  <node name="nanoplus_visualization14" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.247561665494" />
+    <param name="color/g" value="0.0951262635734" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom14" />
+  </node>
+
+  <node name="nanoplus_visualization15" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.0687324035234" />
+    <param name="color/b" value="0.123256922647" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom15" />
+  </node>
+
+  <node name="nanoplus_visualization16" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.225958677213" />
+    <param name="color/g" value="0.468004832758" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom16" />
+  </node>
+
+  <node name="nanoplus_visualization17" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.196512334086" />
+    <param name="color/g" value="0.640530854701" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom17" />
+  </node>
+
+  <node name="nanoplus_visualization18" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.280911640226" />
+    <param name="color/g" value="0.594552419352" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom18" />
+  </node>
+
+  <node name="nanoplus_visualization19" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.193544987615" />
+    <param name="color/b" value="0.256192441725" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom19" />
+  </node>
+
+  <node name="nanoplus_visualization20" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.19250310066" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.305409470644" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom20" />
+  </node>
+
+  <node name="nanoplus_visualization21" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.172571842904" />
+    <param name="color/b" value="0.181137707255" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom21" />
+  </node>
+
+  <node name="nanoplus_visualization22" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.468425240685" />
+    <param name="color/g" value="0.427157225625" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom22" />
+  </node>
+
+  <node name="nanoplus_visualization23" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.26006367317" />
+    <param name="color/b" value="0.231593014279" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom23" />
+  </node>
+
+  <node name="nanoplus_visualization24" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.0541617213481" />
+    <param name="color/b" value="0.234865900646" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom24" />
+  </node>
+
+  <node name="nanoplus_visualization25" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.127343147341" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.000100244913362" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom25" />
+  </node>
+
+  <node name="nanoplus_visualization26" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.0540543251453" />
+    <param name="color/b" value="0.397652423487" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom26" />
+  </node>
+
+  <node name="nanoplus_visualization27" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.209899017956" />
+    <param name="color/b" value="0.358200314619" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom27" />
+  </node>
+
+  <node name="nanoplus_visualization28" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.0292688378449" />
+    <param name="color/g" value="0.0534569648436" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom28" />
+  </node>
+
+  <node name="nanoplus_visualization29" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.0148117935878" />
+    <param name="color/b" value="0.29072026166" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom29" />
+  </node>
+
+  <node name="nanoplus_visualization30" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.212058925874" />
+    <param name="color/g" value="0.0752867961605" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom30" />
+  </node>
+
+  <node name="nanoplus_visualization31" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.16852007988" />
+    <param name="color/b" value="0.383404220996" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom31" />
+  </node>
+
+  <node name="nanoplus_visualization32" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.305280756274" />
+    <param name="color/b" value="0.284075774624" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom32" />
+  </node>
+
+  <node name="nanoplus_visualization33" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.206316838229" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.274453874359" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom33" />
+  </node>
+
+  <node name="nanoplus_visualization34" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.522847536892" />
+    <param name="color/b" value="0.14226970834" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom34" />
+  </node>
+
+  <node name="nanoplus_visualization35" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.585998363431" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.473263367566" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom35" />
+  </node>
+
+  <node name="nanoplus_visualization36" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.101201207984" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.286018131658" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom36" />
+  </node>
+
+  <node name="nanoplus_visualization37" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.205832501881" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.41103330729" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom37" />
+  </node>
+
+  <node name="nanoplus_visualization38" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.391229737418" />
+    <param name="color/b" value="0.430316637008" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom38" />
+  </node>
+
+  <node name="nanoplus_visualization39" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.165693565158" />
+    <param name="color/b" value="0.131722271798" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom39" />
+  </node>
+
+  <node name="nanoplus_visualization40" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.424234734279" />
+    <param name="color/b" value="0.182855943468" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom40" />
+  </node>
+
+  <node name="nanoplus_visualization41" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.160005564221" />
+    <param name="color/g" value="0.384180522689" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom41" />
+  </node>
+
+  <node name="nanoplus_visualization42" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.418990298589" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.180133192476" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom42" />
+  </node>
+
+  <node name="nanoplus_visualization43" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.571834745173" />
+    <param name="color/g" value="0.314618203843" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom43" />
+  </node>
+
+  <node name="nanoplus_visualization44" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.227864952021" />
+    <param name="color/g" value="0.00500897903161" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom44" />
+  </node>
+
+  <node name="nanoplus_visualization45" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.0753609035972" />
+    <param name="color/g" value="0.227255014174" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom45" />
+  </node>
+
+  <node name="nanoplus_visualization46" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.298596069155" />
+    <param name="color/g" value="0.00748704746797" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom46" />
+  </node>
+
+  <node name="nanoplus_visualization47" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.116040618099" />
+    <param name="color/b" value="0.454018564174" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom47" />
+  </node>
+
+  <node name="nanoplus_visualization48" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.619963370498" />
+    <param name="color/b" value="0.460256992444" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom48" />
+  </node>
+
+  <node name="nanoplus_visualization49" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.0388523369969" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.535439976656" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom49" />
+  </node>
+
+  <node name="nanoplus_visualization50" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.145275773584" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.472196874208" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom50" />
+  </node>
+
+  <node name="nanoplus_visualization51" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.438978441387" />
+    <param name="color/b" value="0.244822121926" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom51" />
+  </node>
+
+  <node name="nanoplus_visualization52" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.102887327016" />
+    <param name="color/g" value="0.346173842841" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom52" />
+  </node>
+
+  <node name="nanoplus_visualization53" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.0256024543725" />
+    <param name="color/g" value="0.228214235164" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom53" />
+  </node>
+
+  <node name="nanoplus_visualization54" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.171463051419" />
+    <param name="color/g" value="0.429765036152" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom54" />
+  </node>
+
+  <node name="nanoplus_visualization55" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.576502330733" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.568114792648" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom55" />
+  </node>
+
+  <node name="nanoplus_visualization56" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.112994858089" />
+    <param name="color/g" value="0.0922481112789" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom56" />
+  </node>
+
+  <node name="nanoplus_visualization57" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.275760782572" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.346144297298" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom57" />
+  </node>
+
+  <node name="nanoplus_visualization58" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.406277417262" />
+    <param name="color/g" value="0.162496142155" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom58" />
+  </node>
+
+  <node name="nanoplus_visualization59" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.297181787169" />
+    <param name="color/g" value="0.207461215065" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom59" />
+  </node>
+
+  <node name="nanoplus_visualization60" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.097226262656" />
+    <param name="color/g" value="0" />
+    <param name="color/b" value="0.449586894777" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom60" />
+  </node>
+
+  <node name="nanoplus_visualization61" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.129556337085" />
+    <param name="color/g" value="0.287172757598" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom61" />
+  </node>
+
+  <node name="nanoplus_visualization62" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0" />
+    <param name="color/g" value="0.107876009652" />
+    <param name="color/b" value="0.367005070923" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom62" />
+  </node>
+
+  <node name="nanoplus_visualization63" output="screen" pkg="mesh_visualization" type="mesh_visualization">
+    <param name="mesh_resource" value="package://mesh_visualization/meshes/nano.mesh" />
+    <param name="color/r" value="0.321181937891" />
+    <param name="color/g" value="0.146490915534" />
+    <param name="color/b" value="0" />
+    <param name="color/a" value="0.7" />
+    <remap from="~odom" to="odom63" />
+  </node>
+
+  </launch>

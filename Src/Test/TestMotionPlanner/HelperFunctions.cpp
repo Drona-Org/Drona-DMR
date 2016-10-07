@@ -224,11 +224,15 @@ PRT_VALUE *P_FUN_GetUniqueTaskId_IMPL(PRT_MACHINEINST *context) {
 	p_tmp_params = NULL;
 	//remm to pop frame
 	PrtPopFrame(p_tmp_mach_priv, &p_tmp_frame);
-	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
+#ifdef USE_ROBOTID_AS_PRIORITY
+	t_id = PrtPrimGetInt(p_tmp_frame.locals[0]);
+#else
 	PrtLockMutex(t_lock);
 	t_id = G_taskId;
 	G_taskId++;
 	PrtUnlockMutex(t_lock);
+#endif
+	PrtFreeLocals(p_tmp_mach_priv, &p_tmp_frame);
 	return PrtMkIntValue(t_id);
 }
 
