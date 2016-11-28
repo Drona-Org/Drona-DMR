@@ -1,0 +1,2438 @@
+enum Machine {_default, _Client};
+
+enum Event {_default, _halt, _PING, _PONG, _SUCCESS};
+
+enum State {_default, _Client_Init, _Client_SendPing, _Client_WaitPing, _Client_SendPong, _Client_WaitPong};
+
+enum ActionOrFun {_default, _Client_ignore, _Client_AnonFun0, _Client_AnonFun1, _Client_AnonFun2, _Client_AnonFun3};
+
+class MACHINE_Client{
+SM_HANDLE myHandle;
+void Client_Init_CalculateDeferredAndActionSet() {
+
+dummy:
+myHandle.stack.deferredSet = new SM_EVENT_SET;
+myHandle.stack.actionSet = new SM_EVENT_SET;
+myHandle.stack.AddStackDeferredSet(myHandle.stack.deferredSet);
+myHandle.stack.deferredSet = (myHandle.stack.deferredSet - Main.SUCCESS_SM_EVENT);
+myHandle.stack.AddStackActionSet(myHandle.stack.actionSet);
+myHandle.stack.actionSet = (myHandle.stack.actionSet - Main.SUCCESS_SM_EVENT);
+myHandle.stack.es = new SM_EVENT_ARRAY[0];
+myHandle.stack.as = new ActionOrFun_ARRAY[0];
+
+;
+
+}
+void Client_SendPing_CalculateDeferredAndActionSet() {
+
+dummy:
+myHandle.stack.deferredSet = new SM_EVENT_SET;
+myHandle.stack.actionSet = new SM_EVENT_SET;
+myHandle.stack.AddStackDeferredSet(myHandle.stack.deferredSet);
+myHandle.stack.deferredSet = (myHandle.stack.deferredSet - Main.SUCCESS_SM_EVENT);
+myHandle.stack.AddStackActionSet(myHandle.stack.actionSet);
+myHandle.stack.actionSet = (myHandle.stack.actionSet - Main.SUCCESS_SM_EVENT);
+myHandle.stack.es = new SM_EVENT_ARRAY[0];
+myHandle.stack.as = new ActionOrFun_ARRAY[0];
+
+;
+
+}
+void Client_WaitPing_CalculateDeferredAndActionSet() {
+
+dummy:
+myHandle.stack.deferredSet = new SM_EVENT_SET;
+myHandle.stack.actionSet = new SM_EVENT_SET;
+myHandle.stack.AddStackDeferredSet(myHandle.stack.deferredSet);
+myHandle.stack.deferredSet = (myHandle.stack.deferredSet - Main.PING_SM_EVENT);
+myHandle.stack.AddStackActionSet(myHandle.stack.actionSet);
+myHandle.stack.actionSet = (myHandle.stack.actionSet - Main.PING_SM_EVENT);
+myHandle.stack.es = new SM_EVENT_ARRAY[0];
+myHandle.stack.as = new ActionOrFun_ARRAY[0];
+
+;
+
+}
+void Client_SendPong_CalculateDeferredAndActionSet() {
+
+dummy:
+myHandle.stack.deferredSet = new SM_EVENT_SET;
+myHandle.stack.actionSet = new SM_EVENT_SET;
+myHandle.stack.AddStackDeferredSet(myHandle.stack.deferredSet);
+myHandle.stack.deferredSet = (myHandle.stack.deferredSet - Main.SUCCESS_SM_EVENT);
+myHandle.stack.AddStackActionSet(myHandle.stack.actionSet);
+myHandle.stack.actionSet = (myHandle.stack.actionSet - Main.SUCCESS_SM_EVENT);
+myHandle.stack.es = new SM_EVENT_ARRAY[0];
+myHandle.stack.as = new ActionOrFun_ARRAY[0];
+
+;
+
+}
+void Client_WaitPong_CalculateDeferredAndActionSet() {
+
+dummy:
+myHandle.stack.deferredSet = new SM_EVENT_SET;
+myHandle.stack.actionSet = new SM_EVENT_SET;
+myHandle.stack.AddStackDeferredSet(myHandle.stack.deferredSet);
+myHandle.stack.deferredSet = (myHandle.stack.deferredSet - Main.PONG_SM_EVENT);
+myHandle.stack.AddStackActionSet(myHandle.stack.actionSet);
+myHandle.stack.actionSet = (myHandle.stack.actionSet - Main.PONG_SM_EVENT);
+myHandle.stack.es = new SM_EVENT_ARRAY[0];
+myHandle.stack.as = new ActionOrFun_ARRAY[0];
+
+;
+
+}
+void Start() {
+
+dummy:
+Run(Main.Client_Init_SM_STATE);
+if ((myHandle.currentEvent == Main.halt_SM_EVENT)) {
+myHandle.stack = null;
+myHandle.buffer = null;
+myHandle.currentArg = null;
+SM_HANDLE.halted = (SM_HANDLE.halted + myHandle);
+SM_HANDLE.enabled = (SM_HANDLE.enabled - myHandle);
+return;
+
+}
+trace("<StateLog> Unhandled event exception by machine Client-{0}\n", myHandle.instance);
+assert(false, "Unhandled event exception by machine Client");
+
+;
+
+}
+void Run(SM_STATE state) {
+bool doPop;
+bool hasNullTransitionOrAction;
+
+init:
+myHandle.Push();
+myHandle.stack.state = state;
+doPop = RunHelper(true);
+while (!doPop) {
+hasNullTransitionOrAction = myHandle.stack.HasNullTransitionOrAction();
+myHandle.DequeueEvent(hasNullTransitionOrAction);
+doPop = RunHelper(false);
+
+}
+myHandle.Pop();
+
+;
+
+}
+void TraceEnterState(SM_STATE state) {
+
+init:
+if ((state == Main.Client_Init_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} entering State Init\n", myHandle.instance);
+return;
+
+}
+if ((state == Main.Client_SendPing_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} entering State SendPing\n", myHandle.instance);
+return;
+
+}
+if ((state == Main.Client_WaitPing_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} entering State WaitPing\n", myHandle.instance);
+return;
+
+}
+if ((state == Main.Client_SendPong_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} entering State SendPong\n", myHandle.instance);
+return;
+
+}
+if ((state == Main.Client_WaitPong_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} entering State WaitPong\n", myHandle.instance);
+return;
+
+}
+assert(false, "Internal error");
+
+;
+
+}
+void TraceExitState(SM_STATE state) {
+
+init:
+if ((state == Main.Client_Init_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} exiting State Init\n", myHandle.instance);
+return;
+
+}
+if ((state == Main.Client_SendPing_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} exiting State SendPing\n", myHandle.instance);
+return;
+
+}
+if ((state == Main.Client_WaitPing_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} exiting State WaitPing\n", myHandle.instance);
+return;
+
+}
+if ((state == Main.Client_SendPong_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} exiting State SendPong\n", myHandle.instance);
+return;
+
+}
+if ((state == Main.Client_WaitPong_SM_STATE)) {
+trace("<StateLog> Machine Client-{0} exiting State WaitPong\n", myHandle.instance);
+return;
+
+}
+assert(false, "Internal error");
+
+;
+
+}
+void CalculateDeferredAndActionSet(SM_STATE state) {
+
+init:
+if ((state == Main.Client_Init_SM_STATE)) {
+Client_Init_CalculateDeferredAndActionSet();
+return;
+
+}
+if ((state == Main.Client_SendPing_SM_STATE)) {
+Client_SendPing_CalculateDeferredAndActionSet();
+return;
+
+}
+if ((state == Main.Client_WaitPing_SM_STATE)) {
+Client_WaitPing_CalculateDeferredAndActionSet();
+return;
+
+}
+if ((state == Main.Client_SendPong_SM_STATE)) {
+Client_SendPong_CalculateDeferredAndActionSet();
+return;
+
+}
+if ((state == Main.Client_WaitPong_SM_STATE)) {
+Client_WaitPong_CalculateDeferredAndActionSet();
+return;
+
+}
+assert(false, "Internal error");
+
+;
+
+}
+bool RunHelper(bool start) {
+SM_STATE state;
+SM_TRANSITION transition;
+ActionOrFun actionFun;
+
+init:
+state = myHandle.stack.state;
+if (start) {
+goto enter;
+} else {
+goto handle;
+}
+
+;
+
+
+enter:
+state = myHandle.stack.state;
+TraceEnterState(state);
+CalculateDeferredAndActionSet(state);
+actionFun = state.entryFun;
+
+;
+
+
+execute:
+ReentrancyHelper(actionFun);
+if ((myHandle.cont.reason == ContinuationReason.Raise)) {
+goto handle;
+}
+myHandle.currentEvent = null;
+myHandle.currentArg = PRT_VALUE.PrtMkDefaultValue(Main.type_0_PRT_TYPE);
+if ((myHandle.cont.reason != ContinuationReason.Pop)) {
+return false;
+
+}
+TraceExitState(state);
+ReentrancyHelper(state.exitFun);
+return true;
+
+;
+
+
+handle:
+if ((myHandle.currentEvent in myHandle.stack.actionSet)) {
+actionFun = myHandle.stack.Find(myHandle.currentEvent);
+goto execute;
+}
+transition = state.FindPushTransition(myHandle.currentEvent);
+if ((transition != null)) {
+Run(transition.to);
+if ((myHandle.currentEvent == null)) {
+return false;
+
+} else {
+goto handle;
+}
+
+}
+TraceExitState(state);
+ReentrancyHelper(state.exitFun);
+transition = state.FindTransition(myHandle.currentEvent);
+if ((transition == null)) {
+return true;
+
+}
+ReentrancyHelper(transition.fun);
+myHandle.stack.state = transition.to;
+state = myHandle.stack.state;
+goto enter;
+;
+
+}
+bool ProcessContinuation() {
+bool doPop;
+
+init:
+if ((myHandle.cont.reason == ContinuationReason.Return)) {
+return true;
+
+}
+if ((myHandle.cont.reason == ContinuationReason.Pop)) {
+return true;
+
+}
+if ((myHandle.cont.reason == ContinuationReason.Raise)) {
+return true;
+
+}
+if ((myHandle.cont.reason == ContinuationReason.Receive)) {
+myHandle.DequeueEvent(false);
+return false;
+
+}
+if ((myHandle.cont.reason == ContinuationReason.Nondet)) {
+myHandle.cont.nondet = choose(bool);
+return false;
+
+}
+if ((myHandle.cont.reason == ContinuationReason.NewMachine)) {
+yield;
+return false;
+
+}
+if ((myHandle.cont.reason == ContinuationReason.Send)) {
+yield;
+return false;
+
+}
+
+;
+
+}
+void ReentrancyHelper(ActionOrFun actionFun) {
+PRT_VALUE_ARRAY locals;
+bool doPop;
+
+init:
+doPop = false;
+myHandle.cont.Reset();
+if ((actionFun == ActionOrFun._Client_ignore)) {
+trace("<FunctionLog> Machine Client-{0} executing Function ignore\n", myHandle.instance);
+locals = null;
+myHandle.cont.PushReturnTo(0, locals);
+goto execute_ignore;
+}
+if ((actionFun == ActionOrFun._Client_AnonFun0)) {
+locals = new PRT_VALUE_ARRAY[1];
+locals[0] = PRT_VALUE.PrtCloneValue(myHandle.currentArg);
+myHandle.cont.PushReturnTo(0, locals);
+goto execute_AnonFun0;
+}
+if ((actionFun == ActionOrFun._Client_AnonFun1)) {
+locals = new PRT_VALUE_ARRAY[1];
+locals[0] = PRT_VALUE.PrtCloneValue(myHandle.currentArg);
+myHandle.cont.PushReturnTo(0, locals);
+goto execute_AnonFun1;
+}
+if ((actionFun == ActionOrFun._Client_AnonFun2)) {
+locals = new PRT_VALUE_ARRAY[1];
+locals[0] = PRT_VALUE.PrtCloneValue(myHandle.currentArg);
+myHandle.cont.PushReturnTo(0, locals);
+goto execute_AnonFun2;
+}
+if ((actionFun == ActionOrFun._Client_AnonFun3)) {
+locals = new PRT_VALUE_ARRAY[1];
+locals[0] = PRT_VALUE.PrtCloneValue(myHandle.currentArg);
+myHandle.cont.PushReturnTo(0, locals);
+goto execute_AnonFun3;
+}
+assert(false, "Internal error");
+
+;
+
+
+execute_ignore:
+while (!doPop) {
+ignore(myHandle.cont);
+doPop = ProcessContinuation();
+
+}
+return;
+
+;
+
+
+execute_AnonFun0:
+while (!doPop) {
+AnonFun0(myHandle.cont);
+doPop = ProcessContinuation();
+
+}
+return;
+
+;
+
+
+execute_AnonFun1:
+while (!doPop) {
+AnonFun1(myHandle.cont);
+doPop = ProcessContinuation();
+
+}
+return;
+
+;
+
+
+execute_AnonFun2:
+while (!doPop) {
+AnonFun2(myHandle.cont);
+doPop = ProcessContinuation();
+
+}
+return;
+
+;
+
+
+execute_AnonFun3:
+while (!doPop) {
+AnonFun3(myHandle.cont);
+doPop = ProcessContinuation();
+
+}
+return;
+
+;
+
+}
+void ignore(Continuation entryCtxt) {
+PRT_VALUE_ARRAY locals;
+StackFrame retTo_0;
+
+dummy:
+retTo_0 = entryCtxt.PopReturnTo();
+locals = retTo_0.locals;
+if ((retTo_0.pc == 0)) {
+goto start;
+}
+assert(false, "Internal error");
+
+start:
+
+;
+entryCtxt.Return();
+return;
+
+;
+
+}
+void AnonFun0(Continuation entryCtxt) {
+PRT_VALUE_ARRAY locals;
+StackFrame retTo_1;
+
+dummy:
+retTo_1 = entryCtxt.PopReturnTo();
+locals = retTo_1.locals;
+if ((retTo_1.pc == 0)) {
+goto start;
+}
+assert(false, "Internal error");
+
+start:
+
+;
+entryCtxt.Return();
+return;
+
+;
+
+}
+void AnonFun1(Continuation entryCtxt) {
+PRT_VALUE_ARRAY locals;
+PRT_VALUE tmp_0;
+PRT_VALUE tmpPayload_0;
+StackFrame retTo_2;
+
+dummy:
+retTo_2 = entryCtxt.PopReturnTo();
+locals = retTo_2.locals;
+if ((retTo_2.pc == 0)) {
+goto start;
+}
+assert(false, "Internal error");
+
+start:
+tmp_0 = PRT_VALUE.PrtMkDefaultValue(Main.type_1_PRT_TYPE);
+PRT_VALUE.PrtPrimSetEvent(tmp_0, Main.SUCCESS_SM_EVENT);
+tmpPayload_0 = PRT_VALUE.PrtMkDefaultValue(Main.type_0_PRT_TYPE);
+assert((tmp_0.ev != null), "E:\\px4\\src\\Firmware\\src\\examples\\px4_pingpong\\test.p (10, 7): Raised event must be non-null");
+trace("<RaiseLog> Machine Client-{0} raised Event {1}\n", myHandle.instance, tmp_0.ev.name);
+myHandle.currentEvent = tmp_0.ev;
+myHandle.currentArg = tmpPayload_0;
+entryCtxt.Raise();
+return;
+
+;
+entryCtxt.Return();
+return;
+
+;
+
+}
+void AnonFun2(Continuation entryCtxt) {
+PRT_VALUE_ARRAY locals;
+PRT_VALUE tmp_1;
+PRT_VALUE tmp_2;
+PRT_VALUE tmpPayload_1;
+PRT_VALUE tmp_3;
+PRT_VALUE tmpPayload_2;
+StackFrame retTo_3;
+
+dummy:
+retTo_3 = entryCtxt.PopReturnTo();
+locals = retTo_3.locals;
+if ((retTo_3.pc == 0)) {
+goto start;
+}
+if ((retTo_3.pc == 1)) {
+goto AnonFun2_0;
+}
+assert(false, "Internal error");
+
+start:
+tmp_1 = PRT_VALUE.PrtMkDefaultValue(Main.type_2_PRT_TYPE);
+PRT_VALUE.PrtPrimSetMachine(tmp_1, myHandle);
+tmp_2 = PRT_VALUE.PrtMkDefaultValue(Main.type_1_PRT_TYPE);
+PRT_VALUE.PrtPrimSetEvent(tmp_2, Main.PING_SM_EVENT);
+assert((tmp_1.mach != null), "Target of send must be non-null");
+tmpPayload_1 = PRT_VALUE.PrtMkDefaultValue(Main.type_0_PRT_TYPE);
+tmp_1.mach.EnqueueEvent(tmp_2.ev, tmpPayload_1, myHandle);
+entryCtxt.Send(1, locals);
+return;
+
+AnonFun2_0:
+
+;
+tmp_3 = PRT_VALUE.PrtMkDefaultValue(Main.type_1_PRT_TYPE);
+PRT_VALUE.PrtPrimSetEvent(tmp_3, Main.SUCCESS_SM_EVENT);
+tmpPayload_2 = PRT_VALUE.PrtMkDefaultValue(Main.type_0_PRT_TYPE);
+assert((tmp_3.ev != null), "E:\\px4\\src\\Firmware\\src\\examples\\px4_pingpong\\test.p (17, 7): Raised event must be non-null");
+trace("<RaiseLog> Machine Client-{0} raised Event {1}\n", myHandle.instance, tmp_3.ev.name);
+myHandle.currentEvent = tmp_3.ev;
+myHandle.currentArg = tmpPayload_2;
+entryCtxt.Raise();
+return;
+
+;
+entryCtxt.Return();
+return;
+
+;
+
+}
+void AnonFun3(Continuation entryCtxt) {
+PRT_VALUE_ARRAY locals;
+PRT_VALUE tmp_4;
+PRT_VALUE tmp_5;
+PRT_VALUE tmpPayload_3;
+PRT_VALUE tmp_6;
+PRT_VALUE tmpPayload_4;
+StackFrame retTo_4;
+
+dummy:
+retTo_4 = entryCtxt.PopReturnTo();
+locals = retTo_4.locals;
+if ((retTo_4.pc == 0)) {
+goto start;
+}
+if ((retTo_4.pc == 1)) {
+goto AnonFun3_0;
+}
+assert(false, "Internal error");
+
+start:
+tmp_4 = PRT_VALUE.PrtMkDefaultValue(Main.type_2_PRT_TYPE);
+PRT_VALUE.PrtPrimSetMachine(tmp_4, myHandle);
+tmp_5 = PRT_VALUE.PrtMkDefaultValue(Main.type_1_PRT_TYPE);
+PRT_VALUE.PrtPrimSetEvent(tmp_5, Main.PONG_SM_EVENT);
+assert((tmp_4.mach != null), "Target of send must be non-null");
+tmpPayload_3 = PRT_VALUE.PrtMkDefaultValue(Main.type_0_PRT_TYPE);
+tmp_4.mach.EnqueueEvent(tmp_5.ev, tmpPayload_3, myHandle);
+entryCtxt.Send(1, locals);
+return;
+
+AnonFun3_0:
+
+;
+tmp_6 = PRT_VALUE.PrtMkDefaultValue(Main.type_1_PRT_TYPE);
+PRT_VALUE.PrtPrimSetEvent(tmp_6, Main.SUCCESS_SM_EVENT);
+tmpPayload_4 = PRT_VALUE.PrtMkDefaultValue(Main.type_0_PRT_TYPE);
+assert((tmp_6.ev != null), "E:\\px4\\src\\Firmware\\src\\examples\\px4_pingpong\\test.p (27, 7): Raised event must be non-null");
+trace("<RaiseLog> Machine Client-{0} raised Event {1}\n", myHandle.instance, tmp_6.ev.name);
+myHandle.currentEvent = tmp_6.ev;
+myHandle.currentArg = tmpPayload_4;
+entryCtxt.Raise();
+return;
+
+;
+entryCtxt.Return();
+return;
+
+;
+
+}
+};
+
+class Main{
+static SM_EVENT halt_SM_EVENT;
+static SM_EVENT null_SM_EVENT;
+static SM_EVENT PING_SM_EVENT;
+static SM_EVENT PONG_SM_EVENT;
+static SM_EVENT SUCCESS_SM_EVENT;
+static SM_STATE Client_Init_SM_STATE;
+static SM_STATE Client_SendPing_SM_STATE;
+static SM_STATE Client_WaitPing_SM_STATE;
+static SM_STATE Client_SendPong_SM_STATE;
+static SM_STATE Client_WaitPong_SM_STATE;
+static int Client_instance;
+static PRT_TYPE type_0_PRT_TYPE;
+static PRT_TYPE type_1_PRT_TYPE;
+static PRT_TYPE type_2_PRT_TYPE;
+static SM_HANDLE CreateMachine_Client(PRT_VALUE arg) {
+MACHINE_Client o_Client;
+FairScheduler fairScheduler;
+FairChoice fairChoice;
+
+dummy:
+o_Client = new MACHINE_Client;
+o_Client.myHandle = SM_HANDLE.Construct(Machine._Client, Client_instance, -1);
+SM_HANDLE.enabled = (SM_HANDLE.enabled + o_Client.myHandle);
+trace("<CreateLog> Created Machine Client-{0}\n", Client_instance);
+o_Client.myHandle.currentArg = arg;
+Client_instance = (Client_instance + 1);
+async o_Client.Start();
+invokescheduler("map", o_Client.myHandle.machineId);
+return o_Client.myHandle;
+
+;
+
+}
+static SM_EVENT_SET CalculateComplementOfEventSet(SM_EVENT_SET eventSet) {
+SM_EVENT_SET returnEventSet;
+
+dummy:
+returnEventSet = new SM_EVENT_SET;
+if ((Main.null_SM_EVENT in eventSet)) {
+
+} else {
+returnEventSet = (returnEventSet + Main.null_SM_EVENT);
+
+}
+if ((Main.PING_SM_EVENT in eventSet)) {
+
+} else {
+returnEventSet = (returnEventSet + Main.PING_SM_EVENT);
+
+}
+if ((Main.PONG_SM_EVENT in eventSet)) {
+
+} else {
+returnEventSet = (returnEventSet + Main.PONG_SM_EVENT);
+
+}
+if ((Main.SUCCESS_SM_EVENT in eventSet)) {
+
+} else {
+returnEventSet = (returnEventSet + Main.SUCCESS_SM_EVENT);
+
+}
+return returnEventSet;
+
+;
+
+}
+static PRT_TYPE PayloadOf(SM_EVENT e) {
+
+dummy:
+if ((e == null)) {
+return Main.type_0_PRT_TYPE;
+
+}
+if ((e.name == Event._halt)) {
+return Main.type_0_PRT_TYPE;
+
+}
+if ((e.name == Event._PING)) {
+return Main.type_0_PRT_TYPE;
+
+}
+if ((e.name == Event._PONG)) {
+return Main.type_0_PRT_TYPE;
+
+}
+if ((e.name == Event._SUCCESS)) {
+return Main.type_0_PRT_TYPE;
+
+}
+assert(false, "Internal error");
+
+;
+
+}
+static activate void Run() {
+PRT_VALUE nullValue;
+
+dummy:
+Main.halt_SM_EVENT = SM_EVENT.Construct(Event._halt, 1, false);
+Main.null_SM_EVENT = null;
+Main.PING_SM_EVENT = SM_EVENT.Construct(Event._PING, -1, false);
+Main.PONG_SM_EVENT = SM_EVENT.Construct(Event._PONG, -1, false);
+Main.SUCCESS_SM_EVENT = SM_EVENT.Construct(Event._SUCCESS, -1, false);
+Main.Client_Init_SM_STATE = SM_STATE.Construct(State._Client_Init, ActionOrFun._Client_AnonFun1, ActionOrFun._Client_AnonFun0, 1, false, StateTemperature.Warm);
+Main.Client_SendPing_SM_STATE = SM_STATE.Construct(State._Client_SendPing, ActionOrFun._Client_AnonFun2, ActionOrFun._Client_AnonFun0, 1, false, StateTemperature.Warm);
+Main.Client_WaitPing_SM_STATE = SM_STATE.Construct(State._Client_WaitPing, ActionOrFun._Client_AnonFun0, ActionOrFun._Client_AnonFun0, 1, false, StateTemperature.Warm);
+Main.Client_SendPong_SM_STATE = SM_STATE.Construct(State._Client_SendPong, ActionOrFun._Client_AnonFun3, ActionOrFun._Client_AnonFun0, 1, false, StateTemperature.Warm);
+Main.Client_WaitPong_SM_STATE = SM_STATE.Construct(State._Client_WaitPong, ActionOrFun._Client_AnonFun0, ActionOrFun._Client_AnonFun0, 1, false, StateTemperature.Warm);
+Main.Client_Init_SM_STATE.transitions[0] = SM_TRANSITION.Construct(Main.SUCCESS_SM_EVENT, ActionOrFun._Client_AnonFun0, Main.Client_SendPing_SM_STATE);
+Main.Client_SendPing_SM_STATE.transitions[0] = SM_TRANSITION.Construct(Main.SUCCESS_SM_EVENT, ActionOrFun._Client_AnonFun0, Main.Client_WaitPing_SM_STATE);
+Main.Client_WaitPing_SM_STATE.transitions[0] = SM_TRANSITION.Construct(Main.PING_SM_EVENT, ActionOrFun._Client_AnonFun0, Main.Client_SendPong_SM_STATE);
+Main.Client_SendPong_SM_STATE.transitions[0] = SM_TRANSITION.Construct(Main.SUCCESS_SM_EVENT, ActionOrFun._Client_AnonFun0, Main.Client_WaitPong_SM_STATE);
+Main.Client_WaitPong_SM_STATE.transitions[0] = SM_TRANSITION.Construct(Main.PONG_SM_EVENT, ActionOrFun._Client_AnonFun0, Main.Client_SendPing_SM_STATE);
+Client_instance = 0;
+Main.type_0_PRT_TYPE = PRT_TYPE.PrtMkPrimitiveType(PRT_TYPE_KIND.PRT_KIND_NULL);
+Main.type_1_PRT_TYPE = PRT_TYPE.PrtMkPrimitiveType(PRT_TYPE_KIND.PRT_KIND_EVENT);
+Main.type_2_PRT_TYPE = PRT_TYPE.PrtMkPrimitiveType(PRT_TYPE_KIND.PRT_KIND_REAL);
+nullValue = PRT_VALUE.PrtMkDefaultValue(Main.type_0_PRT_TYPE);
+Main.CreateMachine_Client(nullValue);
+
+;
+
+}
+};
+
+class SM_NULL { };
+
+class MachineId
+{
+	static int nextMachineId = 0;
+
+	static int GetNextId()
+	{
+		int ret = nextMachineId;
+		nextMachineId = nextMachineId + 1;
+		return ret;
+	}
+};
+
+set SM_EVENT_SET SM_EVENT;
+
+class SM_EVENT {    
+    Event name;
+    int maxInstances;
+	bool doAssume;
+
+    static SM_EVENT Construct(Event name, int mInstances, bool doAssume) {
+		SM_EVENT smEvent = new SM_EVENT;
+		smEvent.name = name;
+		smEvent.maxInstances = mInstances;
+		smEvent.doAssume = doAssume;
+		return smEvent;
+    }
+};
+
+array SM_TRANSITION_ARRAY[] SM_TRANSITION;
+
+class SM_TRANSITION {
+    SM_EVENT evt;
+	ActionOrFun fun; // isPush <==> fun == ActionOrFun._default
+	SM_STATE to;
+
+	static SM_TRANSITION Construct(SM_EVENT evt, ActionOrFun fun, SM_STATE to) {
+	    SM_TRANSITION transition;
+		transition = new SM_TRANSITION;
+		transition.evt = evt;
+		transition.fun = fun;
+		transition.to = to;
+		return transition;
+	}
+};
+
+class SM_STATE {
+    State name;
+	ActionOrFun entryFun;
+	ActionOrFun exitFun;
+	SM_TRANSITION_ARRAY transitions;
+	bool hasNullTransition;
+	StateTemperature temperature;
+
+	static SM_STATE Construct(State name, ActionOrFun entryFun, ActionOrFun exitFun, int numTransitions, bool hasNullTransition, StateTemperature temperature) {
+	    SM_STATE state;
+		state = new SM_STATE;
+		state.name = name;
+		state.entryFun = entryFun;
+		state.exitFun = exitFun;
+		state.transitions = new SM_TRANSITION_ARRAY[numTransitions];
+		state.hasNullTransition = hasNullTransition;
+		state.temperature = temperature;
+		return state;
+	}
+
+	SM_TRANSITION FindPushTransition(SM_EVENT evt) {
+	    int i;
+		i = 0;
+		while (i < sizeof(transitions)) {
+		    if (transitions[i].evt == evt && transitions[i].fun == ActionOrFun._default) {
+			    return transitions[i];
+			}
+		    i = i + 1;
+		}
+		return null;
+	}
+
+	SM_TRANSITION FindTransition(SM_EVENT evt) {
+	    int i;
+		i = 0;
+		while (i < sizeof(transitions)) {
+		    if (transitions[i].evt == evt) {
+			    return transitions[i];
+			}
+		    i = i + 1;
+		}
+		return null;
+	}
+};
+
+set SM_HANDLE_SET SM_HANDLE;
+
+class SM_HANDLE {
+	static SM_HANDLE_SET halted = new SM_HANDLE_SET;
+	static SM_HANDLE_SET enabled = new SM_HANDLE_SET;
+	static SM_HANDLE_SET hot = new SM_HANDLE_SET;
+	StateStack stack;
+	Continuation cont;
+	EVENT_BUFFER buffer;
+	int maxBufferSize;
+	Machine machineName;
+	int machineId;
+	int instance;
+	SM_EVENT currentEvent;
+    PRT_VALUE currentArg;
+	SM_EVENT_SET receiveSet;
+
+    static SM_HANDLE Construct(Machine mName, int inst, int maxBSize) {
+    	SM_HANDLE handle;
+		PRT_TYPE prtType;
+		handle = new SM_HANDLE;
+		handle.stack = null;
+		handle.cont = Continuation.Construct();
+		handle.buffer = EVENT_BUFFER.Construct();
+		handle.maxBufferSize = maxBSize;
+		handle.machineName = mName;
+		handle.machineId = MachineId.GetNextId();
+		handle.instance = inst;
+		handle.currentEvent = null;
+		prtType = PRT_TYPE.PrtMkPrimitiveType(PRT_TYPE_KIND.PRT_KIND_NULL);
+		handle.currentArg = PRT_VALUE.PrtMkDefaultValue(prtType);
+		handle.receiveSet = new SM_EVENT_SET;
+		return handle;
+    }
+
+    void Push() {
+		StateStack s;
+		s = new StateStack;
+		s.next = stack;
+		stack = s;
+    }
+    
+    void Pop() {
+		stack = stack.next;
+    }
+
+    void EnqueueEvent(SM_EVENT e, PRT_VALUE arg, SM_HANDLE source) {
+        bool b;
+		bool isEnabled;
+		PRT_TYPE prtType;
+    	assert(e != null, "Enqueued event must be non-null");
+		//assertion to check if argument passed inhabits the payload type.
+		prtType = Main.PayloadOf(e);
+		if (prtType.typeKind != PRT_TYPE_KIND.PRT_KIND_NULL) 
+		{
+			b = PRT_VALUE.PrtInhabitsType(arg, prtType);
+			assert(b, "Type of payload does not match the expected type with event");
+		}
+		else
+		{
+			assert(arg.type.typeKind == PRT_TYPE_KIND.PRT_KIND_NULL, "Type of payload does not match the expected type with event");
+		}
+		if (this in halted)
+		{
+			trace("<EnqueueLog> {0}-{1} Machine has been halted and Event {2} is dropped\n", machineName, instance, e.name);
+		}
+		else
+		{
+			if (arg != null)
+			{
+				trace("<EnqueueLog> Enqueued Event < {0}, ", e.name); PRT_VALUE.Print(arg); trace(" > in Machine {0}-{1} by {2}-{3}\n", machineName, instance, source.machineName, source.instance);
+			}
+			else
+			{
+				trace("<EnqueueLog> Enqueued Event < {0} > in Machine {1}-{2} by {3}-{4}\n", e.name, machineName, instance, source.machineName, source.instance);
+			}
+
+			buffer.EnqueueEvent(e, arg);
+			if (maxBufferSize != -1 && buffer.eventBufferSize > maxBufferSize)
+			{
+				trace("<EXCEPTION> Event Buffer Size Exceeded {0} in Machine {1}-{2}\n", maxBufferSize, machineName, instance);
+				assert(false);
+			}
+			if (this in SM_HANDLE.enabled) 
+			{
+			    // do nothing because cannot change the status
+			} 
+			else 
+			{
+			   	isEnabled = buffer.IsEnabled(this);
+				if (isEnabled) {
+					SM_HANDLE.enabled = SM_HANDLE.enabled + this;
+				}
+			}
+			if (this in SM_HANDLE.enabled) 
+			{
+			   	invokescheduler("enabled", machineId, source.machineId);
+			}
+		}
+    }
+	
+    void DequeueEvent(bool hasNullTransition) {
+	    PRT_TYPE nullType;
+		currentEvent = null;
+		currentArg = null;
+		while (true) {
+			buffer.DequeueEvent(this);
+			if (currentEvent != null) 
+			{
+				assert (currentArg != null, "Internal error");
+				assert (this in SM_HANDLE.enabled, "Internal error");
+				trace("<DequeueLog> Dequeued Event < {0}, ", currentEvent.name); PRT_VALUE.Print(currentArg); trace(" > at Machine {0}-{1}\n", machineName, instance);
+				receiveSet = new SM_EVENT_SET;
+				return;
+			} 
+			else if (hasNullTransition || (currentEvent in receiveSet)) 
+			{
+				assert (this in SM_HANDLE.enabled, "Internal error");
+				trace("<NullTransLog> Null transition taken by Machine {0}-{1}\n", machineName, instance);
+				nullType = PRT_TYPE.PrtMkPrimitiveType(PRT_TYPE_KIND.PRT_KIND_NULL);
+				currentArg = PRT_VALUE.PrtMkDefaultValue(nullType);
+				FairScheduler.AtYieldStatic(this);
+				FairChoice.AtYieldOrChooseStatic();
+				receiveSet = new SM_EVENT_SET;
+				yield;
+				return;
+			} 
+			else 
+			{
+				invokescheduler("blocked", machineId);
+				assume (this in SM_HANDLE.enabled);
+				SM_HANDLE.enabled = SM_HANDLE.enabled - this;
+				assert (sizeof(SM_HANDLE.enabled) != 0 || sizeof(SM_HANDLE.hot) == 0, "Deadlock");
+				FairScheduler.AtYieldStatic(this);
+				FairChoice.AtYieldOrChooseStatic();
+				yield;
+			}
+        }
+    }
+};
+
+class EVENT_NODE {
+    EVENT_NODE next;
+    EVENT_NODE prev;
+    SM_EVENT e;
+	PRT_VALUE arg;
+};
+
+class EVENT_BUFFER {
+    EVENT_NODE head;
+	int eventBufferSize;
+    static EVENT_BUFFER Construct() {
+        EVENT_BUFFER buffer;
+		EVENT_NODE head;
+    	head = new EVENT_NODE;
+    	head.next = head;
+    	head.prev = head;
+    	head.e = null;
+    	buffer = new EVENT_BUFFER; 
+		buffer.head = head;
+		buffer.eventBufferSize = 0;
+		return buffer;
+    }
+
+    int CalculateInstances(SM_EVENT e) {
+        EVENT_NODE elem;
+		int currInstances;
+		currInstances = 0;
+        elem = head.next;
+        while (elem != head) {
+            if (elem.e.name == e.name) {
+				currInstances = currInstances + 1;
+			}
+			elem = elem.next;
+        }
+		assert(currInstances <= e.maxInstances, "Internal error");
+		return currInstances;
+    }
+	
+
+    void EnqueueEvent(SM_EVENT e, PRT_VALUE arg) {
+        EVENT_NODE elem;
+		int currInstances;
+	
+		if (e.maxInstances == -1)
+		{
+			elem = new EVENT_NODE;
+			elem.e = e;
+			elem.arg = arg;
+			elem.prev = head.prev;
+			elem.next = head;
+			elem.prev.next = elem;    
+			elem.next.prev = elem;
+			eventBufferSize = eventBufferSize + 1;
+		}
+		else
+		{
+			currInstances = CalculateInstances(e);
+			if (currInstances == e.maxInstances)
+			{
+				if (e.doAssume)
+				{
+					assume(false);
+				}
+				else
+				{
+					trace("<Exception> Attempting to enqueue event {0} more than max instance of {1}\n", e.name, e.maxInstances);
+					assert(false);
+				}
+			}
+			else
+			{
+    			elem = new EVENT_NODE;
+    			elem.e = e;
+				elem.arg = arg;
+    			elem.prev = head.prev;
+    			elem.next = head;
+    			elem.prev.next = elem;    
+    			elem.next.prev = elem;
+				eventBufferSize = eventBufferSize + 1;
+			}
+		}
+	}
+
+    void DequeueEvent(SM_HANDLE owner) {
+    	SM_EVENT_SET deferredSet;
+		SM_EVENT_SET receiveSet;
+        EVENT_NODE iter;
+		bool doDequeue;
+
+		deferredSet = owner.stack.deferredSet;
+		receiveSet = owner.receiveSet;
+        iter = head.next;
+        while (iter != head) {
+		    if (sizeof(receiveSet) == 0) {
+				doDequeue = !(iter.e in deferredSet);
+			} else {
+				doDequeue = iter.e in receiveSet;
+			}
+			if (doDequeue) 
+			{
+				iter.next.prev = iter.prev;
+				iter.prev.next = iter.next;
+				owner.currentEvent = iter.e;
+				owner.currentArg = iter.arg;
+				eventBufferSize = eventBufferSize - 1;
+				return;
+			} 
+			iter = iter.next;
+        }
+		return;
+    }
+
+    bool IsEnabled(SM_HANDLE owner) {
+        EVENT_NODE iter;
+		SM_EVENT_SET deferredSet;
+		SM_EVENT_SET receiveSet;
+		bool enabled;
+
+		deferredSet = owner.stack.deferredSet;
+		receiveSet = owner.receiveSet;
+        iter = head.next;
+        while (iter != head) {
+			if (sizeof(receiveSet) == 0)
+			{
+				enabled = !(iter.e in deferredSet);
+			}
+			else 
+			{
+				enabled = iter.e in receiveSet; 
+			}
+			if (enabled)
+			{
+				return true;
+			}
+			iter = iter.next;
+        }
+		return false;
+    }
+};
+
+array SM_EVENT_ARRAY[] SM_EVENT;
+array ActionOrFun_ARRAY[] ActionOrFun;
+
+class StateStack {
+    SM_STATE state;
+    SM_EVENT_SET deferredSet;
+    SM_EVENT_SET actionSet;
+    SM_EVENT_ARRAY es;
+    ActionOrFun_ARRAY as;
+    StateStack next;
+
+    ActionOrFun Find(SM_EVENT f) {
+        ActionOrFun af;
+        int i = 0;
+		while (i < sizeof(es)) {
+			if (es[i] == f) {
+				return as[i];
+			} else {
+				i = i + 1;
+			}
+		}
+		af = next.Find(f);
+		return af;
+    }
+
+    void AddStackDeferredSet(SM_EVENT_SET localDeferredSet) {
+        if (next == null)
+			return;
+		localDeferredSet = localDeferredSet + next.deferredSet;
+    }
+
+    void AddStackActionSet(SM_EVENT_SET localActionSet) {
+        if (next == null)
+			return;
+		localActionSet = localActionSet + next.actionSet;
+    }
+
+	bool HasNullTransitionOrAction() {
+		if (state.hasNullTransition) return true;
+		return (Main.null_SM_EVENT in actionSet);
+	}
+};
+
+enum ContinuationReason { Return, Nondet, Pop, Raise, Receive, Send, NewMachine };
+
+class StackFrame {
+    int pc;
+	PRT_VALUE_ARRAY locals;
+	StackFrame next;
+};
+
+class Continuation {
+    StackFrame returnTo;
+    ContinuationReason reason;
+    SM_HANDLE id;
+    PRT_VALUE retVal;
+
+    // The nondet field is different from the fields above because it is used 
+    // by ReentrancyHelper to pass the choice to the nondet choice point.
+    // Therefore, nondet should not be reinitialized in this class.
+    bool nondet;
+
+    static Continuation Construct() {
+        Continuation res;
+		res = new Continuation;
+		res.returnTo = null;
+		res.reason = ContinuationReason.Return;
+		res.id = null;
+		res.retVal = null;
+		res.nondet = false;
+		return res;
+    }
+
+	void Reset() {
+		this.returnTo = null;
+		this.reason = ContinuationReason.Return;
+		this.id = null;
+		this.retVal = null;
+		this.nondet = false;
+    }
+
+    StackFrame PopReturnTo() {
+        StackFrame topOfStack;
+		topOfStack = this.returnTo;
+		this.returnTo = topOfStack.next;
+		topOfStack.next = null;
+		return topOfStack;
+    }
+
+    void PushReturnTo(int ret, PRT_VALUE_ARRAY locals) {
+        StackFrame tmp;
+		tmp = new StackFrame;
+		tmp.pc = ret;
+		tmp.locals = locals;
+		tmp.next = this.returnTo;
+		this.returnTo = tmp;
+    }
+
+    void Return() {
+    	PRT_TYPE nullType;
+        this.returnTo = null;
+		this.reason = ContinuationReason.Return;
+		this.id = null;
+		nullType = PRT_TYPE.PrtMkPrimitiveType(PRT_TYPE_KIND.PRT_KIND_NULL);
+		this.retVal = PRT_VALUE.PrtMkDefaultValue(nullType);
+    }
+
+    void ReturnVal(PRT_VALUE val) {
+        this.returnTo = null;
+		this.reason = ContinuationReason.Return;
+		this.id = null;
+		this.retVal = val;
+    }
+
+    void Pop() {
+        this.returnTo = null;
+		this.reason = ContinuationReason.Pop;
+		this.id = null;
+		this.retVal = null;
+    }
+
+    void Raise() {
+        this.returnTo = null;
+		this.reason = ContinuationReason.Raise;
+		this.id = null;
+		this.retVal = null;
+    }
+
+    void Send(int ret, PRT_VALUE_ARRAY locals) {
+        this.returnTo = null;
+		this.reason = ContinuationReason.Send;
+		this.id = null;
+		this.retVal = null;
+		this.PushReturnTo(ret, locals);
+    }
+
+    void NewMachine(int ret, PRT_VALUE_ARRAY locals, SM_HANDLE o) {
+        this.returnTo = null;
+		this.reason = ContinuationReason.NewMachine;
+		this.id = o;
+		this.retVal = null;
+		this.PushReturnTo(ret, locals);
+    }
+
+    void Receive(int ret, PRT_VALUE_ARRAY locals) {
+        this.returnTo = null;
+		this.reason = ContinuationReason.Receive;
+		this.id = null;
+		this.retVal = null;
+		this.PushReturnTo(ret, locals);
+    }
+
+    void Nondet(int ret, PRT_VALUE_ARRAY locals) {
+        this.returnTo = null;
+		this.reason = ContinuationReason.Nondet;
+		this.id = null;
+		this.retVal = null;
+		this.PushReturnTo(ret, locals);
+    }
+};
+
+// Add an instance of FairScheduler per running P machine.
+// Add an instance of FairChoice per running P machine and fair choice in that machine.
+// Invoke FairScheduler.AtYieldStatic and FairChoice.AtYieldOrChooseStatic at each yield.
+// Invoke FairScheduler.AtChooseStatic and FairChoice.AtYieldOrChooseStatic at each choose.
+set FairSchedulers FairScheduler;
+class FairScheduler {      
+    static FairSchedulers all = new FairSchedulers;
+    static FairSchedulers accepted = new FairSchedulers;
+    static bool noYieldFromNowOn = false;
+    SM_HANDLE handle;
+
+    static void Init(FairScheduler fs, SM_HANDLE h) {
+		fs.handle = h;
+		all = all + fs;
+    }
+
+    void AtYield(SM_HANDLE running) {
+		assume (!noYieldFromNowOn);
+		if (running == handle || !(handle in SM_HANDLE.enabled)) {
+		   FairScheduler.accepted = FairScheduler.accepted + this;
+		   FairCycle.Accept();
+		}
+    }
+
+    static void AtYieldStatic(SM_HANDLE running) {
+		foreach (FairScheduler m in all) {
+			m.AtYield(running);
+		}
+    }
+
+    static void AtChooseStatic() {
+    	if (noYieldFromNowOn) {
+			FairCycle.Accept();
+			return;
+		}
+		noYieldFromNowOn = choose(bool);
+		if (noYieldFromNowOn) {
+			FairScheduler.all = new FairSchedulers;
+			FairScheduler.accepted = new FairSchedulers;
+		}
+    }
+};
+
+set FairChoices FairChoice;
+class FairChoice {
+    static FairChoices all = new FairChoices;
+    static FairChoices accepted = new FairChoices;
+    bool lastChoice;
+
+    static void Init(FairChoice fs) {
+		fs.lastChoice = false;
+		all = all + fs;
+    }
+
+    void AtYieldOrChoose() {
+        bool b;
+		b = choose(bool);
+      	if (b) {
+			FairChoice.all = FairChoice.all - this;
+		}
+    }
+    
+    static void AtYieldOrChooseStatic() {
+		foreach (FairChoice m in all) {
+			m.AtYieldOrChoose();
+		}
+    }
+
+    void AtChoose(bool b) {
+        assume (this in FairChoice.all);
+        if (b != lastChoice) {
+			lastChoice = b;
+			FairChoice.accepted = FairChoice.accepted + this;
+			FairCycle.Accept();
+		}
+    }
+};
+
+enum GateStatus { Init, Selected, Closed };
+enum StateTemperature { Cold, Warm, Hot };
+
+class FairCycle {
+    static GateStatus gate = GateStatus.Init;
+	static StateTemperature temperature = StateTemperature.Warm;
+
+    static void GateProgress() {
+        bool b;
+        if (gate == GateStatus.Selected) {
+			b = choose(bool);
+			if (b) {
+				gate = GateStatus.Closed;
+			}
+		}
+    }
+
+    static void Accept() {
+        if (gate == GateStatus.Closed && 
+			temperature == StateTemperature.Hot &&
+			sizeof(FairChoice.accepted) == sizeof(FairChoice.all) && 
+       	    sizeof(FairScheduler.accepted) == sizeof(FairScheduler.all))
+		{
+			trace("Accepting transition\n");
+			accept(true);
+      		FairChoice.accepted = new FairChoices;
+			FairScheduler.accepted = new FairSchedulers;
+		}	
+    }
+
+	static int Choose(int n) {
+	    int i;
+		bool b;
+		assert (0 < n, "Internal error");
+		i = 0;
+		while (i < n) {
+		    b = choose(bool);
+			if (b) {
+			    return i;
+			} else {
+			    i = i + 1;
+			}
+		}
+		assume (false);
+	}
+};
+enum PRT_TYPE_KIND
+{
+	PRT_KIND_ANY, 
+	PRT_KIND_BOOL, 
+	PRT_KIND_EVENT, 
+	PRT_KIND_FORGN, 
+	PRT_KIND_REAL, 
+	PRT_KIND_INT, 
+	PRT_KIND_MAP, 
+	PRT_KIND_NMDTUP, 
+	PRT_KIND_NULL,
+	PRT_KIND_SEQ, 
+	PRT_KIND_TUPLE
+};
+
+class PRT_FIELD_NAME {
+
+};
+
+array PRT_TYPE_ARRAY[] PRT_TYPE;
+array PRT_FIELD_NAME_ARRAY[] PRT_FIELD_NAME;
+
+class PRT_TYPE {
+    PRT_TYPE_KIND typeKind;
+
+	int typeTag;
+
+    int arity;
+    PRT_FIELD_NAME_ARRAY fieldNames;
+    PRT_TYPE_ARRAY fieldTypes;
+
+    PRT_TYPE innerType;
+
+    PRT_TYPE domType;
+    PRT_TYPE codType;
+
+    static PRT_TYPE BuildDefault(PRT_TYPE_KIND typeKind) {
+        PRT_TYPE type;
+		type = new PRT_TYPE;
+		type.typeKind = typeKind;
+		type.typeTag = 0;
+		type.arity = 0;
+		type.fieldNames = null;
+		type.fieldTypes = null;
+		type.innerType = null;
+		type.domType = null;
+		type.codType = null;
+		return type;
+    }
+
+    static PRT_TYPE PrtMkPrimitiveType(PRT_TYPE_KIND primType) {
+        PRT_TYPE type;
+		type = BuildDefault(primType);
+		return type;
+    }
+
+	static PRT_TYPE PrtMkForeignType(int typeTag)
+	{
+	    PRT_TYPE type;
+		type = BuildDefault(PRT_TYPE_KIND.PRT_KIND_FORGN);
+		type.typeTag = typeTag;
+		return type;
+	}
+
+    static PRT_TYPE PrtMkMapType(PRT_TYPE domType, PRT_TYPE codType) {
+        PRT_TYPE type;
+		type = BuildDefault(PRT_TYPE_KIND.PRT_KIND_MAP);
+		type.domType = domType;
+		type.codType = codType;
+		return type;
+    }
+
+    static PRT_TYPE PrtMkNmdTupType(int arity) {
+        PRT_TYPE type;
+		type = BuildDefault(PRT_TYPE_KIND.PRT_KIND_NMDTUP);
+		type.arity = arity;
+		type.fieldNames = new PRT_FIELD_NAME_ARRAY[arity];
+		type.fieldTypes = new PRT_TYPE_ARRAY[arity];
+		return type;
+    }
+
+    static PRT_TYPE PrtMkSeqType(PRT_TYPE innerType) {
+        PRT_TYPE type;
+		type = BuildDefault(PRT_TYPE_KIND.PRT_KIND_SEQ);
+		type.innerType = innerType;
+		return type;
+    }
+
+    static PRT_TYPE PrtMkTupType(int arity) {
+        PRT_TYPE type;
+		type = BuildDefault(PRT_TYPE_KIND.PRT_KIND_TUPLE);
+		type.arity = arity;
+		type.fieldTypes = new PRT_TYPE_ARRAY[arity];
+		return type;
+    }
+
+    static void PrtSetFieldType(PRT_TYPE tupleType, int index, PRT_TYPE fieldType) {
+        tupleType.fieldTypes[index] = fieldType;
+    }
+
+    static void PrtSetFieldName(PRT_TYPE tupleType, int index, PRT_FIELD_NAME fieldName) {
+        tupleType.fieldNames[index] = fieldName;
+    }
+};
+array PRT_VALUE_ARRAY[] PRT_VALUE;
+array int_ARRAY[] int;
+
+class PRT_VALUE {
+    PRT_TYPE type;
+
+    bool bl;
+    SM_EVENT ev;
+    int nt;
+    SM_HANDLE mach;
+
+    PRT_VALUE_ARRAY tuple;
+    
+    PRT_SEQ seq;
+
+    PRT_MAP map;
+
+	static void Print(PRT_VALUE value)
+	{
+		PRT_TYPE_KIND tkind;
+		bool isNullValue;
+		int i;
+
+		isNullValue = PrtIsNullValue(value);
+		tkind = value.type.typeKind;
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_BOOL)
+		{
+			if(value.bl == true)
+				trace("true");
+			else
+				trace("false");
+		}
+		
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_EVENT)
+		{
+			if(isNullValue)
+				trace("null");
+			else
+				trace("{0}", value.ev.name);
+		}
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_REAL)
+		{
+			if(isNullValue)
+				trace("null");
+			else
+				trace("{0}-{1}", value.mach.machineName, value.mach.instance);
+		}
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_INT)
+		{
+			trace("{0}", value.nt);
+		}
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_FORGN)
+		{
+		    trace("${0}", value.nt);
+		}
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_MAP)
+		{
+			i = 0;
+			trace("map : (");
+			while (i < value.map.size) {
+				trace("(");
+				Print(value.map.keys[i]);
+				trace(",");
+				Print(value.map.values[i]);
+				trace(")");
+				i = i + 1;
+			}
+			trace(")");
+		}
+		
+		if(tkind ==  PRT_TYPE_KIND.PRT_KIND_NULL)
+		{
+			trace("null");
+		}
+		
+		if(tkind == PRT_TYPE_KIND.PRT_KIND_SEQ)
+		{
+			i = 0;
+			trace("seq : (");
+			while(i < value.seq.size) {
+				Print(value.seq.contents[i]);
+				trace(",");
+				i = i + 1;
+			}
+			trace(")");
+		}
+		
+		if(tkind == PRT_TYPE_KIND.PRT_KIND_TUPLE)
+		{
+			i = 0;
+			trace("tuple : (");
+			while(i < value.type.arity)
+			{
+				Print(value.tuple[i]);
+				trace(",");
+				i = i + 1;
+			}
+			trace(")");
+		}
+		
+		if(tkind == PRT_TYPE_KIND.PRT_KIND_NMDTUP)
+		{
+			i = 0;
+			trace("namedTup : (");
+			while(i < value.type.arity)
+			{
+				trace("field_{0}: ", i);
+				Print(value.tuple[i]);
+				trace(",");
+				i = i + 1;
+			}
+			trace(")");
+		}
+	}
+
+    static PRT_VALUE PrtMkDefaultValue(PRT_TYPE type) {
+        int i;
+        PRT_VALUE value;
+		value = new PRT_VALUE;
+		value.type = type;
+		value.bl = false;
+		value.ev = null;
+		value.nt = 0;
+		value.mach = null;
+		value.tuple = null;
+		value.seq = null;
+		value.map = null;
+
+		if (type.typeKind == PRT_TYPE_KIND.PRT_KIND_ANY) {
+		    value.type =  PRT_TYPE.PrtMkPrimitiveType(PRT_TYPE_KIND.PRT_KIND_NULL); 
+		} else if (type.typeKind == PRT_TYPE_KIND.PRT_KIND_TUPLE || type.typeKind == PRT_TYPE_KIND.PRT_KIND_NMDTUP) {
+			value.tuple = new PRT_VALUE_ARRAY[type.arity];
+			i = 0;
+			while (i < type.arity) {
+				value.tuple[i] = PrtMkDefaultValue(type.fieldTypes[i]);
+				i = i + 1;
+			}
+		} else if (type.typeKind == PRT_TYPE_KIND.PRT_KIND_SEQ) {
+			value.seq = PRT_SEQ.PrtMkDefaultSeq();
+		} else if (type.typeKind == PRT_TYPE_KIND.PRT_KIND_MAP) {
+			value.map = PRT_MAP.PrtMkDefaultMap();
+		}
+		return value;
+    }
+
+	static int_ARRAY foreignValueCounter;
+	static PRT_VALUE PrtMkFreshForeignValue(PRT_TYPE type)
+	{
+		int_ARRAY oldCounter;
+	    int i;
+		PRT_VALUE retVal;
+
+		retVal = PRT_VALUE.PrtMkDefaultValue(type);
+	    assert(type.typeKind == PRT_TYPE_KIND.PRT_KIND_FORGN);
+		if (foreignValueCounter == null)
+		{
+		    foreignValueCounter = new int_ARRAY[1];
+			foreignValueCounter[0] = 0;
+		}
+		if (sizeof(foreignValueCounter) <= type.typeTag)
+		{
+			oldCounter = foreignValueCounter;
+			foreignValueCounter = new int_ARRAY[2 * type.typeTag + 1];
+			i = 0;
+		    while (i < sizeof(oldCounter))
+			{
+			    foreignValueCounter[i] = oldCounter[i];
+				i = i + 1;
+			}
+			while (i < sizeof(foreignValueCounter))
+			{
+			    foreignValueCounter[i] = 0;
+				i = i + 1;
+			}
+		}
+		retVal.nt = foreignValueCounter[type.typeTag] + 1;
+		foreignValueCounter[type.typeTag] = retVal.nt;
+		return retVal;
+	}
+
+    static PRT_VALUE PrtCloneValue(PRT_VALUE value) {
+        int i;
+		PRT_VALUE newValue;
+		newValue = new PRT_VALUE;
+		newValue.type = value.type;
+		newValue.bl = value.bl;
+		newValue.ev = value.ev;
+		newValue.nt = value.nt;
+		newValue.mach = value.mach;
+		newValue.tuple = value.tuple;
+		newValue.seq = value.seq;
+		newValue.map = value.map;
+	
+		if (value.type.typeKind == PRT_TYPE_KIND.PRT_KIND_TUPLE || value.type.typeKind == PRT_TYPE_KIND.PRT_KIND_NMDTUP) {
+			newValue.tuple = new PRT_VALUE_ARRAY[value.type.arity];
+			i = 0;
+			while (i < value.type.arity) {
+				newValue.tuple[i] = PrtCloneValue(value.tuple[i]);
+				i = i + 1;
+			}
+		} else if (value.type.typeKind == PRT_TYPE_KIND.PRT_KIND_SEQ) {
+			newValue.seq = value.seq.Clone();
+		} else if (value.type.typeKind == PRT_TYPE_KIND.PRT_KIND_MAP) {
+			newValue.map = value.map.Clone();
+		}
+		return newValue;
+    }
+
+    static bool PrtInhabitsType(PRT_VALUE value, PRT_TYPE type) {
+        PRT_TYPE_KIND tkind;
+		PRT_TYPE_KIND vkind;
+		int i;
+		bool isNullValue;
+		bool retVal;
+		bool b;
+
+		isNullValue = PrtIsNullValue(value);
+		tkind = type.typeKind;
+		vkind = value.type.typeKind;
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_ANY)
+			return true;
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_BOOL)
+			return vkind == PRT_TYPE_KIND.PRT_KIND_BOOL;
+	
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_EVENT)
+			return (vkind == PRT_TYPE_KIND.PRT_KIND_EVENT || isNullValue);
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_REAL)
+			return (vkind == PRT_TYPE_KIND.PRT_KIND_REAL || isNullValue);
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_INT)
+			return vkind == PRT_TYPE_KIND.PRT_KIND_INT;
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_FORGN)
+		    return vkind == PRT_TYPE_KIND.PRT_KIND_FORGN && type.typeTag == value.type.typeTag;
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_MAP)
+		{
+			if (vkind != PRT_TYPE_KIND.PRT_KIND_MAP)
+			{
+				return false;
+			}
+			retVal = value.map.InhabitsType(type);
+			return retVal;
+		}
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_NMDTUP)
+		{
+			if (vkind != PRT_TYPE_KIND.PRT_KIND_NMDTUP)
+			{
+				return false;
+			}
+
+			if (type.arity != value.type.arity)
+			{
+				return false;
+			}
+
+			i = 0;
+			while (i < type.arity)
+			{
+				if (type.fieldNames[i] != value.type.fieldNames[i])
+				{
+					return false;
+				}
+				b = PrtInhabitsType(value.tuple[i], type.fieldTypes[i]);
+				if (!b)
+				{
+					return false;
+				}
+				i = i + 1;
+			}
+			return true;
+		}
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_TUPLE)
+		{
+			if (vkind != PRT_TYPE_KIND.PRT_KIND_TUPLE)
+			{
+				return false;
+			}
+
+			if (type.arity != value.type.arity)
+			{
+				return false;
+			}
+
+			i = 0;
+			while (i < type.arity)
+			{
+				b = PrtInhabitsType(value.tuple[i], type.fieldTypes[i]);
+				if (!b)
+				{
+					return false;
+				}
+				i = i + 1;
+			}
+			return true;
+		}
+
+		if (tkind == PRT_TYPE_KIND.PRT_KIND_SEQ)
+		{
+			if (vkind != PRT_TYPE_KIND.PRT_KIND_SEQ)
+			{
+				return false;
+			}
+			retVal = value.seq.InhabitsType(type);
+			return retVal;
+		}
+		trace("Invalid tkind value : {0}", tkind);
+		assert (false);
+		return false;
+    }
+
+    static bool PrtIsNullValue(PRT_VALUE value) {
+		PRT_TYPE_KIND kind;
+		kind = value.type.typeKind;
+		assert (kind != PRT_TYPE_KIND.PRT_KIND_ANY, "Value must have a concrete type");
+
+		if (kind == PRT_TYPE_KIND.PRT_KIND_EVENT)
+			return value.ev == null;
+
+		if (kind == PRT_TYPE_KIND.PRT_KIND_REAL)
+			return value.mach == null;
+
+		if (kind == PRT_TYPE_KIND.PRT_KIND_NULL)
+			return true;
+
+		return false;
+    }
+
+    static PRT_VALUE PrtCastValue(PRT_VALUE value, PRT_TYPE type) {
+        bool b;
+		PRT_VALUE newValue;
+		b = PrtInhabitsType(value, type);
+        assert (b, "value must be a member of type");
+		newValue = PrtCloneValue(value);
+		value.type = type;
+		return newValue;
+    }
+
+    static bool PrtIsEqualValue(PRT_VALUE value1, PRT_VALUE value2)
+    {
+        PRT_TYPE type1 = value1.type;
+		PRT_TYPE type2 = value2.type;
+		PRT_TYPE_KIND kind1 = type1.typeKind;
+		PRT_TYPE_KIND kind2 = type2.typeKind;
+		bool isNullValue1;
+		bool isNullValue2;
+		bool retVal;
+		int i;
+		bool b;
+
+		isNullValue1 = PrtIsNullValue(value1);
+		isNullValue2 = PrtIsNullValue(value2);
+
+		if (isNullValue1 && isNullValue2) 
+		{
+			return true;
+		}
+		else if (kind1 != kind2)
+		{
+			return false;
+		}
+		else if (value1 == value2)
+		{
+			return true;
+		}
+
+		if (kind1 == PRT_TYPE_KIND.PRT_KIND_BOOL)
+			return value1.bl == value2.bl;
+
+		if (kind1 == PRT_TYPE_KIND.PRT_KIND_EVENT)
+			return value1.ev == value2.ev;
+
+		if (kind1 == PRT_TYPE_KIND.PRT_KIND_REAL)
+			return value1.mach == value2.mach;
+
+		if (kind1 == PRT_TYPE_KIND.PRT_KIND_INT)
+			return value1.nt == value2.nt;
+		
+		if (kind1 == PRT_TYPE_KIND.PRT_KIND_FORGN)
+		    return type1.typeTag == type2.typeTag && value1.nt == value2.nt;
+
+		if (kind1 == PRT_TYPE_KIND.PRT_KIND_MAP)
+		{
+			retVal = value1.map.Equals(value2.map);
+			return retVal;
+		}
+
+		if (kind1 == PRT_TYPE_KIND.PRT_KIND_NMDTUP)
+		{
+			if (type1.arity != type2.arity)
+			{
+				return false;
+			}
+			i = 0;
+			while (i < type1.arity)
+			{
+				if (type1.fieldNames[i] != type2.fieldNames[i])
+				{
+					return false;
+				}
+				b = PrtIsEqualValue(value1.tuple[i], value2.tuple[i]);
+				if (!b)
+				{
+					return false;
+				}
+				i = i + 1;
+			}
+			return true;
+		}
+
+		if (kind1 == PRT_TYPE_KIND.PRT_KIND_SEQ)
+		{
+			retVal = value1.seq.Equals(value2.seq);
+			return retVal;
+		}
+
+		if (kind1 == PRT_TYPE_KIND.PRT_KIND_TUPLE)
+		{
+			if (type1.arity != type2.arity)
+			{
+				return false;
+			}
+			i = 0;
+			while (i < type1.arity)
+			{
+ 				b = PrtIsEqualValue(value1.tuple[i], value2.tuple[i]);
+				if (!b)
+				{
+					return false;
+				}
+				i = i + 1;
+			}
+			return true;
+		}
+    }
+
+    static void PrtPrimSetBool(PRT_VALUE prmVal, bool value) {
+        prmVal.bl = value;
+    }
+
+    static bool PrtPrimGetBool(PRT_VALUE prmVal) {
+        return prmVal.bl;
+    }
+
+    static void PrtPrimSetEvent(PRT_VALUE prmVal, SM_EVENT value) {
+        prmVal.ev = value;
+    }
+
+    static SM_EVENT PrtPrimGetEvent(PRT_VALUE prmVal) {
+        return prmVal.ev;
+    }
+
+    static void PrtPrimSetInt(PRT_VALUE prmVal, int value) {
+        prmVal.nt = value;
+    }
+
+    static int PrtPrimGetInt(PRT_VALUE prmVal) {
+        return prmVal.nt;
+    }
+
+    static void PrtPrimSetMachine(PRT_VALUE prmVal, SM_HANDLE value) {
+        prmVal.mach = value;
+    }
+
+    static SM_HANDLE PrtPrimGetMachine(PRT_VALUE prmVal) {
+        return prmVal.mach;
+    }
+
+    static void PrtTupleSet(PRT_VALUE tuple, int index, PRT_VALUE value) {
+        tuple.tuple[index] = PrtCloneValue(value);
+    }
+
+    static PRT_VALUE PrtTupleGet(PRT_VALUE tuple, int index) {
+        PRT_VALUE retVal;
+		retVal = PRT_VALUE.PrtCloneValue(tuple.tuple[index]);
+        return retVal;
+    }
+
+    static void PrtSeqSet(PRT_VALUE seq, PRT_VALUE index, PRT_VALUE value) {
+        seq.seq.Set(index.nt, value);
+    }
+
+    static void PrtSeqInsert(PRT_VALUE seq, PRT_VALUE index, PRT_VALUE value) {
+        seq.seq.Insert(index.nt, value);
+    }
+
+    static void PrtSeqRemove(PRT_VALUE seq, PRT_VALUE index) {
+        seq.seq.Remove(index.nt);
+    }
+
+    static PRT_VALUE PrtSeqGet(PRT_VALUE seq, PRT_VALUE index) {
+        PRT_VALUE retVal;
+		retVal = seq.seq.Get(index.nt);
+		return retVal;
+    }
+
+    static PRT_VALUE PrtSeqGetNoClone(PRT_VALUE seq, PRT_VALUE index) {
+        PRT_VALUE retVal;
+		retVal = seq.seq.GetNoClone(index.nt);
+		return retVal;
+    }
+
+	static int PrtSeqSizeOf(PRT_VALUE seq) {
+        int retVal;
+		retVal = seq.seq.SizeOf();
+		return retVal;
+    }
+
+    static void PrtMapSet(PRT_VALUE map, PRT_VALUE key, PRT_VALUE value) {
+        map.map.Set(key, value);
+    }
+
+	static void PrtMapInsert(PRT_VALUE map, PRT_VALUE key, PRT_VALUE value) {
+	    bool b;
+		b = map.map.Exists(key);
+		assert(!b, "key must not exist in map");
+	    map.map.Set(key, value);
+	}
+
+    static void PrtMapRemove(PRT_VALUE map, PRT_VALUE key) {
+        map.map.Remove(key);
+    }
+
+    static PRT_VALUE PrtMapGet(PRT_VALUE map, PRT_VALUE key) {
+        PRT_VALUE retVal;
+		retVal = map.map.Get(key);
+		return retVal;
+    }
+
+    static PRT_VALUE PrtMapGetNoClone(PRT_VALUE map, PRT_VALUE key) {
+        PRT_VALUE retVal;
+		retVal = map.map.GetNoClone(key);
+		return retVal;
+    }
+
+    static PRT_VALUE PrtMapGetKeys(PRT_VALUE map) {
+        PRT_VALUE retVal;
+		retVal = map.map.GetKeys(map.type.domType);
+		return retVal;
+    }
+
+    static PRT_VALUE PrtMapGetValues(PRT_VALUE map) {
+        PRT_VALUE retVal;
+        retVal = map.map.GetValues(map.type.codType);
+		return retVal;
+    }
+
+    static bool PrtMapExists(PRT_VALUE map, PRT_VALUE key) {
+        bool retVal;
+        retVal = map.map.Exists(key);
+		return retVal;
+    }
+
+    static int PrtMapSizeOf(PRT_VALUE map) {
+        int retVal;
+        retVal = map.map.SizeOf();
+		return retVal;
+    }
+};
+
+class PRT_SEQ {
+    int size;
+    PRT_VALUE_ARRAY contents;
+
+    static PRT_SEQ PrtMkDefaultSeq() {
+        PRT_SEQ seq;
+        seq = new PRT_SEQ;
+		seq.size = 0;
+		seq.contents = new PRT_VALUE_ARRAY[0];
+		return seq;
+    }
+
+    PRT_SEQ Clone() {
+        int i;
+        PRT_SEQ seq;
+		seq = new PRT_SEQ;
+		seq.size = size;
+		seq.contents = new PRT_VALUE_ARRAY[size];
+		i = 0;
+		while (i < size) {
+			seq.contents[i] = PRT_VALUE.PrtCloneValue(contents[i]);
+			i = i + 1;
+		}
+		return seq;
+    }
+
+    void Set(int index, PRT_VALUE value) {
+		assert (0 <= index && index < size, "index out of bound");
+        contents[index] = PRT_VALUE.PrtCloneValue(value);
+    }
+
+    void Insert(int index, PRT_VALUE value) {
+    	PRT_VALUE_ARRAY newContents;
+		int i;
+		assert (0 <= index && index <= size, "index out of bound");
+		newContents = new PRT_VALUE_ARRAY[size+1];
+		i = 0;
+		while (i < size + 1) {
+			if (i < index) {
+				newContents[i] = contents[i];
+			} else if (i == index) {
+				newContents[i] = PRT_VALUE.PrtCloneValue(value);
+			} else {
+				newContents[i] = contents[i-1];
+			}
+			i = i + 1;
+		}
+		contents = newContents;
+		size = size + 1;	
+    }
+
+    void Remove(int index) {
+		int i;
+		assert (0 <= index && index < size, "index out of bound");
+		i = index;
+		while (i < size - 1) {
+			contents[i] = contents[i+1];
+			i = i + 1;
+		}
+		size = size - 1;	
+    }
+
+    PRT_VALUE Get(int index) {
+        PRT_VALUE retVal;
+		assert (0 <= index && index < size, "index out of bound");
+        retVal = PRT_VALUE.PrtCloneValue(contents[index]);
+		return retVal;
+    }
+
+	PRT_VALUE GetNoClone(int index) {
+        PRT_VALUE retVal;
+		assert (0 <= index && index < size, "index out of bound");
+        return contents[index];
+    }
+
+    int SizeOf() {
+        return size;
+    }
+
+    bool InhabitsType(PRT_TYPE type) {
+        int i;
+		bool b;
+
+		i = 0;
+		while (i < size)
+		{
+			b = PRT_VALUE.PrtInhabitsType(contents[i], type.innerType);
+			if (!b) {
+				return false;
+			}
+			i = i + 1;
+		}
+		return true;
+    }
+
+    bool Equals(PRT_SEQ seq) {
+        int i;
+		bool b;
+		if (size != seq.size)
+		{
+			return false;
+		}
+		i = 0;
+		while (i < size)
+		{
+			b = PRT_VALUE.PrtIsEqualValue(contents[i], seq.contents[i]);
+			if (!b)
+			{
+				return false;
+			}
+			i = i + 1;
+		}
+		return true;
+    }
+};
+
+class PRT_MAP {
+    int size;
+    PRT_VALUE_ARRAY keys;
+    PRT_VALUE_ARRAY values;
+
+    static PRT_MAP PrtMkDefaultMap() {
+        PRT_MAP map;
+		map = new PRT_MAP;
+		map.size = 0;
+		map.keys = new PRT_VALUE_ARRAY[0];
+		map.values = new PRT_VALUE_ARRAY[0];
+		return map;
+    }
+
+    PRT_MAP Clone() {
+        int i;
+        PRT_MAP map;
+		map = new PRT_MAP;
+		map.size = size;
+		map.keys = new PRT_VALUE_ARRAY[size];
+		map.values = new PRT_VALUE_ARRAY[size];
+		i = 0;
+		while (i < size) {
+			map.keys[i] = PRT_VALUE.PrtCloneValue(keys[i]);
+			map.values[i] = PRT_VALUE.PrtCloneValue(values[i]);	    
+			i = i + 1;
+		}
+		return map;
+    }
+
+    void Set(PRT_VALUE key, PRT_VALUE value) {
+        int i;
+		bool b;
+		PRT_VALUE_ARRAY newKeys;
+		PRT_VALUE_ARRAY newValues;
+		int j;
+
+		i = 0;
+		while (i < size) {
+			b = PRT_VALUE.PrtIsEqualValue(keys[i], key);
+			if (b) {
+				values[i] = PRT_VALUE.PrtCloneValue(value);
+				return;
+			} else {
+				i = i + 1;
+			}
+		}
+
+		newKeys = new PRT_VALUE_ARRAY[size + 1];
+		newValues = new PRT_VALUE_ARRAY[size + 1];
+		j = 0;
+		while (j < size) {
+			newKeys[j] = keys[j];
+			newValues[j] = values[j];
+			j = j + 1;
+		}
+		newKeys[size] = PRT_VALUE.PrtCloneValue(key);
+		newValues[size] = PRT_VALUE.PrtCloneValue(value);
+
+		keys = newKeys;
+		values = newValues;
+		size = size + 1;
+    }
+
+    void Remove(PRT_VALUE key) {
+        int i;
+		bool b;
+		PRT_VALUE_ARRAY newKeys;
+		PRT_VALUE_ARRAY newValues;
+		int j;
+
+		i = 0;
+		while (i < size) {
+			b = PRT_VALUE.PrtIsEqualValue(keys[i], key);
+			if (b) {
+				newKeys = new PRT_VALUE_ARRAY[size - 1];
+				newValues = new PRT_VALUE_ARRAY[size - 1];
+				j = 0;
+				while (j < size) {
+					if (j < i) {
+	    				newKeys[j] = keys[j];
+	    	    		newValues[j] = values[j];
+					} else if (j > i) {
+	    				newKeys[j-1] = keys[j];
+	    	    		newValues[j-1] = values[j];		        
+					}
+	    			j = j + 1;
+				}
+
+				keys = newKeys;
+				values = newValues;
+				size = size - 1;
+				return;	        
+			} else {
+				i = i + 1;
+			}
+		}
+        assert (false, "key not found");
+    }
+
+    PRT_VALUE Get(PRT_VALUE key) {
+		int i;
+		bool b;
+		PRT_VALUE retVal;
+
+		i = 0;
+		while (i < size) {
+			b = PRT_VALUE.PrtIsEqualValue(keys[i], key);
+			if (b) {
+				retVal = PRT_VALUE.PrtCloneValue(values[i]);
+				return retVal;
+			} else {
+				i = i + 1;
+			}
+		}
+		assert (false, "key not found");
+		return null;
+    }
+
+	PRT_VALUE GetNoClone(PRT_VALUE key) {
+		int i;
+		bool b;
+		PRT_VALUE retVal;
+
+		i = 0;
+		while (i < size) {
+			b = PRT_VALUE.PrtIsEqualValue(keys[i], key);
+			if (b) {
+				return values[i];
+			} else {
+				i = i + 1;
+			}
+		}
+		assert (false, "key not found");
+		return null;
+    }
+
+    PRT_VALUE GetKeys(PRT_TYPE domType) {
+        PRT_VALUE retVal;
+		PRT_TYPE seqType;
+        int i;
+		PRT_SEQ seq;
+		seq = new PRT_SEQ;
+		seq.size = size;
+		seq.contents = new PRT_VALUE_ARRAY[size];
+		i = 0;
+		while (i < size) {
+			seq.contents[i] = PRT_VALUE.PrtCloneValue(keys[i]);
+			i = i + 1;
+		}
+		seqType = PRT_TYPE.PrtMkSeqType(domType);
+		retVal = PRT_VALUE.PrtMkDefaultValue(seqType);
+		retVal.seq = seq;
+        return retVal;
+    }
+
+    PRT_VALUE GetValues(PRT_TYPE codType) {
+        PRT_VALUE retVal;
+		PRT_TYPE seqType;
+        int i;
+		PRT_SEQ seq;
+		seq = new PRT_SEQ;
+		seq.size = size;
+		seq.contents = new PRT_VALUE_ARRAY[size];
+		i = 0;
+		while (i < size) {
+			seq.contents[i] = PRT_VALUE.PrtCloneValue(values[i]);
+			i = i + 1;
+		}
+		seqType = PRT_TYPE.PrtMkSeqType(codType);
+		retVal = PRT_VALUE.PrtMkDefaultValue(seqType);
+		retVal.seq = seq;
+        return retVal;
+    }
+
+    bool Exists(PRT_VALUE key) {
+        int i;
+		bool b;
+
+		i = 0;
+		while (i < size) {
+			b = PRT_VALUE.PrtIsEqualValue(keys[i], key);
+			if (b) {
+				return true;
+			} else {
+				i = i + 1;
+			}
+		}
+        return false;
+    }
+
+    int SizeOf() {
+        return size;
+    }
+
+    bool IsSameMapping(PRT_VALUE key, PRT_VALUE value) {
+        int i;
+		bool b;
+
+		i = 0;
+		while (i < size) {
+			b = PRT_VALUE.PrtIsEqualValue(keys[i], key);
+			if (b) {
+				b = PRT_VALUE.PrtIsEqualValue(values[i], value);
+				return b;
+			} else {
+				i = i + 1;
+			}
+		}
+		return false;
+    }
+
+    bool InhabitsType(PRT_TYPE type) {
+        int i;
+		bool b;
+
+		i = 0;
+		while (i < size)
+		{
+			b = PRT_VALUE.PrtInhabitsType(keys[i], type.domType);
+			if (!b) {
+				return false;
+			}
+			b = PRT_VALUE.PrtInhabitsType(values[i], type.codType);
+			if (!b) {
+				return false;
+			}
+			i = i + 1;
+		}
+		return true;
+    }
+
+    bool Equals(PRT_MAP map) {
+		int i;
+		bool b;
+
+		if (size != map.size)
+		{
+			return false;
+		}
+
+		i = 0;
+		while (i < size) 
+		{
+            b = map.IsSameMapping(keys[i], values[i]);
+			if (!b)
+			{
+				return false;
+			}
+			i = i + 1;
+		}
+		return true;
+    }	
+};

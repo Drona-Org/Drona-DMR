@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="TopToBottom" Layout="Sugiyama" Offset="-171.66191537856,-97.9948766290486" ZoomLevel="0.886402801248322" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="AltitudeMonitorMachine" Bounds="473.424466017543,-24.0013992464294,169.783333333333,141.9203" Group="Expanded" Label="AltitudeMonitorMachine" UseManualLocation="True" />
+    <Node Id="AltitudeMonitorMachine.Init" Bounds="506.019471307257,15.9987007535706,50,25.96" Label="Init" />
+    <Node Id="AltitudeMonitorMachine.MonitorAltitude" Bounds="506.019466017543,71.9588023580323,104.593333333333,25.96" Label="MonitorAltitude" />
+    <Node Id="BatteryMonitorMachine" Bounds="-18.4609346260381,118.65799578275,167.006666666667,141.9203" Group="Expanded" Label="BatteryMonitorMachine" UseManualLocation="True" />
+    <Node Id="BatteryMonitorMachine.Init" Bounds="1.53907229128023,158.65809578275,49.9999999999996,25.96" Label="Init" />
+    <Node Id="BatteryMonitorMachine.MonitorBatteryLevel" Bounds="1.53906537396193,214.61819578275,127.006666666667,25.96" Label="MonitorBatteryLevel" />
+    <Node Id="CommanderMachine" Bounds="203.257588648724,0.830101141873186,221.603334147135,141.920325228882" Group="Expanded" Label="CommanderMachine" UseManualLocation="True" />
+    <Node Id="CommanderMachine.Init" Bounds="223.257589462526,40.830226370755,49.9999999999999,25.96" Label="Init" />
+    <Node Id="CommanderMachine.ProcessCommands" Bounds="223.257588648724,96.790326370755,120.12,25.96" Label="ProcessCommands" />
+    <Node Id="CommanderMachine.SendCommand" Bounds="303.257589462526,40.8302011418732,101.603333333333,25.96" Label="SendCommand" />
+    <Node Id="FlightControllerMachine" Bounds="205.861840023622,453.607577687264,364.705799272896,213.673747771259" Group="Expanded" Label="FlightControllerMachine" UseManualLocation="True" />
+    <Node Id="FlightControllerMachine.Armed" Bounds="306.237713336354,493.60688937522,55.5933333333332,25.96" Label="Armed" />
+    <Node Id="FlightControllerMachine.Disarming" Bounds="225.857995404243,621.321556581822,73.7933333333333,25.96" Label="Disarming" />
+    <Node Id="FlightControllerMachine.GoingSomeplace" Bounds="440.637639296519,609.592046516445,109.93,25.96" Label="GoingSomeplace" UseManualLocation="True" />
+    <Node Id="FlightControllerMachine.Init" Bounds="226.237685789779,509.401361531815,49.9999999999999,25.96" Label="Init" />
+    <Node Id="FlightControllerMachine.Landing" Bounds="479.164380003021,493.60688937522,62.3766666666667,25.96" Label="Landing" />
+    <Node Id="FlightControllerMachine.Loitering" Bounds="318.941046669688,549.56698937522,66.8666666666668,25.96" Label="Loitering" />
+    <Node Id="FlightControllerMachine.LowBattery" Bounds="329.651328737576,612.296060106915,78.73,25.96" Label="LowBattery" UseManualLocation="True" />
+    <Node Id="FlightControllerMachine.StandBy" Bounds="226.237685789779,565.361362943015,62.7033333333334,25.96" Label="StandBy" />
+    <Node Id="FlightControllerMachine.TakingOff" Bounds="415.807713336354,549.56698937522,70.3333333333335,25.96" Label="TakingOff" />
+    <Node Id="GPSHealthMonitorMachine" Bounds="716.219624315024,42.277206791118,183.956666666666,141.9203" Group="Expanded" Label="GPSHealthMonitorMachine" UseManualLocation="True" />
+    <Node Id="GPSHealthMonitorMachine.Init" Bounds="754.054677619061,82.277306791118,50,25.96" Label="Init" />
+    <Node Id="GPSHealthMonitorMachine.MonitorGPSLock" Bounds="754.054624315024,138.237406791118,108.286666666667,25.9600000000001" Label="MonitorGPSLock" />
+    <Node Id="GeofenceMonitorMachine" Bounds="-16.3522027161236,430.011126196289,178.146666666667,141.920298266602" Group="Expanded" Label="GeofenceMonitorMachine" UseManualLocation="True" />
+    <Node Id="GeofenceMonitorMachine.Init" Bounds="16.2428114491189,470.011226196289,50,25.96" Label="Init" />
+    <Node Id="GeofenceMonitorMachine.MonitorGeofence" Bounds="16.2427972838763,525.971324462891,112.956666666667,25.96" Label="MonitorGeofence" />
+    <Node Id="HeartbeatMonitorMachine" Bounds="817.504020385742,214.197606791118,180.61,141.9203" Group="Expanded" Label="HeartbeatMonitorMachine" UseManualLocation="True" />
+    <Node Id="HeartbeatMonitorMachine.Init" Bounds="850.099020385742,254.197706791118,50,25.9600000000003" Label="Init" />
+    <Node Id="HeartbeatMonitorMachine.MonitorHeartbeat" Bounds="850.099020385742,310.157806791118,115.42,25.96" Label="MonitorHeartbeat" />
+    <Node Id="MissionPlannerMachine" Bounds="610.961981608073,530.058355885795,197.68,141.9203" Group="Expanded" Label="MissionPlannerMachine" UseManualLocation="True" />
+    <Node Id="MissionPlannerMachine.FollowPath" Bounds="710.961981608073,570.058505885796,77.6799999999998,25.96" Label="FollowPath" />
+    <Node Id="MissionPlannerMachine.Init" Bounds="630.961981608073,570.058455885795,50,25.96" Label="Init" />
+    <Node Id="MissionPlannerMachine.StartMission" Bounds="694.331981608074,626.018555885795,84.9966666666667,25.96" Label="StartMission" />
+    <Node Id="NoGPS" Bounds="391.831046669687,493.60688937522,57.3333333333333,25.96" />
+    <Node Id="POrbMachine" Bounds="343.752250111836,267.638910272397,277.916676839193,136.920221972656" Group="Expanded" Label="POrbMachine" UseManualLocation="True" />
+    <Node Id="POrbMachine.Init" Bounds="363.752249647769,307.639029254936,50.0000000000002,25.96" Label="Init" UseManualLocation="True" />
+    <Node Id="POrbMachine.ReadMessagesAndPublish" Bounds="443.752244561505,358.599051227593,157.916666666667,25.96" Label="ReadMessagesAndPublish" />
+    <Node Id="PX4Model" Bounds="93.191665852864,298.070783789062,94.03,85.9602" Group="Expanded" UseManualLocation="True" />
+    <Node Id="PX4Model.Init" Bounds="115.206665852864,338.070883789062,50,25.96" Label="Init" />
+    <Node Id="TimerMachine" Bounds="809.848044433593,386.118006791118,115.17,85.9602" Group="Expanded" Label="TimerMachine" UseManualLocation="True" />
+    <Node Id="TimerMachine.model" Bounds="840.62471110026,426.118106791118,53.6166666666668,25.96" Label="model" />
+  </Nodes>
+  <Links>
+    <Link Source="AltitudeMonitorMachine" Target="AltitudeMonitorMachine.Init" Category="Contains" />
+    <Link Source="AltitudeMonitorMachine" Target="AltitudeMonitorMachine.MonitorAltitude" Category="Contains" />
+    <Link Source="AltitudeMonitorMachine.Init" Target="CommanderMachine.ProcessCommands" Bounds="331.669798862933,37.1328198048738,174.349672444324,56.8667194266693" Label="Command" />
+    <Link Source="AltitudeMonitorMachine.Init" Target="POrbMachine.ReadMessagesAndPublish" Bounds="523.2435822965,41.9587007535706,7.4610923786347,307.642996120141" Label="POrbSubscribe" />
+    <Link Source="AltitudeMonitorMachine.MonitorAltitude" Target="POrbMachine.ReadMessagesAndPublish" Bounds="525.432338357622,97.9188023580323,31.2714593422695,251.74888978442" Label="POrbPublish" />
+    <Link Source="BatteryMonitorMachine" Target="BatteryMonitorMachine.Init" Category="Contains" />
+    <Link Source="BatteryMonitorMachine" Target="BatteryMonitorMachine.MonitorBatteryLevel" Category="Contains" />
+    <Link Source="BatteryMonitorMachine.Init" Target="CommanderMachine.ProcessCommands" Bounds="51.5390722912798,124.858444440988,169.156175039461,40.7561947954725" Label="Command" />
+    <Link Source="BatteryMonitorMachine.Init" Target="POrbMachine.ReadMessagesAndPublish" Bounds="51.5376118633399,181.711692977098,430.614204767207,173.523498542193" Label="POrbSubscribe" />
+    <Link Source="BatteryMonitorMachine.MonitorBatteryLevel" Target="POrbMachine.ReadMessagesAndPublish" Bounds="106.301585197752,240.57819578275,366.564626534743,115.319987065704" Label="POrbPublish" />
+    <Link Source="CommanderMachine" Target="CommanderMachine.Init" Category="Contains" />
+    <Link Source="CommanderMachine" Target="CommanderMachine.ProcessCommands" Category="Contains" />
+    <Link Source="CommanderMachine" Target="CommanderMachine.SendCommand" Category="Contains" />
+    <Link Source="CommanderMachine.Init" Target="POrbMachine.ReadMessagesAndPublish" Bounds="259.468254295542,66.790226370755,246.148880109524,284.997590366996" Label="POrbSubscribe" />
+    <Link Source="CommanderMachine.SendCommand" Target="FlightControllerMachine.GoingSomeplace" Bounds="357.289488832833,66.7902011418732,132.90945010521,534.068229951771" Label="CommandSucceeded" />
+    <Link Source="CommanderMachine.SendCommand" Target="FlightControllerMachine.Landing" Bounds="358.29114433502,66.7902011418732,141.515347567073,434.054285482161" Label="CommandSucceeded" />
+    <Link Source="CommanderMachine.SendCommand" Target="FlightControllerMachine.StandBy" Bounds="258.224627810903,66.7902011418732,93.3601746395281,489.730350267686" Label="CommandSucceeded" />
+    <Link Source="CommanderMachine.SendCommand" Target="FlightControllerMachine.TakingOff" Bounds="356.370290327812,66.7902011418732,87.190876465186,489.710440976696" Label="CommandSucceeded" />
+    <Link Source="FlightControllerMachine" Target="FlightControllerMachine.Armed" Category="Contains" />
+    <Link Source="FlightControllerMachine" Target="FlightControllerMachine.Disarming" Category="Contains" />
+    <Link Source="FlightControllerMachine" Target="FlightControllerMachine.GoingSomeplace" Category="Contains" />
+    <Link Source="FlightControllerMachine" Target="FlightControllerMachine.Init" Category="Contains" />
+    <Link Source="FlightControllerMachine" Target="FlightControllerMachine.Landing" Category="Contains" />
+    <Link Source="FlightControllerMachine" Target="FlightControllerMachine.Loitering" Category="Contains" />
+    <Link Source="FlightControllerMachine" Target="FlightControllerMachine.LowBattery" Category="Contains" />
+    <Link Source="FlightControllerMachine" Target="FlightControllerMachine.StandBy" Category="Contains" />
+    <Link Source="FlightControllerMachine" Target="FlightControllerMachine.TakingOff" Category="Contains" />
+    <Link Source="FlightControllerMachine" Target="NoGPS" Category="Contains" />
+    <Link Source="FlightControllerMachine.Armed" Target="POrbMachine.ReadMessagesAndPublish" Bounds="347.053103983009,390.114598927762,152.033502636816,119.286643525894" Label="POrbPublish" />
+    <Link Source="FlightControllerMachine.GoingSomeplace" Target="CommanderMachine.ProcessCommands" Bounds="292.13336176099,131.065955067119,198.09593370855,478.526091449326" Label="Command" />
+    <Link Source="FlightControllerMachine.Init" Target="POrbMachine.ReadMessagesAndPublish" Bounds="270.92044171296,388.886481610414,220.228929074425,120.76841184375" Label="POrbSubscribe" />
+    <Link Source="FlightControllerMachine.Landing" Target="AltitudeMonitorMachine.MonitorAltitude" Bounds="508.355912659301,106.857100437836,47.3803848894448,402.544094724166" Label="SetTargetAltitude" />
+    <Link Source="FlightControllerMachine.Landing" Target="CommanderMachine.ProcessCommands" Bounds="294.635571748453,130.663849701621,205.161322352183,378.737345460381" Label="Command" />
+    <Link Source="FlightControllerMachine.Loitering" Target="POrbMachine.ReadMessagesAndPublish" Bounds="359.764331064739,391.447433331182,146.239465865324,173.913909122474" Label="POrbPublish" />
+    <Link Source="FlightControllerMachine.LowBattery" Target="POrbMachine.ReadMessagesAndPublish" Bounds="376.879848149467,392.256658888997,133.303860004468,220.039401217918" Label="POrbPublish" />
+    <Link Source="FlightControllerMachine.StandBy" Target="CommanderMachine.ProcessCommands" Bounds="254.875141416496,131.732838823062,27.0713323851036,433.628500088924" Label="Command" />
+    <Link Source="FlightControllerMachine.StandBy" Target="GeofenceMonitorMachine.Init" Bounds="74.2380507645656,497.774001280524,150.956227066117,67.6325472830283" Label="SetGeofenceRadius" />
+    <Link Source="FlightControllerMachine.StandBy" Target="POrbMachine.ReadMessagesAndPublish" Bounds="270.929687642984,390.048310820082,227.783822831209,175.313028091904" Label="POrbPublish" />
+    <Link Source="FlightControllerMachine.TakingOff" Target="AltitudeMonitorMachine.Init" Bounds="449.424335355623,50.8563401042915,78.2670843412132,514.504955057711" Label="SetTargetAltitude" />
+    <Link Source="FlightControllerMachine.TakingOff" Target="CommanderMachine.ProcessCommands" Bounds="290.83954707751,131.244303098583,152.063588822782,434.116992063419" Label="Command" />
+    <Link Source="GPSHealthMonitorMachine" Target="GPSHealthMonitorMachine.Init" Category="Contains" />
+    <Link Source="GPSHealthMonitorMachine" Target="GPSHealthMonitorMachine.MonitorGPSLock" Category="Contains" />
+    <Link Source="GPSHealthMonitorMachine.Init" Target="CommanderMachine.ProcessCommands" Bounds="352.373734342663,95.9891977421149,401.680943276399,11.7594659028755" Label="Command" />
+    <Link Source="GPSHealthMonitorMachine.Init" Target="POrbMachine.ReadMessagesAndPublish" Bounds="540.873120576288,108.237306791118,226.139991435238,243.763741734095" Label="POrbSubscribe" />
+    <Link Source="GPSHealthMonitorMachine.MonitorGPSLock" Target="POrbMachine.ReadMessagesAndPublish" Bounds="546.651179193318,164.197406791118,244.73066602006,188.902402812955" Label="POrbPublish" />
+    <Link Source="GeofenceMonitorMachine" Target="GeofenceMonitorMachine.Init" Category="Contains" />
+    <Link Source="GeofenceMonitorMachine" Target="GeofenceMonitorMachine.MonitorGeofence" Category="Contains" />
+    <Link Source="GeofenceMonitorMachine.Init" Target="CommanderMachine.ProcessCommands" Bounds="49.6617682031924,130.301111464432,220.339349580289,339.710113865157" Label="Command" />
+    <Link Source="GeofenceMonitorMachine.Init" Target="POrbMachine.ReadMessagesAndPublish" Bounds="66.2428114491189,386.588046769997,391.606384656516,90.6181508865851" Label="POrbSubscribe" />
+    <Link Source="HeartbeatMonitorMachine" Target="HeartbeatMonitorMachine.Init" Category="Contains" />
+    <Link Source="HeartbeatMonitorMachine" Target="HeartbeatMonitorMachine.MonitorHeartbeat" Category="Contains" />
+    <Link Source="HeartbeatMonitorMachine.Init" Target="CommanderMachine.ProcessCommands" Bounds="340.814170099388,125.063787408743,509.284850286354,135.464193149907" Label="Command" />
+    <Link Source="HeartbeatMonitorMachine.Init" Target="POrbMachine.ReadMessagesAndPublish" Bounds="575.151543253249,274.584401495583,274.947477132494,81.4580809153247" Label="POrbSubscribe" />
+    <Link Source="HeartbeatMonitorMachine.MonitorHeartbeat" Target="POrbMachine.ReadMessagesAndPublish" Bounds="610.59854201146,330.397104435499,239.500478374282,30.1265856608998" Label="POrbPublish" />
+    <Link Source="MissionPlannerMachine" Target="MissionPlannerMachine.FollowPath" Category="Contains" />
+    <Link Source="MissionPlannerMachine" Target="MissionPlannerMachine.Init" Category="Contains" />
+    <Link Source="MissionPlannerMachine" Target="MissionPlannerMachine.StartMission" Category="Contains" />
+    <Link Source="MissionPlannerMachine.FollowPath" Target="FlightControllerMachine.GoingSomeplace" Bounds="559.460732968021,589.07895333118,151.50124029858,23.5617610133789" Label="mission_land" />
+    <Link Source="MissionPlannerMachine.FollowPath" Target="FlightControllerMachine.Loitering" Bounds="391.282518671625,578.838440190978,319.679452763922,3.74503327407842" Label="mission_goto" />
+    <Link Source="MissionPlannerMachine.Init" Target="POrbMachine.ReadMessagesAndPublish" Bounds="535.68810369078,392.173355586501,112.094508710488,177.885096561936" Label="POrbSubscribe" />
+    <Link Source="MissionPlannerMachine.StartMission" Target="FlightControllerMachine.Armed" Bounds="366.957222072352,532.841951631372,328.137328580809,94.1781129770222" Label="mission_takeoff" />
+    <Link Source="MissionPlannerMachine.StartMission" Target="FlightControllerMachine.Init" Bounds="281.467742946559,530.429151280507,412.868054035911,98.4377019286455" Label="mission_disarm" />
+    <Link Source="MissionPlannerMachine.StartMission" Target="FlightControllerMachine.Landing" Bounds="540.455490494205,539.43118161423,170.77460150621,86.5873840595978" Label="mission_disarm" />
+    <Link Source="MissionPlannerMachine.StartMission" Target="FlightControllerMachine.Loitering" Bounds="391.17512115902,584.958521290351,303.156837255694,47.3958162191957" Label="mission_goto" />
+    <Link Source="MissionPlannerMachine.StartMission" Target="FlightControllerMachine.StandBy" Bounds="294.346259365921,583.402515607533,399.985699048793,50.2563331616778" Label="mission_arm" />
+    <Link Source="MissionPlannerMachine.StartMission" Target="MissionPlannerMachine.StartMission" Bounds="647.916381835938,623.603210449219,45.6507568359375,9.2586669921875" Label="halt" LabelBounds="622.898559803183,648.257908222163,19.87,15.9600000000003" />
+    <Link Source="POrbMachine" Target="POrbMachine.Init" Category="Contains" />
+    <Link Source="POrbMachine" Target="POrbMachine.ReadMessagesAndPublish" Category="Contains" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="AltitudeMonitorMachine.Init" Bounds="523.025374526961,50.9560551074523,7.4610923786347,307.642996120141" Label="extended_sys_state" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="AltitudeMonitorMachine.MonitorAltitude" Bounds="524.322912879157,106.850161443173,31.2714593422695,251.74888978442" Label="local_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="BatteryMonitorMachine.MonitorBatteryLevel" Bounds="114.886764869639,243.279064161889,366.564626534743,115.319987065704" Label="battery_status" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="CommanderMachine.Init" Bounds="265.351032952298,73.6014608605969,246.148880109524,284.997590366996" Label="command_ack" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="CommanderMachine.ProcessCommands" Bounds="301.259525697868,129.392269666132,209.582383564504,229.206781561461" Label="command_ack" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="CommanderMachine.SendCommand" Bounds="365.167416515558,74.7399354338343,150.654210004948,283.859115793759" Label="command_ack" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="FlightControllerMachine.GoingSomeplace" Bounds="497.970920147408,384.559051227593,23.3377818002502,216.085031187332" Label="local_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="FlightControllerMachine.Init" Bounds="278.811788003792,384.559051227593,220.228929074425,120.76841184375" Label="heartbeat_status_changed" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="FlightControllerMachine.Landing" Bounds="509.137850233881,384.559051227593,12.2056775119798,115.891647591701" Label="heartbeat_status_changed" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="FlightControllerMachine.Loitering" Bounds="365.55658382122,384.559051227593,146.239465865324,173.913909122474" Label="global_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="FlightControllerMachine.LowBattery" Bounds="381.543198478479,384.559051227593,133.303860004468,220.039401217918" Label="local_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="FlightControllerMachine.StandBy" Bounds="278.061870277092,384.559051227593,227.783822831209,175.313028091904" Label="global_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="FlightControllerMachine.TakingOff" Bounds="455.252859009522,384.559051227593,62.7330416840563,172.345082292994" Label="altitude_reached" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="GPSHealthMonitorMachine.MonitorGPSLock" Bounds="539.526690329818,169.696648414638,244.73066602006,188.902402812955" Label="local_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="GeofenceMonitorMachine.Init" Bounds="75.0111167066306,384.559051227593,391.606384656516,90.6181508865851" Label="local_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="GeofenceMonitorMachine.MonitorGeofence" Bounds="116.053964314299,384.559051227593,371.759178763443,138.274751873324" Label="local_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="HeartbeatMonitorMachine.MonitorHeartbeat" Bounds="601.668911228172,331.520355998665,239.500478374282,30.1265856608998" Label="heartbeat" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="MissionPlannerMachine.FollowPath" Bounds="536.650113568927,384.559051227593,192.625703354135,179.366206163114" Label="local_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="MissionPlannerMachine.Init" Bounds="530.889940591227,384.559051227593,112.094508710488,177.885096561936" Label="vehicle_ready" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="MissionPlannerMachine.StartMission" Bounds="533.103513846315,384.559051227593,187.708637866456,234.434055100712" Label="local_position" />
+    <Link Source="POrbMachine.ReadMessagesAndPublish" Target="POrbMachine.ReadMessagesAndPublish" Bounds="483.231414794922,328.599060058594,78.9531555175781,30" Label="POrbPublish" LabelBounds="484.064090523964,308.770213518978,65.2533333333333,15.9599999999999" />
+    <Link Source="PX4Model" Target="PX4Model.Init" Category="Contains" />
+    <Link Source="PX4Model.Init" Target="POrbMachine.ReadMessagesAndPublish" Bounds="165.206665852864,352.392580356879,269.558511855114,14.4666292072741" Label="POrbPublish" />
+    <Link Source="TimerMachine" Target="TimerMachine.model" Category="Contains" />
+    <Link Source="TimerMachine.model" Target="CommanderMachine.SendCommand" Bounds="378.552619452735,72.192512183508,471.585327796423,353.92559460761" Label="timer_cancel_success" />
+    <Link Source="TimerMachine.model" Target="HeartbeatMonitorMachine.MonitorHeartbeat" Bounds="871.952523667943,344.617323254605,28.3775885035784,81.5007835365123" Label="timer_cancel_success" />
+    <Link Source="TimerMachine.model" Target="MissionPlannerMachine.FollowPath" Bounds="766.104625337363,452.078106791118,90.7208927629538,111.01147912017" Label="timer_cancel_success" />
+    <Link Source="TimerMachine.model" Target="MissionPlannerMachine.StartMission" Bounds="750.233197939373,452.078106791118,108.719507132654,166.405982404111" Label="timer_cancel_success" />
+  </Links>
+  <Categories>
+    <Category Id="Active" />
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="Offset" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Active" ValueLabel="True">
+      <Condition Expression="HasCategory('Active')" />
+      <Setter Property="Background" Value="#FF5A9747" />
+    </Style>
+  </Styles>
+</DirectedGraph>

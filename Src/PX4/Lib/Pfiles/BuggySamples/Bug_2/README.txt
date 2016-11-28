@@ -1,0 +1,1 @@
+Bug happening because ready event is raised even when the battery is low !!

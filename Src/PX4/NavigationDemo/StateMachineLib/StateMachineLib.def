@@ -1,0 +1,10 @@
+LIBRARY
+
+EXPORTS
+    Init
+    RunSimulation
+    StopSimulation
+    RaiseEvent
+    MakeBooleanValue
+    MakeIntegerValue
+    MakeNullValue

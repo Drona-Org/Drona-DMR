@@ -1,0 +1,8 @@
+C:\Workspace\SafeCPS\systems\PX4\Test\MavlinkTest\bin\Debug\MavlinkTest.exe.config
+C:\Workspace\SafeCPS\systems\PX4\Test\MavlinkTest\bin\Debug\MavlinkTest.exe
+C:\Workspace\SafeCPS\systems\PX4\Test\MavlinkTest\bin\Debug\MavlinkTest.pdb
+C:\Workspace\SafeCPS\systems\PX4\Test\MavlinkTest\bin\Debug\Newtonsoft.Json.dll
+C:\Workspace\SafeCPS\systems\PX4\Test\MavlinkTest\bin\Debug\Newtonsoft.Json.xml
+C:\Workspace\SafeCPS\systems\PX4\Test\MavlinkTest\obj\Debug\MavlinkTest.csprojResolveAssemblyReference.cache
+C:\Workspace\SafeCPS\systems\PX4\Test\MavlinkTest\obj\Debug\MavlinkTest.exe
+C:\Workspace\SafeCPS\systems\PX4\Test\MavlinkTest\obj\Debug\MavlinkTest.pdb

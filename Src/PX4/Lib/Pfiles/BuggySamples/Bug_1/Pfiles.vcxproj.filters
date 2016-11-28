@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="POrb">
+      <UniqueIdentifier>{df7c2074-7549-4f27-8b57-b005de01eb1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{07216b4d-0ba7-42eb-9d1e-c3b28b3497fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Navigation">
+      <UniqueIdentifier>{8564a1d5-812c-4ae3-b262-bb984dd72c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{f99c8ed4-0dc8-4d9e-b37f-1f9acb1afe99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PFiles">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Mission_1">
+      <UniqueIdentifier>{b75ae70b-1173-4178-9326-f76b81c7a7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Monitors">
+      <UniqueIdentifier>{d67301c7-34e9-430d-8f29-9f96e43431fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestDrivers">
+      <UniqueIdentifier>{70c8413b-dc84-4fb6-b560-922ed0cc935c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>PFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="POrb.h">
+      <Filter>POrb</Filter>
+    </ClInclude>
+    <ClInclude Include="POrbMavlink.h">
+      <Filter>POrb</Filter>
+    </ClInclude>
+    <ClInclude Include="PTrace.h">
+      <Filter>PFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PFiles.h">
+      <Filter>PFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="geo.h">
+      <Filter>Navigation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <PFile Include="POrb.p">
+      <Filter>POrb</Filter>
+    </PFile>
+    <PFile Include="Timer.p">
+      <Filter>Utilities</Filter>
+    </PFile>
+    <PFile Include="Commands.p">
+      <Filter>Commands</Filter>
+    </PFile>
+    <PFile Include="Mission_1.p">
+      <Filter>Mission_1</Filter>
+    </PFile>
+    <PFile Include="FlightController.p">
+      <Filter>Navigation</Filter>
+    </PFile>
+    <PFile Include="HeartbeatMonitor.p">
+      <Filter>Monitors</Filter>
+    </PFile>
+    <PFile Include="GPSHealthMonitor.p">
+      <Filter>Monitors</Filter>
+    </PFile>
+    <PFile Include="AltitudeMonitor.p">
+      <Filter>Monitors</Filter>
+    </PFile>
+  </ItemGroup>
+  <ItemGroup>
+    <PFile Include="POrbTopics.p">
+      <Filter>POrb</Filter>
+    </PFile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="POrb.cpp">
+      <Filter>POrb</Filter>
+    </ClCompile>
+    <ClCompile Include="POrbMavlink.cpp">
+      <Filter>POrb</Filter>
+    </ClCompile>
+    <ClCompile Include="HACK.cpp">
+      <Filter>PFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="PFiles.c">
+      <Filter>PFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="FlightController.cpp">
+      <Filter>Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="geo.cpp">
+      <Filter>Navigation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PCompile Include="PFiles.p">
+      <Filter>PFiles</Filter>
+    </PCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <PFile Include="BatteryMonitor.p">
+      <Filter>Monitors</Filter>
+    </PFile>
+    <PFile Include="GeofenceMonitor.p">
+      <Filter>Monitors</Filter>
+    </PFile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Driver_MissionPlanner.p">
+      <Filter>TestDrivers</Filter>
+    </None>
+    <None Include="PX4Model.p">
+      <Filter>Mission_1</Filter>
+    </None>
+    <None Include="Driver_PX4Model.p">
+      <Filter>TestDrivers</Filter>
+    </None>
+    <None Include="PFilesIncludes.p">
+      <Filter>PFiles</Filter>
+    </None>
+    <None Include="DriverIncludes.p">
+      <Filter>TestDrivers</Filter>
+    </None>
+    <None Include="TestCase_1.p">
+      <Filter>TestDrivers</Filter>
+    </None>
+    <None Include="Driver_Commands.p">
+      <Filter>TestDrivers</Filter>
+    </None>
+    <None Include="Driver_Heartbeatmonitor.p">
+      <Filter>TestDrivers</Filter>
+    </None>
+    <None Include="PX4_API.p">
+      <Filter>Navigation</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,15 @@
+//// Program Test_p_LinkModel.4ml
+model Test_p_LinkModel of PLink at "D:\\git\\SafeCPS\\lib\\p\\Bld\\Drops\\Debug\\x86\\Binaries\\PLink.4ml"
+{
+  p_compiler____EventDecl__0x0 is EventDecl("fmom_battery_critical", NIL, NIL),
+  p_compiler____EventDecl__0x1 is EventDecl("take_off", NIL, NIL),
+  p_compiler____EventDecl__0x2 is EventDecl("battery_critical", NIL, NIL),
+  p_compiler____EventDecl__0x3 is EventDecl("init", NIL, NIL),
+  p_compiler____EventSet__0x4 is EventSet("P_GEND_EVENTSET_", NIL),
+  p_compiler____EventSet__0x5 is EventSet("P_GEND_EVENTSET_fmom_battery_critical", EventNameList("fmom_battery_critical", NIL)),
+  p_compiler____EventSet__0x6 is EventSet("P_GEND_EVENTSET_take_off", EventNameList("take_off", NIL)),
+  p_compiler____EventSet__0x7 is EventSet("P_GEND_EVENTSET_init", EventNameList("init", NIL)),
+  p_compiler____EventSet__0x8 is EventSet("P_GEND_EVENTSET_battery_criticalfmom_battery_critical", EventNameList("battery_critical", EventNameList("fmom_battery_critical", NIL))),
+  p_compiler____MachineDecl__0x9 is MachineDecl("Main", BaseType(NULL), NIL).
+}
+
