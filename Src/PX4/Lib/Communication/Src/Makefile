@@ -1,7 +1,7 @@
 all: hello
 
 hello: testGauthier.o UdpSocketPort.o TcpSocketPort.o POrbMavlink.o
-	g++ -pthread testGauthier.o UdpSocketPort.o TcpSocketPort.o POrbMavlink.cpp -o hello -std=c++11
+	g++ -g -pthread testGauthier.o UdpSocketPort.o TcpSocketPort.o POrbMavlink.cpp -o hello -std=c++11
 
 testGauthier.o: testGauthier.cpp
 	g++ -c -std=c++11 testGauthier.cpp

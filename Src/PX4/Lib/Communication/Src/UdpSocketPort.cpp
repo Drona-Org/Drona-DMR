@@ -21,6 +21,8 @@
 #include <cstdint>
 #include <cstring>
  
+ #define handle_error(msg) \
+           do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
 HRESULT UdpSocketPort::Initialize()
 {
@@ -50,7 +52,8 @@ HRESULT UdpSocketPort::Initialize()
 //	char sin_zero[8];
 //}
 
-//struct sockaddr {
+//struct sockaddr {ad
+
 //	u_short sa_family;
 //	char sa_data[14];
 //}
@@ -63,7 +66,12 @@ HRESULT UdpSocketPort::Initialize()
 // to UDP packets from the given serverIp address.
 HRESULT UdpSocketPort::Connect(const char* serverIp, int localPort, int serverPort)
 {
-	int sock = socket(AF_INET, SOCK_DGRAM, 0);
+	//int sock = socket(AF_INET, SOCK_DGRAM, 0);
+	//printf("SUCCESS");
+	//CHANGE THAT
+	sock = socket(AF_INET, SOCK_DGRAM, 0);
+	//printf("FAILURE");
+	//printf(AF_INET);
 	struct sockaddr_in local;
 	local.sin_family = AF_INET;
 	local.sin_addr.s_addr = INADDR_ANY;
@@ -100,9 +108,11 @@ HRESULT UdpSocketPort::Connect(const char* serverIp, int localPort, int serverPo
 
 	// bind socket to a local port.
 	rc = bind(sock, (sockaddr*)&local, addrlen);
+	//printf("GAUTHIER: %d", rc);
 	if (rc < 0)
 	{
 		//int hr = WSAGetLastError();
+		handle_error("bind");
 		//printf("connect bind failed with error: %d\n", hr);
 		printf("connect bind failed with error.\n");
 		//return hr;
@@ -143,7 +153,22 @@ HRESULT UdpSocketPort::Read(BYTE* buffer, int bytesToRead, int* bytesRead)
 			pos = 0;
 			size = 0;
 			*bytesRead = 0;
-			int rc = recvfrom(sock, (char*)&this->buffer, 255, 0, (sockaddr*)&other, &addrlen);
+			//printf("%d\n", listen(sock, 256));
+			int rc = recvfrom(sock, (char*)&this->buffer, 255, 0, (struct sockaddr*)&other, &addrlen);
+			//printf("%d --", rc);
+			//printf("Ip Address: %d", other.sin_addr.s_addr);
+			//printf("Addr: %d", serveraddr.sin_addr.s_addr);
+			//printf("Serverport: %d", serverport);
+			//printf("Sinport: %d", ntohs(other.sin_port));
+			if (rc < 0)
+			{
+				//int hr = WSAGetLastError();
+				handle_error("recvfrom");
+				//printf("connect bind failed with error: %d\n", hr);
+				printf("connect bind failed with error.\n");
+				//return hr;
+			}
+
 			if (other.sin_addr.s_addr != serveraddr.sin_addr.s_addr)
 			{
 				// this is from a different PX4 then, one that we are not interested in.
@@ -159,6 +184,7 @@ HRESULT UdpSocketPort::Read(BYTE* buffer, int bytesToRead, int* bytesRead)
 				// this is from a different mavlink node then, one that we are not interested in.
 				continue;
 			}
+			//printf("HI: %d", rc);
 			if (rc == 0)
 			{
 				printf("Connection closed\n");
@@ -187,6 +213,7 @@ HRESULT UdpSocketPort::Read(BYTE* buffer, int bytesToRead, int* bytesRead)
 			}
 		}
 	}
+
 
 	int len = size - pos;
 	if (len > bytesToRead)

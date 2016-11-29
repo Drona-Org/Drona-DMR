@@ -82,12 +82,13 @@ Port* OpenPort(bool isUdp, const char* portAddress)
 {
 	if (isUdp)
 	{
-		/*if (UdpSocketPort::Initialize() != 0)
+		if (UdpSocketPort::Initialize() != 0)
 		{
 			//EventTrace(Communication, E_FAIL, "Could not initialize sockets\n");
 			return NULL;
 		}
-		UdpSocketPort::Initialize();*/
+		UdpSocketPort::Initialize();
+
 		UdpSocketPort* socket = new UdpSocketPort();
 		printf("HELLO\n");
 		HRESULT hr = socket->Connect(portAddress, DEFAULT_MAVLINK_PORT);
@@ -176,7 +177,10 @@ int main(int argc, char *argv[])
 	}
 	printf("Passed opening port parsing (isUdp: %d, portName: %s)\n", isUdp, portName);
 	POrbMavlink::Initialize(port);
-
+	
+	// Gauthier added this line
+	// POrbMavlink:SendCommand(int cmdid, bool confirm, float a1, float a2, float a3, float a4, float a5, float a6, float a7)
+	
 	//remove all
 	//-----------------------------
 	// Source: https://github.com/p-org/P/blob/master/Tst/PrtTester/tester.c

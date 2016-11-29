@@ -19,6 +19,7 @@ void mavlink_end_send(int channel, int length);
 
 #include <chrono>
 #include <thread>
+#include <unistd.h>
 
 #ifndef MAVLINK_MESSAGE_LENGTHS
 #define MAVLINK_MESSAGE_LENGTHS {}
@@ -115,7 +116,7 @@ static inline void mavlink_msg_command_long_send(mavlink_channel_t chan, uint8_t
 	packet.target_component = target_component;
 	packet.confirmation = confirmation;
 
-   // _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_COMMAND_LONG, (const char *)&packet, MAVLINK_MSG_ID_COMMAND_LONG_MIN_LEN, MAVLINK_MSG_ID_COMMAND_LONG_LEN, MAVLINK_MSG_ID_COMMAND_LONG_CRC);
+    //_mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_COMMAND_LONG, (const char *)&packet, MAVLINK_MSG_ID_COMMAND_LONG_MIN_LEN, MAVLINK_MSG_ID_COMMAND_LONG_LEN, MAVLINK_MSG_ID_COMMAND_LONG_CRC);
 #endif
 }
 
@@ -173,21 +174,27 @@ bool POrbMavlink::Initialize(Port* portToUse)
 	DWORD readThreadId;
 	//HANDLE readThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)DispatchMavlinkMessages, NULL, 0, &readThreadId);
 
+	printf("Create new thread\n");
 	int readThread = pthread_create(&readThreadId, NULL, (void* (*)(void*)) DispatchMavlinkMessages, NULL);
-	//printf("HELLO");
+	printf("TEST\n");
+	//DispatchMavlinkMessages(NULL);
+	
 	if (!WaitForHeartbeat()) {
 		printf("POrbMavlink::Initialize is not getting a heartbeat from the drone\n");
 		return false;
 	}
-
+	printf("POrbMavlink::Initialize is getting a heartbeat from the drone\n");
 	return true;
 }
 
 bool POrbMavlink::WaitForHeartbeat()
 {
+	//cout << "jj";
 	printf("POrbMavlink::Initialize looking for drone heartbeat...");
+	//printf("HELLO");
 	//int retries = 10;
-	int retries =80;
+	int retries = 80000;
+	//printf("%d", retries);
 	while (retries-- > 0)
 	{
 		printf(".");
@@ -195,8 +202,9 @@ bool POrbMavlink::WaitForHeartbeat()
 		{
 			printf("\n");
 			return true;
-		}		
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		}
+		//sleep(1);		
+		//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		//SleepEx(1000, true);
 	}
 	printf("\n");
@@ -334,8 +342,10 @@ enum P_EVENTS
 
 DWORD POrbMavlink::DispatchMavlinkMessages(LPVOID arg)
 {	
+	cout << flush;
+	cout << "BUUUU";
 	HRESULT readSuccess = 0;
-
+	//cout << "BUUUU";
 	//Declare all variables for optimization
 	void* pMessage_heartbeat = NULL;
 	void* pMessage_global_position = NULL;
@@ -346,8 +356,8 @@ DWORD POrbMavlink::DispatchMavlinkMessages(LPVOID arg)
 	void* pMessage_local_position_ned = NULL;
 	void* pMessage_command_ack = NULL;
 	void* pMessage_extended_sys_state = NULL;
-
-	
+	//cout << flush;
+	//printf("Sending mavlink");
 	while (readSuccess == 0)
 	{
 		int read = 0;
@@ -355,17 +365,27 @@ DWORD POrbMavlink::DispatchMavlinkMessages(LPVOID arg)
 		mavlink_message_t *msg;
 		mavlink_status_t status;
 		uint8_t channel = 0;
-
+		//===============
+		//Sense heartbeat
+		//readSuccess = 1;
+		//heartbeats = 1;
+		//===========
 		//read a byte
-		printf("TEST");
+		//cout << flush;
+
+		cout << "PRINT";
 
 		readSuccess = port->Read(&dataread, 1, &read);
-		printf("HI");
+		cout << "HI";
+		cout << readSuccess;
+		cout << read;
 
 		if (readSuccess == 0 && read == 1)
 		{
+			//cout << "JJJJ";
 			if (mavlink_frame_char(channel, (uint8_t) dataread.to_ulong(), msg, &status) != MAVLINK_FRAMING_INCOMPLETE) 
 			{
+				//cout << "KKKKK";
 				if (!POrbMavlink::ready)
 				{
 					if ((BYTE)msg->msgid == MAVLINK_MSG_ID_HEARTBEAT)
