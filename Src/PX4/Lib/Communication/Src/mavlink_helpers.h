@@ -270,7 +270,7 @@ MAVLINK_HELPER uint8_t mavlink_frame_char_buffer(mavlink_message_t* rxmsg,
 #endif
 
 	int bufferIndex = 0;
-
+	
 	status->msg_received = MAVLINK_FRAMING_INCOMPLETE;
 
 	switch (status->parse_state)

@@ -204,7 +204,7 @@ bool POrbMavlink::WaitForHeartbeat()
 			return true;
 		}
 		//sleep(1);		
-		//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		//SleepEx(1000, true);
 	}
 	printf("\n");
@@ -343,7 +343,7 @@ enum P_EVENTS
 DWORD POrbMavlink::DispatchMavlinkMessages(LPVOID arg)
 {	
 	cout << flush;
-	cout << "BUUUU";
+	//cout << "BUUUU";
 	HRESULT readSuccess = 0;
 	//cout << "BUUUU";
 	//Declare all variables for optimization
@@ -373,21 +373,26 @@ DWORD POrbMavlink::DispatchMavlinkMessages(LPVOID arg)
 		//read a byte
 		//cout << flush;
 
-		cout << "PRINT";
+		//cout << "PRINT";
 
 		readSuccess = port->Read(&dataread, 1, &read);
-		cout << "HI";
-		cout << readSuccess;
-		cout << read;
+		//cout << "HI";
+		//cout << readSuccess;
+		//cout << read;
 
 		if (readSuccess == 0 && read == 1)
 		{
 			//cout << "JJJJ";
-			if (mavlink_frame_char(channel, (uint8_t) dataread.to_ulong(), msg, &status) != MAVLINK_FRAMING_INCOMPLETE) 
-			{
+			//cout << status.msg_received;
+			//cout << "HELP" << mavlink_get_channel_status(channel);
+			//cout << mavlink_get_channel_status(channel);
+
+			//if (mavlink_frame_char(channel, (uint8_t) dataread.to_ulong(), msg, &status) != MAVLINK_FRAMING_INCOMPLETE) 
+			//{
 				//cout << "KKKKK";
 				if (!POrbMavlink::ready)
 				{
+					//cout << "HELLO";
 					if ((BYTE)msg->msgid == MAVLINK_MSG_ID_HEARTBEAT)
 					{
 						heartbeats++;
@@ -475,7 +480,7 @@ DWORD POrbMavlink::DispatchMavlinkMessages(LPVOID arg)
 						break;
 					}
 
-			}
+			//}
 		}
 	}
 
