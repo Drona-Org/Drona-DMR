@@ -211,8 +211,6 @@ int main(int argc, char *argv[])
 	}
 	POrbMavlink::Initialize(port);
 
-	//remove all
-	//-----------------------------
 	PrtUpdatePrintFn(&MyPrint);
 
 	PRT_GUID processGuid;

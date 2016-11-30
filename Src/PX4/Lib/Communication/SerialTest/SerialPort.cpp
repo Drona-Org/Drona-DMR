@@ -2,10 +2,10 @@
 #include "SerialPort.h"
 #include <string>
 #include <comdef.h>
-//#include <Wbemidl.h>
+#include <Wbemidl.h>
 #include <string>
 
-//#pragma comment(lib, "wbemuuid.lib")
+#pragma comment(lib, "wbemuuid.lib")
 
 
 SerialPort::SerialPort()

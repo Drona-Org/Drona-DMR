@@ -2,7 +2,7 @@
 //#include "Commands.h"
 #include "UdpSocketPort.h"
 #include <stdio.h>
-#include "POrbMavlink.h"
+#include "../../Pfiles/POrbMavlink.h"
 //#include "SerialPort.h"
 //#include "PTrace.h"
 
@@ -179,7 +179,8 @@ int main(int argc, char *argv[])
 	POrbMavlink::Initialize(port);
 	
 	// Gauthier added this line
-	// POrbMavlink:SendCommand(int cmdid, bool confirm, float a1, float a2, float a3, float a4, float a5, float a6, float a7)
+	cout << "SENDING TAKEOFF\n";
+	POrbMavlink::SendCommand(22, true, 20, 20, 20, 20, 20, 20, 20);
 	
 	//remove all
 	//-----------------------------
