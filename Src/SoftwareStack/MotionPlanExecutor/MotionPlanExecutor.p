@@ -6,16 +6,16 @@ fun InvokeStartExecutingPathAndWait(path: seq[int], startT: int, robotId: int, t
 
 	var currTimePeriod: int;
 	var expectedEndTime: int;
-	currTimePeriod = GetCurrentTimePeriod(timesync, robotId, this);
+	currTimePeriod = 0;
 	expectedEndTime = sizeof(path) + currTimePeriod;
 
 	//start executing path
 	StartExecutingPath(path,startT,robotId);
-	
-	currTimePeriod = GetCurrentTimePeriod(timesync, robotId, this);
+	/*
+	currTimePeriod = 2;
 	if(currTimePeriod < expectedEndTime) {
 		Sleep((expectedEndTime - currTimePeriod)*MotionPrimitiveTimePeriod());
-	}
+	}*/
 }
 
 model fun StartExecutingPath(path: seq[int], startT: int, robotId: int)
@@ -37,11 +37,8 @@ machine PlanExecutorMachine {
 			motionplanner = payload.mp;
 			robotId = payload.rid;
 			send motionplanner, ePlanExecutorMachine, this;
-			receive {
-				case eTimeSyncId: (ts: machine) { localTimeV = ts; }
-			}
-			goto WaitForPathToExecute;
 		}
+		on eTimeSyncId goto WaitForPathToExecute with (ts: machine) { localTimeV = ts; }
 	}
 
 	state WaitForPathToExecute {

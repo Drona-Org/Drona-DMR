@@ -1,8 +1,6 @@
 include "..\..\SoftwareStack\MotionPlanner\DAMP.p"
 include "..\..\SoftwareStack\MotionPlanExecutor\MotionPlanExecutor.p"
-include "..\..\SoftwareStack\MotionPlanner\DistributedTimeSync.p"
 include "..\..\Lib\WorkspaceParser\WorkspaceAPI.p"
-include "..\..\SoftwareStack\Utilities\Timer\Timer.p"
 include "Robot.p"
 
 machine Main
@@ -26,7 +24,7 @@ machine Main
 			index = index + 1;
 		}
 		//create the Distributed time-sync machine
-		timeSyncV = new DistributedTimeSyncMachine(allRobotsV);
+		//timeSyncV = new DistributedTimeSyncMachine(allRobotsV);
 
 		BROADCAST(allRobotsV, eAllRobots, (allrobots = allRobotsV, timesync = timeSyncV), this);
 		

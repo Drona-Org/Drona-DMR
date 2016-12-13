@@ -33,14 +33,10 @@ machine DistributedMotionPlannerMachine
 			myIdV = rinfo.robotid;
 			currentLocationV = rinfo.startpos;
 			numOfRobots = GetNumOfRobots();
-			receive {
-				case ePlanExecutorMachine: (payload: machine){ planExecutorV = payload; }
-			}
-			receive {
-				case eTimeSyncId: (payload: machine) { localTimeV = payload; }
-			}
-			goto GetAllDistMotionPlanners;
 		}
+			on ePlanExecutorMachine do (payload: machine) { planExecutorV = payload; }
+			on eTimeSyncId goto GetAllDistMotionPlanners with (payload: machine) { localTimeV = payload; }
+		
 		
 	}
 
@@ -173,7 +169,7 @@ machine DistributedMotionPlannerMachine
 		var traj: seq[int];
 
 		maxComputeTimeForPlanner = 4;
-		currTimePeriod = GetCurrentTimePeriod(localTimeV, myIdV, this);
+		currTimePeriod = 0;
 		startingTimePeriod = currTimePeriod + maxComputeTimeForPlanner;
 
 		index = 0;
