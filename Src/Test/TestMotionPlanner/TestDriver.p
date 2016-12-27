@@ -1,9 +1,11 @@
-include "..\..\SoftwareStack\MotionPlanner\DAMP.p"
-include "..\..\SoftwareStack\MotionPlanExecutor\MotionPlanExecutor.p"
-include "..\..\Lib\WorkspaceParser\WorkspaceAPI.p"
+include "../../SoftwareStack/MotionPlanner/DAMP.p"
+include "../../SoftwareStack/MotionPlanExecutor/MotionPlanExecutor.p"
+include "../../Lib/WorkspaceParser/WorkspaceAPI.p"
 include "Robot.p"
 
-machine Main
+event eUnit;
+
+main machine Main
 {
 	var allRobotsV : seq[machine];
 	var timeSyncV: machine;
@@ -32,8 +34,9 @@ machine Main
 	start state Init {
 		entry {
 			InitializeSystem();
-			goto StartSendingTaskRequest;
+			raise eUnit;
 		}
+		on eUnit goto StartSendingTaskRequest;
 	}
 
 	model fun ExitP() {}

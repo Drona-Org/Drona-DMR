@@ -8,6 +8,9 @@ event eTask_completed;
 event eDistMotionPlanMachine: machine;
 event ePlanCompletion: int;
 
+event eGotoWaitForRequests;
+event eGotoWaitForPlanCompletionOrCancellation;
+
 model fun GetUniqueTaskId(robotid : int) : int {
 	return 1;
 }
@@ -34,16 +37,21 @@ machine DistributedMotionPlannerMachine
 			currentLocationV = rinfo.startpos;
 			numOfRobots = GetNumOfRobots();
 		}
-			on ePlanExecutorMachine do (payload: machine) { planExecutorV = payload; }
-			on eTimeSyncId goto GetAllDistMotionPlanners with (payload: machine) { localTimeV = payload; }
-		
-		
+		defer eNewTask, eRequestCurrentTraj;
+		defer eTimeSyncId;
+		on ePlanExecutorMachine goto ReceiveTimeSyncId with (payload: machine) { planExecutorV = payload; }
+	}
+
+	state ReceiveTimeSyncId {
+		defer eDistMotionPlanMachine;
+		defer eNewTask, eRequestCurrentTraj;
+		on eTimeSyncId goto GetAllDistMotionPlanners with (payload: machine) { localTimeV = payload; }
 	}
 
 	state GetAllDistMotionPlanners {
 		entry {
 			if(numOfRobots ==  1)
-				goto WaitForRequests;
+				raise eUnit;
 		}
 		defer eNewTask, eRequestCurrentTraj;
 		on eDistMotionPlanMachine do (payload: machine){
@@ -52,9 +60,10 @@ machine DistributedMotionPlannerMachine
 			{
 				allRobotsMPV = keys(receivedTrajFromV);
 				receivedTrajFromV = default(map[machine, bool]);
-				goto WaitForRequests;
+				raise eUnit;
 			}
 		}
+		on eUnit goto WaitForRequests;
 	}
 
 	state WaitForRequests {
@@ -96,6 +105,32 @@ machine DistributedMotionPlannerMachine
 		return true;
 	}
 
+	fun RunComputeTimedTraj() {
+		var success: bool;
+		var nextRobot: int;
+		//compute the current trajectory
+		success = ComputeTimedTraj(currTaskV.g, allAvoidsV);
+		if(!success)
+		{
+			//could not find feasible path
+			//enqueue this task back in the queue
+			nextRobot = GetRandomNumber(numOfRobots - 1);
+			send allRobotsMPV[nextRobot], eNewTask, currTaskV;
+			//send it to the pending guys
+			BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
+			pendingRequestsV = default(seq[machine]);
+			Sleep(myIdV*100);
+			raise eGotoWaitForRequests;
+		}
+		else
+		{
+			send planExecutorV, eStartExecutingPlan, currentTrajV;
+			BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
+			pendingRequestsV = default(seq[machine]);
+			raise eGotoWaitForPlanCompletionOrCancellation;
+		}
+	}
+
 	state GetCurrentStateOfAllRobots {
 		defer eNewTask;
 		entry {
@@ -103,7 +138,7 @@ machine DistributedMotionPlannerMachine
 			BROADCAST(allRobotsMPV, eRequestCurrentTraj, (priority = currTaskId, robot = this), this);
 			if(allTrajsReceived(receivedTrajFromV))
 			{
-				goto ComputeTrajState;
+				RunComputeTimedTraj();
 			}
 
 		}
@@ -114,7 +149,7 @@ machine DistributedMotionPlannerMachine
 			receivedTrajFromV[payload.robot] = true;
 			if(allTrajsReceived(receivedTrajFromV))
 			{
-				goto ComputeTrajState;
+				RunComputeTimedTraj();
 			}
 
 		}
@@ -130,6 +165,8 @@ machine DistributedMotionPlannerMachine
 				pendingRequestsV += (0, payload.robot);
 			}
 		}
+		on eGotoWaitForRequests goto WaitForRequests;
+		on eGotoWaitForPlanCompletionOrCancellation goto WaitForPlanCompletionOrCancellation;
 	}
 
 	model fun PlanGenerator(s: int, g: int, avoids: seq[seq[int]], robotid: int) : seq[int] {
@@ -207,43 +244,12 @@ machine DistributedMotionPlannerMachine
 		return 0;
 	}
 
-	state ComputeTrajState {
-		defer eNewTask, ePlanCompletion;
-		entry {
-			var success: bool;
-			var nextRobot: int;
-			//compute the current trajectory
-			success = ComputeTimedTraj(currTaskV.g, allAvoidsV);
-			if(!success)
-			{
-				//could not find feasible path
-				//enqueue this task back in the queue
-				nextRobot = GetRandomNumber(numOfRobots - 1);
-				send allRobotsMPV[nextRobot], eNewTask, currTaskV;
-				//send it to the pending guys
-				BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
-				pendingRequestsV = default(seq[machine]);
-				Sleep(myIdV*100);
-				goto WaitForRequests;
-			}
-			else
-			{
-				send planExecutorV, eStartExecutingPlan, currentTrajV;
-				BROADCAST(pendingRequestsV, eCurrentTraj, (robot =  this, currTraj = currentTrajV), this);
-				pendingRequestsV = default(seq[machine]);
-				goto WaitForPlanCompletionOrCancellation;
-			}
-			
-		}
-	}
-
 	state WaitForPlanCompletionOrCancellation{
 		defer eNewTask;
-		on ePlanCompletion do (payload: int){ 
+		on ePlanCompletion goto WaitForRequests with (payload: int)  { 
 			currentLocationV = payload; 
-			print "--- Robot {0} completed task and is at location {1} ---\n", myIdV, currentLocationV;
+			// print "--- Robot {0} completed task and is at location {1} ---\n", myIdV, currentLocationV;
 			send currTaskV.source, eTask_completed;
-			goto WaitForRequests; 
 		}
 		on eRequestCurrentTraj do (payload: (priority: int, robot: machine)) {
 			send payload.robot, eCurrentTraj, (robot = this, currTraj = currentTrajV);
