@@ -1,7 +1,1 @@
-[submodule "Submodules/P"]
-	path = Submodules/P
-	url = https://github.com/p-org/P.git
-[submodule "Src/Workspaces/Experiments"]
-	path = Src/Workspaces/Experiments
-	url = https://github.com/Drona-Org/Drona-Experiments.git
-	branch = master
+
