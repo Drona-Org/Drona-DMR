@@ -1,7 +1,5 @@
-# Drona
-Drona is a programming framework for building reliable distributed mobile robotics systems.
+# Drona Website
 
+Website @ https://drona-org.github.io/Drona-Website/
 
-Visit our [page](https://drona-org.github.io/Drona-Website/ "Drona-Website") for demos!
-
-
+Drona Repo: https://github.com/Drona-Org/Drona
