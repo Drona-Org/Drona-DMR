@@ -9,18 +9,18 @@ gems:
 # If you are hosting it on Github for some project with name 'projectname', then the url and baseurl should look like:
 #url: "http://username.github.io/projectname"
 #baseurl: "/projectname"
-url: "https://drona-org.github.io/Drona-Website/"
+url: "https://drona-org.github.io/Drona/"
 enforce_ssl: "true"
-baseurl: "/Drona-Website"
+baseurl: "/Drona"
 
 # Title of website
 title: Drona
 
 #Default keywords (used if no keywords are specified on a page basis)
-keywords: test1, test2, etc
+keywords: drona, Safe Robotics, Distributed Robotics, drones etc
 
 # Short description of your site
-desc: Sample Description
+desc: Programming Framework for Safe Distributed Mobile Robotics
 
 # --- Navigation bar options --- #
 
@@ -45,7 +45,7 @@ profile:
   stackoverflow:
 
 # To display link in the footer section
-pretty-url: "drona-org.github.io/Drona-Website/"
+pretty-url: "drona-org.github.io/Drona/"
 
 # --- Misc --- #
 
@@ -87,5 +87,3 @@ exclude:
 
 created-by: Babji, Chetty
 creator-url: https://bchetty.com
-
-theme: jekyll-theme-architect
