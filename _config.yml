@@ -53,7 +53,7 @@ pretty-url: "drona-org.github.io/Drona/"
 disqus: "Your-Disqus-Id"
 
 # Google Analytics Settings
-google_analytics: "Your-GA-Id"
+google_analytics: "UA-58686046-1"
 
 # Set these options as you need (For more information, check Jekyll's site)
 timezone: "America/Los_Angeles"
