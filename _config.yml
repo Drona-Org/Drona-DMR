@@ -33,6 +33,7 @@ nav-links:
   Home: ""
   Distributed Robotics: "dmr" 
   Contact: "contact"
+  Drona Team: "team"
 # --- Footer options --- #
 
 # If the values are empty, they are ignored 
