@@ -17,10 +17,10 @@ baseurl: "/Drona"
 title: Drona
 
 #Default keywords (used if no keywords are specified on a page basis)
-keywords: drona, Safe Robotics, Distributed Robotics, drones etc
+keywords: drona, Safe Robotics, Distributed Robotics, drones, runtime verification, etc
 
 # Short description of your site
-desc: Programming Framework for Safe Distributed Mobile Robotics
+desc: Programming Framework for Safe Robotics.
 
 # --- Navigation bar options --- #
 
@@ -30,14 +30,15 @@ avatar: "/img/avatar.jpg"
 
 # List of links in the navigation bar
 nav-links:
-  Home: "" 
+  Home: ""
+  Distributed Robotics: "" 
   
 # --- Footer options --- #
 
 # If the values are empty, they are ignored 
 profile:
   name: Drona
-  email: 
+  email: ankush@eecs.berkeley.edu
   facebook: 
   github: Drona-Org 
   twitter: 
