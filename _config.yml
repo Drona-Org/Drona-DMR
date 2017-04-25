@@ -32,7 +32,7 @@ avatar: "/img/avatar.jpg"
 nav-links:
   Home: ""
   Distributed Robotics: "dmr.html" 
-  
+  Contact: "contact"
 # --- Footer options --- #
 
 # If the values are empty, they are ignored 
