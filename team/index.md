@@ -49,7 +49,7 @@ tr:nth-child(even) {
 <hr>
     <h4><b>Acknowledgements</b></h4>
     <p>
-    <font size=3>
+    <font size="3">
       This work was supported in part by the TerraSwarm Research Center, one of six centers supported by the STARnet phase of the Focus Center Research Program (FCRP) a Semiconductor Research Corporation program sponsored by MARCO and DARPA. </font>
     </p>
 <hr>
