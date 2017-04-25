@@ -31,9 +31,9 @@ avatar: "/img/avatar.jpg"
 # List of links in the navigation bar
 nav-links:
   Home: ""
+  Drona Team: "team"
   Distributed Robotics: "dmr" 
   Contact: "contact"
-  Drona Team: "team"
 # --- Footer options --- #
 
 # If the values are empty, they are ignored 
