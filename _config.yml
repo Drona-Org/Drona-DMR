@@ -31,7 +31,7 @@ avatar: "/img/avatar.jpg"
 # List of links in the navigation bar
 nav-links:
   Home: ""
-  Distributed Robotics: "" 
+  Distributed Robotics: "dmr.html" 
   
 # --- Footer options --- #
 
